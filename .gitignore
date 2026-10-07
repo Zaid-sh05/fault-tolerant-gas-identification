@@ -1,0 +1,9 @@
+# environment
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+
+# raw data (re-downloadable from UCI #224) and saved models
+data/raw/
+*.joblib
