@@ -31,7 +31,7 @@ def fitted(method, **kw):
 
 def r2(imp, sensor, exclude_twin):
     Xh = imp.reconstruct(X_VAL, sensor, exclude_twin, FOLDS)
-    return block_errors(X_VAL, Xh, X_TRAIN.mean(0), X_TRAIN.std(0), sensor)[1].mean()
+    return block_errors(X_VAL, Xh, X_TRAIN.mean(0), X_TRAIN.std(0), sensor)["r2"].mean()
 
 
 @pytest.mark.parametrize("method", METHODS)

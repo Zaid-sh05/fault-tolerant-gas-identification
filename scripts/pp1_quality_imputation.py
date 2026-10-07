@@ -1,11 +1,12 @@
 """Preprocessing phase 1: integrity re-check (batches 1-7) and sensor-block reconstruction.
 
-Usage: python scripts/pp1_quality_imputation.py --config configs/preprocessing.yaml
-Outputs: results/preprocessing/phase1/
+Usage: python scripts/pp1_quality_imputation.py --config configs/preprocessing.yaml      (temporal protocol)
+       python scripts/pp1_quality_imputation.py --config configs/reference_iid.yaml      (no-drift reference)
+Outputs: results/preprocessing/phase1/<protocol>/
   integrity.json, reconstruction_errors.csv (per feature), reconstruction_per_sensor.csv,
   reconstruction_summary.csv, reconstruction_{rmse,r2}_table.csv
 
-Protocol: imputers are fitted on Train (batches 1-6) only. On Validation (batch 7, clean)
+Protocol: imputers are fitted on the Train rows of the protocol only. On the clean evaluation rows
 one whole sensor block is hidden at a time, rebuilt, and compared with the truth, once with
 the replicate twin available and once without it (leave-pair-out).
 Errors are on the raw standardised scale: (x - Train mean) / Train std.
@@ -18,12 +19,12 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import yaml
 from joblib import Parallel, delayed
 from sklearn.exceptions import ConvergenceWarning
 
-from src.data import FEATURE_KINDS, FEATURES, N_SENSORS, load_batches, split_by_batches, xy
+from src.data import FEATURE_KINDS, FEATURES, N_SENSORS, xy
 from src.imputation import BlockImputer, block_errors
+from src.splits import get_protocol_data, load_config
 
 
 def integrity(df, expected_rows):
@@ -42,39 +43,53 @@ def integrity(df, expected_rows):
     return report
 
 
+METRICS = ("rmse", "mae", "medae", "r2")
+
+
 def evaluate_sensor(imp, X_val, sensor, exclude_twin, folds, mu, sd):
     warnings.filterwarnings("ignore", category=ConvergenceWarning)
     X_hat = imp.reconstruct(X_val, sensor, exclude_twin, folds)
-    rmse, r2 = block_errors(X_val, X_hat, mu, sd, sensor)
+    err = block_errors(X_val, X_hat, mu, sd, sensor)
     alpha = imp.ridge_alpha(sensor, exclude_twin) if imp.method == "ridge" else np.nan
     return [{"sensor": f"S{sensor + 1:02d}", "exclude_twin": exclude_twin, "feature_kind": k,
-             "rmse": rmse[i], "r2": r2[i], "ridge_alpha": alpha} for i, k in enumerate(FEATURE_KINDS)]
+             **{m: err[m][i] for m in METRICS}, "ridge_alpha": alpha} for i, k in enumerate(FEATURE_KINDS)]
 
 
 def main(cfg_path):
-    cfg = yaml.safe_load(open(cfg_path))
-    sp, p1 = cfg["split"], cfg["phase1"]
-    out = Path("results/preprocessing/phase1")
+    cfg = load_config(cfg_path)
+    p1 = cfg["phase1"]
+    proto = get_protocol_data(cfg)
+    out = Path("results/preprocessing/phase1") / cfg.get("run_name", proto.name)
     out.mkdir(parents=True, exist_ok=True)
 
-    df = load_batches(cfg["data"]["raw_dir"], sp["train_batches"] + sp["val_batches"])
-    report = integrity(df, expected_rows=9546)
+    report = integrity(pd.concat([proto.train, proto.eval], ignore_index=True),
+                       expected_rows=9546 - len(proto.dropped_train))
+    report["protocol"] = proto.name
+    report["train_rows"], report["eval_rows"] = len(proto.train), len(proto.eval)
+    report["cleaning_dropped_train"] = proto.dropped_train.to_dict("records")
+    report["cleaning_flagged_eval_kept"] = proto.flagged_eval.to_dict("records")
     json.dump(report, open(out / "integrity.json", "w"), indent=1)
     print("integrity:", json.dumps({k: v for k, v in report.items() if k != "records_per_batch"}))
     assert report["passed"], "integrity check failed"
 
-    tr, va = split_by_batches(df, sp["train_batches"]), split_by_batches(df, sp["val_batches"])
-    X_tr, _ = xy(tr)
-    X_va, _ = xy(va)
+    X_tr, _ = xy(proto.train)
+    # A record the cleaning rule flags in the evaluation rows has a corrupt "true" value, so it cannot be a
+    # reconstruction target: it is left out of the reconstruction errors (it stays in classification).
+    flagged = set(map(tuple, proto.flagged_eval[["batch", "line"]].to_numpy()))
+    usable = np.array([(b, l) not in flagged for b, l in zip(proto.eval["batch"], proto.eval["line"])])
+    X_va, _ = xy(proto.eval[usable])
+    report["reconstruction_eval_rows_excluded"] = int((~usable).sum())
+    json.dump(report, open(out / "integrity.json", "w"), indent=1)
+    print(f"reconstruction metrics: {int((~usable).sum())} flagged evaluation record(s) excluded of {len(usable)}")
     mu, sd = X_tr.mean(0), X_tr.std(0)
-    folds = [tuple(f) for f in sp["inner_folds"]]
+    folds = proto.inner_folds
 
     rows = []
     for space in p1["spaces"]:
         for method in p1["methods"]:
             t0 = time.time()
             imp = BlockImputer(method, space, p1["knn_neighbors"], p1["ridge_alphas"],
-                               p1["iterative"], cfg["seed"]).fit(X_tr, tr["batch"].to_numpy())
+                               p1["iterative"], cfg["seed"]).fit(X_tr, proto.groups)
             res = Parallel(n_jobs=6)(delayed(evaluate_sensor)(imp, X_va, s, tw, folds, mu, sd)
                                      for s in range(N_SENSORS) for tw in (False, True))
             for r in res:
@@ -85,15 +100,16 @@ def main(cfg_path):
     err.to_csv(out / "reconstruction_errors.csv", index=False)
 
     keys = ["method", "space", "exclude_twin", "sensor"]
-    per_sensor = err.groupby(keys, as_index=False).agg(rmse=("rmse", "mean"), r2=("r2", "mean"))
+    per_sensor = err.groupby(keys, as_index=False)[list(METRICS)].mean()
     per_sensor.to_csv(out / "reconstruction_per_sensor.csv", index=False)
     summary = (per_sensor.groupby(["method", "space", "exclude_twin"])
                .agg(rmse_mean=("rmse", "mean"), rmse_std=("rmse", "std"),
+                    mae_mean=("mae", "mean"), medae_mean=("medae", "mean"),
                     r2_mean=("r2", "mean"), r2_median=("r2", "median"), r2_min=("r2", "min"),
                     sensors_r2_below_0=("r2", lambda v: int((v < 0).sum())))
                .reset_index().sort_values(["exclude_twin", "rmse_mean"]))
     summary.to_csv(out / "reconstruction_summary.csv", index=False)
-    for metric in ("rmse", "r2"):
+    for metric in METRICS:
         table = per_sensor.pivot_table(index="sensor", values=metric,
                                        columns=["method", "space", "exclude_twin"])
         table.round(3).to_csv(out / f"reconstruction_{metric}_table.csv")

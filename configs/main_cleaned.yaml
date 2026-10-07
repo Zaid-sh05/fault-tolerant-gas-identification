@@ -1,0 +1,6 @@
+# The old baseline configuration plus the data cleaning rule (src/cleaning.py).
+# Results go to results/main_cleaned/ so that results/main/ (uncleaned) stays comparable.
+base: configs/main.yaml
+
+cleaning:
+  invalid_value_rule: {threshold: 1000}

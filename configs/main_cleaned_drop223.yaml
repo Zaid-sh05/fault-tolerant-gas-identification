@@ -1,0 +1,5 @@
+# Sensitivity check for the baselines: the borderline record (batch 2, line 223) also dropped.
+base: configs/main.yaml
+cleaning:
+  invalid_value_rule: {threshold: 1000}
+  extra_drop: [[2, 223]]

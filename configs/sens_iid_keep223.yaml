@@ -1,0 +1,6 @@
+# Sensitivity check: the reference protocol with the borderline record (batch 2, line 223) KEPT in Train.
+base: configs/reference_iid.yaml
+run_name: reference_iid_keep223
+cleaning:
+  invalid_value_rule: {threshold: 1000}
+  never_drop: [[2, 223]]

@@ -58,6 +58,7 @@ def load_batch(path, batch_id):
     df = pd.DataFrame(np.vstack([x for _, x in parsed]), columns=FEATURES)
     df.insert(0, "gas", [g for g, _ in parsed])
     df.insert(1, "batch", batch_id)
+    df.insert(2, "line", np.arange(1, len(df) + 1))      # record number inside the batch file (for reporting)
     return df
 
 

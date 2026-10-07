@@ -1,0 +1,6 @@
+# Sensitivity check: the temporal protocol with the borderline record (batch 2, line 223) ALSO dropped.
+base: configs/preprocessing.yaml
+run_name: temporal_drop223
+cleaning:
+  invalid_value_rule: {threshold: 1000}
+  extra_drop: [[2, 223]]

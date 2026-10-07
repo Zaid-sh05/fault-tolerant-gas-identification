@@ -18,9 +18,9 @@ def _write(path, n=3, seed=0):
 def test_roundtrip_values_and_labels(tmp_path):
     x = _write(tmp_path / "batch1.dat", n=4)
     df = load_batch(tmp_path / "batch1.dat", 1)
-    assert df.shape == (4, 2 + N_FEATURES)
+    assert df.shape == (4, 3 + N_FEATURES)
     assert df["gas"].tolist() == [1, 2, 3, 4]
-    assert np.allclose(df.iloc[:, 2:].to_numpy(), x, atol=1e-6)
+    assert np.allclose(df.iloc[:, 3:].to_numpy(), x, atol=1e-6)
 
 
 def test_optional_concentration_is_ignored(tmp_path):

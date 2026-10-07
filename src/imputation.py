@@ -161,11 +161,14 @@ class BlockImputer:
 
 
 def block_errors(X_true, X_hat, mu_raw, sd_raw, sensor):
-    """Per-feature RMSE and R^2 of one rebuilt block, on the raw standardised scale
-    ((x - Train mean) / Train std). R^2 uses the mean of the evaluated set as reference."""
+    """Per-feature errors of one rebuilt block on the raw standardised scale ((x - Train mean) / Train std):
+    rmse, mae, medae (median absolute error) and r2. RMSE is very sensitive to a single extreme record,
+    MAE less so and the median absolute error hardly at all. R^2 uses the mean of the evaluated set."""
     cols = sensor_columns(sensor)
     t = (X_true[:, cols] - mu_raw[cols]) / sd_raw[cols]
     h = (X_hat[:, cols] - mu_raw[cols]) / sd_raw[cols]
-    sse = ((h - t) ** 2).sum(0)
+    err = np.abs(h - t)
+    sse = (err ** 2).sum(0)
     sst = ((t - t.mean(0)) ** 2).sum(0)
-    return np.sqrt(sse / len(t)), 1.0 - sse / sst
+    return {"rmse": np.sqrt(sse / len(t)), "mae": err.mean(0), "medae": np.median(err, axis=0),
+            "r2": 1.0 - sse / sst}

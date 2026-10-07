@@ -1,0 +1,10 @@
+# Reference protocol WITHOUT train->test drift. Used next to the temporal protocol to measure the
+# "drift cost" of every result. Same preprocessing/imputation settings as the main study (base file).
+base: configs/preprocessing.yaml
+
+split:
+  type: iid
+  batches: [1, 2, 3, 4, 5, 6, 7]     # batches 8-10 are never read (enforced in src/splits.py and tested)
+  holdout: 0.20                      # stratified by gas
+  inner_folds: 5                     # stratified K-fold inside the 80% Train part
+  seed: 0

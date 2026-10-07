@@ -11,12 +11,19 @@ split:
 
 seed: 0
 
+# Data cleaning. Statistical outliers (IQR) are real drift and are kept. Only physically invalid
+# records are removed, by a fixed rule fitted on Train: a cell is invalid if |x - median| / MAD > 1000
+# (see src/cleaning.py). Flagged Train records are dropped; evaluation rows are never dropped.
+cleaning:
+  invalid_value_rule: {threshold: 1000}
+
 # Fixed model settings during pipeline comparison, so that only the preprocessing changes.
 # They are the settings the old baselines selected on Validation (results/main/02_baselines).
 models:
   svm: {C: 10, gamma: scale}
   lgbm: {num_leaves: 15, n_estimators: 400, learning_rate: 0.05, class_weight: null}
-  final_svm_grid: {C: [1, 10, 100], gamma: [scale, 0.01]}   # same grid as the old baseline, used once at the end
+  final_svm_grid: {C: [1, 10, 100], gamma: [scale, 0.01]}   # same grids as the old baselines, used for the tuned numbers
+  final_lgbm_grid: {num_leaves: [15, 31], class_weight: [null, balanced]}
 
 # A candidate replaces the incumbent only if it beats it by more than min_gain on the
 # primary metric; otherwise the simpler one stays. LightGBM is reported next to SVM and
@@ -40,6 +47,7 @@ phase2:
   iqr_k: 1.5                     # Tukey inner fences
   drop_row_share: 0.10           # option (c): drop Train rows with >10% of features outside the fences
   bias_deltas: [1.0, 3.0]        # quick Bias scenario to test whether clipping hides the fault
+  bias_seeds: [0, 1, 2]
   options: [keep_all, winsorize, drop_train_rows]
 
 phase3:
@@ -65,4 +73,6 @@ phase5:
 
 final:
   max_candidates: 12
-  target_svm_macro_f1: 0.868     # gate P3: 0.878 - 0.01
+  # Gate P3 reference: the SVM Macro-F1 of the best Phase-3 pipeline on CLEANED data (the old 0.878 was
+  # inflated by two corrupt Train records, see results/main_cleaned/diagnosis). Gate: final >= reference - 0.01.
+  p3_margin: 0.01

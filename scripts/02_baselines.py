@@ -8,20 +8,19 @@ from pathlib import Path
 import numpy as np, pandas as pd, yaml, joblib
 from sklearn.metrics import f1_score, confusion_matrix
 
-from src.data import load_batches, split_by_batches, xy, GAS_NAMES
+from src.data import xy, GAS_NAMES
+from src.splits import get_protocol_data, load_config
 from src.models import make_lgbm, make_svm, grid, scores
 from src.faults import augment_with_faults
 
 
 def main(cfg_path):
-    cfg = yaml.safe_load(open(cfg_path)); seed = cfg["seeds"]["model"]
+    cfg = load_config(cfg_path); seed = cfg["seeds"]["model"]
     out = Path("results") / Path(cfg_path).stem / "02_baselines"; (out / "models").mkdir(parents=True, exist_ok=True)
-    sp = cfg["split"]
-    dev = sp["train_batches"] + sp["val_batches"]
-    assert not set(dev) & set(sp["test_batches"]), "Test batches must never be loaded here"
-    df = load_batches(cfg["data"]["raw_dir"], dev)    # leakage guard: Test files are never opened
-    tr = split_by_batches(df, sp["train_batches"])
-    va = split_by_batches(df, sp["val_batches"])
+    proto = get_protocol_data(cfg)                    # Test files are never opened; cleaning rule applied to Train only
+    tr, va = proto.train, proto.eval
+    print(f"Train rows {len(tr)} (dropped by cleaning rule: {proto.dropped_train.values.tolist()}), "
+          f"Validation rows {len(va)} (invalid but kept: {proto.flagged_eval.values.tolist()})")
     Xtr, ytr = xy(tr); Xva, yva = xy(va)
     std_train = np.nanstd(Xtr, axis=0)
     np.save(out / "std_train.npy", std_train)
