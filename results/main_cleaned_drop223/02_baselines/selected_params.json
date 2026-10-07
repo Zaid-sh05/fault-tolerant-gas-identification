@@ -1,0 +1,24 @@
+{
+ "lgbm": {
+  "num_leaves": 15,
+  "class_weight": null,
+  "n_estimators": 400,
+  "learning_rate": 0.05
+ },
+ "svm": {
+  "C": 10,
+  "gamma": 0.01,
+  "transform": "none"
+ },
+ "lgbm_aug": {
+  "num_leaves": 15,
+  "class_weight": null,
+  "n_estimators": 400,
+  "learning_rate": 0.05
+ },
+ "svm_aug": {
+  "C": 10,
+  "gamma": 0.01,
+  "transform": "none"
+ }
+}

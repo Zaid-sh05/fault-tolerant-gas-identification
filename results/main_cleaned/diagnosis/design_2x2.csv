@@ -1,0 +1,9 @@
+gamma,svm_fitted_on,scaler_fitted_on,macro_f1
+scale,uncleaned,uncleaned,0.878
+scale,uncleaned,cleaned,0.533
+scale,cleaned,uncleaned,0.8764
+scale,cleaned,cleaned,0.8563
+0.01,uncleaned,uncleaned,0.8755
+0.01,uncleaned,cleaned,0.859
+0.01,cleaned,uncleaned,0.8755
+0.01,cleaned,cleaned,0.859

@@ -1,0 +1,4 @@
+role,batch,line,gas,n_cells,sensors,worst_feature,worst_value,worst_median,max_robust_z
+train,2,223,Ethanol,1,S05,S05_EMAd0.1,-880.09864,-4.1651065,1085.5923570233924
+train,2,380,Ethylene,1,S04,S04_EMAi0.1,12005.618886,12.782896000000001,2069.2482080174154
+eval,2,222,Ethanol,3,S06 S07 S08,S06_absDR,31165.169585,2.52854,68450.50728378195

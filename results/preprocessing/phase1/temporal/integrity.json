@@ -1,0 +1,44 @@
+{
+ "records": 9544,
+ "expected_records": 9544,
+ "features": 128,
+ "nan": 0,
+ "inf": 0,
+ "constant_features": 0,
+ "duplicate_rows": 0,
+ "records_per_batch": {
+  "1": 445,
+  "2": 1242,
+  "3": 1586,
+  "4": 161,
+  "5": 197,
+  "6": 2300,
+  "7": 3613
+ },
+ "gas_codes": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "passed": true,
+ "protocol": "temporal",
+ "train_rows": 5931,
+ "eval_rows": 3613,
+ "cleaning_dropped_train": [
+  {
+   "batch": 2,
+   "line": 222,
+   "gas": 1
+  },
+  {
+   "batch": 2,
+   "line": 380,
+   "gas": 2
+  }
+ ],
+ "cleaning_flagged_eval_kept": [],
+ "reconstruction_eval_rows_excluded": 0
+}

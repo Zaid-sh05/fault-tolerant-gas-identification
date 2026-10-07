@@ -1,0 +1,43 @@
+{
+ "incumbent_spec": {
+  "clip": "none",
+  "slog": false,
+  "scaler": "minmax",
+  "groups": [],
+  "select": "none"
+ },
+ "drop_train_rows": false,
+ "history": [
+  {
+   "phase": "phase2",
+   "winner": "keep_all",
+   "lgbm_flag": false
+  },
+  {
+   "phase": "phase3",
+   "winner": "minmax",
+   "lgbm_flag": false
+  }
+ ],
+ "new_baseline": {
+  "spec": {
+   "clip": "none",
+   "slog": false,
+   "scaler": "minmax",
+   "groups": [],
+   "select": "none"
+  },
+  "trial_id": "minmax",
+  "svm_fixed_params_macro_f1": 0.8840758595802791,
+  "svm_tuned": {
+   "params": "{\"C\": 10, \"gamma\": \"scale\"}",
+   "macro_f1": 0.8840758595802791,
+   "accuracy": 0.879601439247163
+  },
+  "lgbm_tuned": {
+   "params": "{\"num_leaves\": 15, \"class_weight\": null}",
+   "macro_f1": 0.6947629921238098,
+   "accuracy": 0.7312482701356213
+  }
+ }
+}

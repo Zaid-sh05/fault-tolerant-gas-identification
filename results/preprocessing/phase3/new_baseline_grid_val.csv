@@ -1,0 +1,11 @@
+model,params,macro_f1,accuracy
+svm,"{""C"": 1, ""gamma"": ""scale""}",0.7847,0.7753
+svm,"{""C"": 1, ""gamma"": 0.01}",0.5204,0.5884
+svm,"{""C"": 10, ""gamma"": ""scale""}",0.8841,0.8796
+svm,"{""C"": 10, ""gamma"": 0.01}",0.8206,0.8201
+svm,"{""C"": 100, ""gamma"": ""scale""}",0.8788,0.8732
+svm,"{""C"": 100, ""gamma"": 0.01}",0.851,0.8494
+lgbm,"{""num_leaves"": 15, ""class_weight"": null}",0.6948,0.7312
+lgbm,"{""num_leaves"": 15, ""class_weight"": ""balanced""}",0.6871,0.7285
+lgbm,"{""num_leaves"": 31, ""class_weight"": null}",0.6887,0.7296
+lgbm,"{""num_leaves"": 31, ""class_weight"": ""balanced""}",0.6852,0.7268

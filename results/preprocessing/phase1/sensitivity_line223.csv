@@ -1,0 +1,13 @@
+what,kept_223,dropped_223,abs_change
+temporal baseline lgbm Macro-F1,0.7026,0.6991,0.0034
+temporal baseline svm Macro-F1,0.859,0.8639,0.0049
+temporal baseline lgbm_aug Macro-F1,0.6824,0.703,0.0207
+temporal baseline svm_aug Macro-F1,0.7948,0.79,0.0048
+"temporal reconstruction rmse_mean (largest change, iterative/raw/twin_excluded=False)",0.3838,0.4007,0.0168
+"temporal reconstruction mae_mean (largest change, iterative/raw/twin_excluded=False)",0.3299,0.3441,0.0142
+"temporal reconstruction medae_mean (largest change, iterative/raw/twin_excluded=False)",0.3218,0.3351,0.0133
+"temporal reconstruction r2_median (largest change, iterative/slog/twin_excluded=False)",0.5851,0.5408,0.0444
+"reference_iid reconstruction rmse_mean (largest change, ridge/slog/twin_excluded=True)",0.2551,0.2067,0.0483
+"reference_iid reconstruction mae_mean (largest change, iterative/slog/twin_excluded=True)",0.4747,0.4587,0.0159
+"reference_iid reconstruction medae_mean (largest change, iterative/slog/twin_excluded=True)",0.3227,0.3107,0.0121
+"reference_iid reconstruction r2_median (largest change, iterative/raw/twin_excluded=False)",0.7432,0.7141,0.0291

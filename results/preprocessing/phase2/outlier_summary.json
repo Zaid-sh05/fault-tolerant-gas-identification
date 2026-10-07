@@ -1,0 +1,47 @@
+{
+ "mean_share_train": 0.028726184454560783,
+ "mean_share_val": 0.01233825768059784,
+ "share_gt_10pct_train": 0.09897150564828865,
+ "share_gt_10pct_val": 0.04622197619706615,
+ "dispersion_index_train": 19.72974024928044,
+ "dispersion_index_val": 7.217847433129562,
+ "pattern_counts": {
+  "batch_drift": 83,
+  "gas_related": 30,
+  "diffuse": 15
+ },
+ "pattern_by_kind": {
+  "DR": {
+   "batch_drift": 8,
+   "diffuse": 8
+  },
+  "EMAd0.001": {
+   "batch_drift": 11,
+   "diffuse": 5
+  },
+  "EMAd0.01": {
+   "batch_drift": 16
+  },
+  "EMAd0.1": {
+   "batch_drift": 12,
+   "gas_related": 4
+  },
+  "EMAi0.001": {
+   "batch_drift": 8,
+   "gas_related": 6,
+   "diffuse": 2
+  },
+  "EMAi0.01": {
+   "batch_drift": 8,
+   "gas_related": 8
+  },
+  "EMAi0.1": {
+   "batch_drift": 8,
+   "gas_related": 8
+  },
+  "absDR": {
+   "batch_drift": 12,
+   "gas_related": 4
+  }
+ }
+}

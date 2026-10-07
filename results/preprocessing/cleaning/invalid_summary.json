@@ -1,0 +1,26 @@
+{
+ "temporal": {
+  "threshold": 1000.0,
+  "features_not_scorable_mad0": 0,
+  "records_checked": {
+   "train": 5933,
+   "eval": 3613
+  },
+  "flagged": {
+   "train": 2,
+   "eval": 0
+  }
+ },
+ "reference_iid": {
+  "threshold": 1000.0,
+  "features_not_scorable_mad0": 0,
+  "records_checked": {
+   "train": 7636,
+   "eval": 1910
+  },
+  "flagged": {
+   "train": 2,
+   "eval": 1
+  }
+ }
+}

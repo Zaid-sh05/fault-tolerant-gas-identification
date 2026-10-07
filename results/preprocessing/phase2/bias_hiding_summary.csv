@@ -1,0 +1,5 @@
+delta,exclude_twin,auroc_raw,auroc_clipped,shift_retained,auroc_drop
+1.0,False,0.9927,0.9941,0.9987,-0.0014
+1.0,True,0.9928,0.9949,0.9987,-0.0021
+3.0,False,1.0,1.0,0.837,0.0
+3.0,True,1.0,1.0,0.837,0.0
