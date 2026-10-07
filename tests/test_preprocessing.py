@@ -12,8 +12,8 @@ from synth import make_raw, write_batches
 
 BASELINE = {"clip": "none", "slog": False, "scaler": "standard", "groups": [], "select": "none"}
 FULL = {"clip": "iqr", "slog": True, "scaler": "robust",
-        "groups": ["pn_l2", "pn_logmed", "trans_ratio"],
-        "select": {"corr_threshold": 0.95, "keep_frac": 0.75, "min_own": 2, "mi_neighbors": 3}}
+        "groups": ["pn_l2", "trans_ratio", "ema_shape"],
+        "select": {"drop_frac": 0.2, "min_own": 2}}
 
 
 def test_baseline_spec_equals_the_old_svm_pipeline():
@@ -62,11 +62,47 @@ def test_provenance_covers_every_output_column_and_every_sensor():
     assert all(own.get(f"S{s + 1:02d}", 0) >= 2 for s in range(16))      # no sensor was dropped
 
 
-def test_selector_removes_near_duplicates():
+def test_drift_filter_drops_the_requested_share():
     X, y, b = make_raw()
-    pipe = fit_preprocessor({**BASELINE, "select": {"corr_threshold": 0.95, "keep_frac": 1.0,
-                                                    "min_own": 2, "mi_neighbors": 3}}, X, y, b)
-    assert pipe.transform(X).shape[1] < N_FEATURES
+    pipe = fit_preprocessor({**BASELINE, "select": {"drop_frac": 0.25, "min_own": 0}}, X, y, b)
+    assert pipe.transform(X).shape[1] == N_FEATURES - round(0.25 * N_FEATURES)
+
+
+def test_drift_filter_never_removes_a_sensor_even_when_dropping_almost_everything():
+    X, y, b = make_raw()
+    pipe = fit_preprocessor({**BASELINE, "select": {"drop_frac": 0.95, "min_own": 2}}, X, y, b)
+    own = pipeline_provenance(pipe)["sources"].value_counts()
+    assert all(own.get(f"S{s + 1:02d}", 0) >= 2 for s in range(16))
+
+
+def test_drift_filter_removes_the_feature_that_drifts_between_batches():
+    X, y, b = make_raw()
+    X[:, 7] += 50.0 * (b[:len(X)] - 3.5)                      # feature 7 now depends strongly on the batch
+    pipe = fit_preprocessor({**BASELINE, "select": {"drop_frac": 0.05, "min_own": 2}}, X, y, b)
+    assert 7 not in pipe.named_steps["select"].support_
+
+
+def test_percentile_minmax_fits_percentiles_and_clips_only_at_transform():
+    from src.preprocessing import PercentileMinMax
+    X, *_ = make_raw()
+    sc = PercentileMinMax(1, 99).fit(X)
+    assert np.allclose(sc.low_, np.percentile(X, 1, axis=0)) and np.allclose(sc.high_, np.percentile(X, 99, axis=0))
+    out = sc.transform(X)
+    assert out.min() >= 0.0 and out.max() <= 1.0
+
+
+@pytest.mark.parametrize("group", ["trans_ratio", "ema_shape"])
+def test_sensor_local_groups_have_a_single_source_sensor(group):
+    from src.preprocessing import FeatureBuilder
+    prov = FeatureBuilder(False, (group,)).provenance()
+    new = prov[prov["group"] == group]
+    assert len(new) > 0 and (new["sources"].map(len) == 1).all()
+
+
+def test_all_sensor_groups_are_flagged_by_provenance():
+    from src.preprocessing import FeatureBuilder
+    prov = FeatureBuilder(False, ("pn_l2", "pn_logmed")).provenance()
+    assert (prov[prov["group"] != "raw"]["sources"].map(len) == 16).all()
 
 
 @pytest.mark.parametrize("spec", [BASELINE, FULL], ids=["baseline", "full"])

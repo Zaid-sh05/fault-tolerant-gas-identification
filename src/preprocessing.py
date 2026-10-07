@@ -14,7 +14,6 @@ import warnings
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.feature_selection import f_classif, mutual_info_classif
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, MinMaxScaler, RobustScaler, StandardScaler
 
@@ -23,7 +22,26 @@ from .models import signed_log
 
 KIND = {k: i for i, k in enumerate(FEATURE_KINDS)}
 TRANSIENT = [k for k in FEATURE_KINDS if k.startswith("EMA")]
-SCALERS = {"standard": StandardScaler, "robust": RobustScaler, "minmax": MinMaxScaler}
+
+
+class PercentileMinMax(BaseEstimator, TransformerMixin):
+    """MinMax with the `lo`/`hi` percentiles of the fitted rows as bounds; values outside are clipped to
+    [0, 1] at transform time only (the fit never sees the clipped values)."""
+
+    def __init__(self, lo=1, hi=99):
+        self.lo, self.hi = lo, hi
+
+    def fit(self, X, y=None):
+        self.low_, self.high_ = np.nanpercentile(X, [self.lo, self.hi], axis=0)
+        self.span_ = np.where(self.high_ > self.low_, self.high_ - self.low_, 1.0)
+        return self
+
+    def transform(self, X):
+        return np.clip((X - self.low_) / self.span_, 0.0, 1.0)
+
+
+SCALERS = {"standard": StandardScaler, "robust": RobustScaler, "minmax": MinMaxScaler,
+           "minmax_p1_99": PercentileMinMax}
 
 
 def sname(s):
@@ -101,12 +119,23 @@ def _trans_ratio(B):
     return np.hstack([np.log1p(np.abs(B[:, :, KIND[k]])) - amp for k in TRANSIENT])
 
 
+@_quiet
+def _ema_shape(B):
+    """Kinetics: fast EMA (alpha 0.1) relative to slow EMA (alpha 0.001) of the same sensor, rising and decaying."""
+    cols = []
+    for fast, slow in (("EMAi0.1", "EMAi0.001"), ("EMAd0.1", "EMAd0.001")):
+        cols.append(np.log1p(np.abs(B[:, :, KIND[fast]])) - np.log1p(np.abs(B[:, :, KIND[slow]])))
+    return np.hstack(cols)
+
+
 GROUPS = {
     # name: (function, output column names, source sensors per column, formula)
     "pn_l2": (_pn_l2, [f"{sname(j)}_pnl2_{k}" for k in ("DR", "absDR") for j in range(16)],
               lambda c: tuple(range(16)), "x_j / sqrt(sum_k x_k^2) over the 16 sensors, kinds DR and |DR|"),
     "pn_logmed": (_pn_logmed, [f"{sname(j)}_pnlogmed_absDR" for j in range(16)],
                   lambda c: tuple(range(16)), "slog(|DR|_j) - median_k slog(|DR|_k)"),
+    "ema_shape": (_ema_shape, [f"{sname(j)}_emashape_{d}" for d in ("rise", "decay") for j in range(16)],
+                  lambda c: (c % 16,), "log1p|EMA(alpha=0.1)| - log1p|EMA(alpha=0.001)|, rising and decaying"),
     "trans_ratio": (_trans_ratio, [f"{sname(j)}_trratio_{k}" for k in TRANSIENT for j in range(16)],
                     lambda c: (c % 16,), "log1p|EMA_j| - log1p(||DR||_j)"),
 }
@@ -142,53 +171,36 @@ class FeatureBuilder(BaseEstimator, TransformerMixin):
 
 
 # --------------------------------------------------------------------------------------
-# Selector: redundancy filter + score-based top fraction, never drops a sensor
+# Drift-sensitivity filter (Phase 5)
 # --------------------------------------------------------------------------------------
-class ScoreSelector(BaseEstimator, TransformerMixin):
-    """score = mean(rank(MI), rank(ANOVA-F)) * (1 - batch_eta2), all computed on Train.
+def batch_eta2(X, y, batches):
+    """Per feature: share of the variance, after removing the gas effect, that the batch explains.
+    High = the feature drifts between batches. Scale-invariant, so it does not depend on the scaler."""
+    resid = X - pd.DataFrame(X).groupby(y).transform("mean").to_numpy()
+    total = (resid ** 2).sum(0)
+    by_batch = pd.DataFrame(resid).groupby(np.asarray(batches)).transform("mean").to_numpy()
+    return np.divide((by_batch ** 2).sum(0), total, out=np.zeros(X.shape[1]), where=total > 0)
 
-    batch_eta2: share of the variance (after removing the gas effect) explained by the batch,
-    i.e. how much the feature drifts inside Train. Lower is better.
-    `owner[j]` is the single sensor feature j was computed from (-1 if it mixes sensors);
-    every sensor keeps at least `min_own` of its own features.
-    """
 
-    def __init__(self, owner, corr_threshold=0.95, keep_frac=1.0, min_own=2, mi_neighbors=3, seed=0):
-        self.owner = owner
-        self.corr_threshold, self.keep_frac = corr_threshold, keep_frac
-        self.min_own, self.mi_neighbors, self.seed = min_own, mi_neighbors, seed
+class DriftFilter(BaseEstimator, TransformerMixin):
+    """Drop the `drop_frac` most drift-sensitive columns (eta2 on the fitted rows, i.e. Train batches only).
+    `owner[j]` is the single sensor column j was computed from (-1 if it mixes sensors); every sensor keeps at
+    least `min_own` of its own columns, so no sensor disappears from the fault study."""
+
+    def __init__(self, owner, drop_frac=0.1, min_own=2):
+        self.owner, self.drop_frac, self.min_own = owner, drop_frac, min_own
 
     def fit(self, X, y, batches):
         owner = np.asarray(self.owner)
-        self.mi_ = mutual_info_classif(X, y, n_neighbors=self.mi_neighbors, random_state=self.seed)
-        self.f_ = np.nan_to_num(f_classif(X, y)[0])
-        resid = X - pd.DataFrame(X).groupby(y).transform("mean").to_numpy()
-        total = (resid ** 2).sum(0)
-        bm = pd.DataFrame(resid).groupby(np.asarray(batches)).transform("mean").to_numpy()
-        self.eta2_ = np.divide((bm ** 2).sum(0), total, out=np.zeros(X.shape[1]), where=total > 0)
-        rank = lambda v: pd.Series(v).rank(pct=True).to_numpy()
-        self.score_ = (rank(self.mi_) + rank(self.f_)) / 2 * (1 - self.eta2_)
-
-        order = np.argsort(-self.score_)
-        corr = np.abs(np.nan_to_num(np.corrcoef(X, rowvar=False)))
-        kept = []
-        for j in order:                                   # greedy: best score first, drop later near-duplicates
-            if not kept or corr[j, kept].max() <= self.corr_threshold:
-                kept.append(j)
-        kept = self._restore_sensors(set(kept), order, owner)
-        if self.keep_frac < 1.0:
-            n_keep = int(np.ceil(self.keep_frac * len(kept)))
-            top = [j for j in order if j in kept][:n_keep]
-            kept = self._restore_sensors(set(top), order, owner)
-        self.support_ = np.array(sorted(kept))
+        self.eta2_ = batch_eta2(X, y, batches)
+        order = np.argsort(-self.eta2_)                               # most drifting first
+        dropped = set(order[:int(round(self.drop_frac * X.shape[1]))])
+        for sensor in range(N_SENSORS):                               # give back the least drifting if too few remain
+            own = [j for j in order[::-1] if owner[j] == sensor]
+            missing = self.min_own - sum(j not in dropped for j in own)
+            dropped -= set([j for j in own if j in dropped][:max(missing, 0)])
+        self.support_ = np.array(sorted(set(range(X.shape[1])) - dropped))
         return self
-
-    def _restore_sensors(self, kept, order, owner):
-        for s in range(N_SENSORS):
-            own = [j for j in order if owner[j] == s]
-            missing = self.min_own - sum(j in kept for j in own)
-            kept |= set([j for j in own if j not in kept][:max(missing, 0)])
-        return kept
 
     def transform(self, X):
         return X[:, self.support_]
@@ -198,14 +210,14 @@ class ScoreSelector(BaseEstimator, TransformerMixin):
 # Assembly
 # --------------------------------------------------------------------------------------
 def build_preprocessor(spec, fill_nan=False, iqr_k=1.5, seed=0):
-    """spec: {clip: none|iqr, slog: bool, scaler: standard|robust|minmax, groups: [...],
-              select: none | {corr_threshold, keep_frac, min_own, mi_neighbors}}"""
+    """spec: {clip: none|iqr, slog: bool, scaler: standard|robust|minmax|minmax_p1_99, groups: [...],
+              select: none | {drop_frac, min_own}}"""
     builder = FeatureBuilder(spec["slog"], tuple(spec["groups"]))
     steps = [("clip", IQRClipper(iqr_k))] if spec["clip"] == "iqr" else []
     steps += [("build", builder), ("scale", SCALERS[spec["scaler"]]())]
     if spec["select"] != "none":
         owner = [s[0] if len(s) == 1 else -1 for s in builder.provenance()["sources"]]
-        steps.append(("select", ScoreSelector(owner, seed=seed, **spec["select"])))
+        steps.append(("select", DriftFilter(owner, **spec["select"])))
     if fill_nan:
         steps.append(("fill", FunctionTransformer(fill_nan_zero)))
     return Pipeline(steps)

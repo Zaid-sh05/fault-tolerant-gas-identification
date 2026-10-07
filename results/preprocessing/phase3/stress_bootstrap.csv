@@ -1,0 +1,4 @@
+difference,mean,ci_low,ci_high,share_positive
+minmax - standard,0.0275,0.0173,0.0374,1.0
+minmax_p1_99 - standard,-0.0036,-0.0088,0.0015,0.103
+minmax - minmax_p1_99,0.0311,0.0212,0.0413,1.0

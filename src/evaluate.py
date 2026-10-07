@@ -58,6 +58,32 @@ def evaluate_spec(spec, tr, va, cfg, svm_params=None, lgbm_params=None, fitted=N
     return out
 
 
+def fit_predict(spec, tr, va, cfg, models=("svm",), svm_params=None, lgbm_params=None):
+    """Fit preprocessing on Train, the requested models on the result, return their Validation predictions."""
+    seed = cfg["seed"]
+    Xtr, ytr = xy(tr)
+    Xva, _ = xy(va)
+    pre = fit_preprocessor(spec, Xtr, ytr, tr["batch"].to_numpy(), fill_nan=False,
+                           iqr_k=cfg["phase2"]["iqr_k"], seed=seed)
+    Ztr, Zva = pre.transform(Xtr), pre.transform(Xva)
+    preds = {}
+    for name in models:
+        a, b = (fill_nan_zero(Ztr), fill_nan_zero(Zva)) if name == "svm" else (Ztr, Zva)
+        preds[name] = make_classifier(name, cfg["models"], seed, svm_params, lgbm_params).fit(a, ytr).predict(b)
+    return preds
+
+
+def bootstrap_diff(y, pred_a, pred_b, n=1000, seed=0, ci=0.95):
+    """Paired bootstrap over evaluation rows of Macro-F1(a) - Macro-F1(b): (mean, ci_low, ci_high, share > 0)."""
+    rng = np.random.default_rng(seed)
+    diffs = np.empty(n)
+    for i in range(n):
+        idx = rng.integers(0, len(y), len(y))
+        diffs[i] = scores(y[idx], pred_a[idx])["macro_f1"] - scores(y[idx], pred_b[idx])["macro_f1"]
+    lo, hi = np.percentile(diffs, [(1 - ci) / 2 * 100, (1 + ci) / 2 * 100])
+    return float(diffs.mean()), float(lo), float(hi), float((diffs > 0).mean())
+
+
 def grid_points(grid):
     keys = list(grid)
     return [dict(zip(keys, vals)) for vals in itertools.product(*(grid[k] for k in keys))]

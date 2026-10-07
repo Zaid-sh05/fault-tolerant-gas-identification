@@ -1,0 +1,4 @@
+,n_features,svm_macro_f1,svm_accuracy,lgbm_macro_f1,lgbm_accuracy,seconds
+none,128.0,0.8563,0.8558,0.6805,0.7232,29.3
+drop_top10,115.0,0.842,0.8425,0.7077,0.7376,27.4
+drop_top20,102.0,0.8437,0.8422,0.7225,0.7495,26.3

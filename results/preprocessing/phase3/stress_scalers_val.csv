@@ -1,0 +1,4 @@
+scaler,svm_macro_f1,svm_accuracy,lgbm_macro_f1,lgbm_accuracy
+standard,0.8563,0.8558,0.6805,0.7232
+minmax,0.8841,0.8796,0.6948,0.7312
+minmax_p1_99,0.8528,0.8583,0.6921,0.7263

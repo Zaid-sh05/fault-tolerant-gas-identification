@@ -1,0 +1,19 @@
+{
+ "features_squeezed_below_flag": [
+  "S03_EMAi0.1",
+  "S04_EMAi0.1",
+  "S04_EMAd0.01",
+  "S04_EMAd0.1",
+  "S05_EMAi0.1",
+  "S05_EMAd0.01",
+  "S05_EMAd0.1",
+  "S06_EMAi0.1",
+  "S06_EMAd0.1",
+  "S13_EMAd0.1",
+  "S14_EMAd0.1"
+ ],
+ "condition_A_ci_excludes_zero": true,
+ "condition_B_percentile_minmax_gain_over_standard": -0.003478964989025002,
+ "condition_B_met": false,
+ "adopted_scaler": "standard"
+}

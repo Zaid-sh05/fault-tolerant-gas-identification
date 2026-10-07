@@ -1,0 +1,5 @@
+model,n,macro_f1_mean,macro_f1_std,accuracy_mean,accuracy_std
+svm,1,0.859,0.0,0.858,0.0
+lgbm,1,0.6918,0.0,0.7332,0.0
+svm_aug,5,0.7779,0.0197,0.7888,0.0153
+lgbm_aug,5,0.7006,0.0074,0.7388,0.0063

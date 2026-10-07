@@ -1,0 +1,6 @@
+candidate,svm_macro_f1,gain_vs_baseline,ci_low,ci_high,gain_gt_0.005,ci_excludes_0,adopt,lgbm_macro_f1,lgbm_gain_vs_baseline
+trans_ratio,0.714,-0.145,-0.1581,-0.1337,False,True,False,0.6668,-0.0251
+ema_shape,0.7549,-0.1041,-0.1155,-0.0938,False,True,False,0.6756,-0.0162
+trans_ratio+ema_shape,0.6822,-0.1768,-0.19,-0.1645,False,True,False,0.6341,-0.0578
+drop_top10,0.8421,-0.0169,-0.0221,-0.0115,False,True,False,0.6768,-0.015
+drop_top20,0.8443,-0.0147,-0.0201,-0.0095,False,True,False,0.7009,0.0091

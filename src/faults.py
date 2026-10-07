@@ -24,6 +24,14 @@ class Scenario:
         d = asdict(self); d["sensors"] = "-".join(str(s + 1) for s in self.sensors); return d
 
 
+def robust_sigma(X):
+    """Outlier-resistant scale of every feature: IQR / 1.349 (equals the std for normal data).
+    Used as the Bias unit instead of the plain std, which a few corrupt records can inflate by orders of magnitude."""
+    q1, q3 = np.nanpercentile(X, [25, 75], axis=0)
+    iqr = q3 - q1
+    return np.where(iqr > 0, iqr / 1.349, np.nanstd(X, axis=0))
+
+
 def apply_fault(X, sc: Scenario, std_train):
     """Return a corrupted copy of raw-feature matrix X. std_train: per-feature std (Train only)."""
     key = zlib.crc32(repr((sc.group, sc.sensors, sc.fault, sc.severity)).encode())  # process-independent
