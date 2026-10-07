@@ -1,0 +1,48 @@
+# Main experiment configuration. Any change must be committed together with its results.
+data:
+  raw_dir: data/raw
+split:
+  # Decided from scripts/01_audit.py (class coverage + batch sizes), see results/01_audit/audit.md
+  train_batches: [1, 2, 3, 4, 5, 6]
+  val_batches: [7]
+  test_batches: [8, 9, 10]   # never loaded by model scripts until the final run
+  # Inner folds inside Train (for out-of-fold quantities later, e.g. reliability calibration)
+  inner_folds: [[1], [2], [3], [4, 5], [6]]
+
+seeds:
+  model: 0
+  faults: [0, 1, 2, 3, 4]
+
+models:
+  lgbm_grid:
+    num_leaves: [15, 31]
+    class_weight: [null, balanced]
+    n_estimators: [400]
+    learning_rate: [0.05]
+  svm_grid:
+    C: [1, 10, 100]
+    gamma: [scale, 0.01]
+    transform: [none, slog]   # slog = sign(x)*log(1+|x|), DR is heavy-tailed
+  selection_metric: macro_f1   # selected on Validation only
+
+faults:
+  # Feature-level simulation on the 8 extracted features of the chosen sensor(s).
+  # Scale for bias = per-feature std of the TRAIN batches.
+  types:
+    dropout: {fraction: [0.5, 1.0]}     # features -> NaN (missing reading)
+    bias:    {delta: [1.0, 3.0]}        # x + sign * delta * std_train, all samples, sign random per scenario
+    stuck:   {fraction: [0.5, 1.0]}     # features frozen to one reference reading of the same stream
+  groups:
+    k1: single sensors (all 16)
+    k2: replicate pairs found in audit (1-2, 3-4, ...)
+    k4: candidate type groups from audit (hypothesis, see audit.md)
+
+fault_augmentation:
+  copies: 1          # one corrupted copy of each training sample
+  p_fault: 1.0       # each copy gets one random sensor with a random fault type
+
+gate1:
+  # Pre-registered before running 03_fault_impact.py:
+  # the problem is "clear" for a setting if the best clean baseline loses at least
+  # this much Macro-F1 on Validation, averaged over sensors and seeds.
+  min_mean_drop_macro_f1: 0.03
