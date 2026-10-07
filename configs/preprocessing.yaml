@@ -17,6 +17,18 @@ seed: 0
 cleaning:
   invalid_value_rule: {threshold: 1000}
 
+# Fault scale. Bias = x + sign * delta * sigma. sigma_robust = IQR / 1.349 per feature, from the cleaned Train rows,
+# so that outliers cannot inflate it. The OLD study used the plain std of Train, which two corrupt records had
+# inflated (x316 for S06 |DR|, x48 S08, x25 S07, x3.7 S05, x3 S04 EMAi0.1): its G1 results are superseded.
+faults:
+  bias_scale: robust_iqr
+
+# Fault-augmented models (SVM+Aug, LGBM+Aug) are trained with 5 augmentation seeds and reported as mean +- std,
+# because dropping a single Train row moved one of them by 0.02.
+augmentation:
+  seeds: [0, 1, 2, 3, 4]
+  copies: 1
+
 # Fixed model settings during pipeline comparison, so that only the preprocessing changes.
 # They are the settings the old baselines selected on Validation (results/main/02_baselines).
 models:
@@ -54,22 +66,41 @@ phase3:
   scalers: [standard, robust, minmax]
   slog: [false, true]
 
+# Stress check of the Phase-3 winner (MinMax), registered before it was run.
+# (1) per feature: ratio of the 1-99 percentile range to the min-max range on Train; ratios < ratio_flag mean the
+#     scaler squeezes that feature because of a few extreme values.
+# (2) MinMax with percentile bounds (fit on the 1st/99th percentile, clipped to [0,1] at transform only).
+# (3) paired bootstrap over Validation rows, 1000 resamples, 95% interval of the Macro-F1 difference.
+# Rule: adopt MinMax only if (A) the interval of MinMax - Standard excludes 0 AND (B) the percentile-bounded
+# MinMax still beats Standard by more than decision_rule.min_gain (the gain does not come from squeezing).
+# Otherwise adopt StandardScaler. If adopted, the percentile-bounded variant replaces full MinMax only when it beats
+# it by more than min_gain.
+phase3_stress:
+  percentiles: [1, 99]
+  ratio_flag: 0.05
+  bootstrap: {n: 1000, seed: 0, ci: 0.95}
+
+# Phase 4, shortened (time): at most two engineered groups, each sensor-local with a physical rationale, a reference
+# and source-sensor tracking. Gate P4 rejects any group with a column that depends on more than one sensor (a fault in
+# one sensor would then spread to the features of every sensor). pn_l2 and pn_logmed are logged for information only.
 phase4:
   candidates:                    # each is tried on top of the incumbent pipeline
+    - [trans_ratio]
+    - [ema_shape]
+    - [trans_ratio, ema_shape]
+  rejected_by_p4_logged_only:
     - [pn_l2]
     - [pn_logmed]
-    - [trans_ratio]
-    - [pn_logmed, trans_ratio]
 
+# Phase 5, shortened: feature drift sensitivity computed on Train batches 1-6 only: eta2 = share of the variance of a
+# feature (after removing the gas effect) explained by the batch. The three pre-registered options exclude none, the
+# top 10% or the top 20% most drift-sensitive features. No sensor is ever removed completely.
 phase5:
-  corr_threshold: 0.95
   min_own_features_per_sensor: 2
-  mi_neighbors: 3
   candidates:
     - {name: none}
-    - {name: redundancy}
-    - {name: redundancy_top75, keep_frac: 0.75}
-    - {name: redundancy_top50, keep_frac: 0.50}
+    - {name: drop_top10, drop_frac: 0.10}
+    - {name: drop_top20, drop_frac: 0.20}
 
 final:
   max_candidates: 12
