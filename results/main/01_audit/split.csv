@@ -1,0 +1,4 @@
+role,batches,n,Ethanol,Ethylene,Ammonia,Acetaldehyde,Acetone,Toluene
+Train,"[1, 2, 3, 4, 5, 6]",5933,1225.0,1579.0,541.0,484.0,1558.0,546.0
+Val,[7],3613,649.0,662.0,360.0,744.0,630.0,568.0
+Test,"[8, 9, 10]",4364,,,,,,
