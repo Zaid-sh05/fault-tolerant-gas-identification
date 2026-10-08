@@ -289,3 +289,15 @@ Written before any v2 code was run or any v2 number was computed.
   is computed from the existing v1 per-scenario files when v1 is shown next to v2 (reporting only; Test is not read again).
 * J7 (Test, only after the user's approval). One run: every Test batch (8, 9, 10) gets its own calibration rows (rule J3, n*, seeds 0-4), removed from
   scoring; pooled = the union of the remaining rows. Reported as its own setting next to v1.
+
+## K. Overnight plan and CORAL check (user 2026-10-08 ~23:15; written before the arbiter numbers were seen)
+* K1 (CORAL correctness check, DIAGNOSTIC ONLY: does not change the G6 choice and adds no candidate). Requested because M2 fell far below M0.
+  On Drift-Dev (batches 6, 7) and Validation 7: (a) our mapping equals an independent implementation (scipy.linalg.sqrtm / inv) of
+  Z Ct^(-1/2) Cs^(1/2); (b) the covariance of the mapped batch is closer to the Train covariance than before (relative Frobenius gap);
+  (c) the norm of the batch mean in the Train-standardised space before and after the mapping (CORAL as specified does not centre); (d) M2's
+  scores reproduce `candidates.csv`; (e) the paper's own direction (Train mapped to the new batch, SVM retrained on the mapped Train rows in the
+  standardised space, same C and gamma) as a diagnostic of whether the reversed direction explains the drop. Script `scripts/v2_coral_check.py`.
+* K2 (order of the night, no further user input): when the arbiter run ends with exit code 0: (1) rebuild its tables with the retention column
+  (`v2_arbiter.py --report-only`); (2) check that the refactored scenario code reproduces one saved arbiter chunk exactly; (3) recalibration stage 1,
+  then stage 2 if J4 allows, each under the memory guard (85%, 3 workers); (4) one morning report. A failing step stops the chain and is reported; if
+  the system stops a run for memory, it is reported, not restarted. Test is not touched.
