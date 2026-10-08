@@ -1,0 +1,34 @@
+
+##### guarded start 2026-10-08T21:40:50 (memory limit 85%, load now 72%)
+Traceback (most recent call last):
+  File "C:\Users\Admin\icsic2026-gasdrift\scripts\v2_dev.py", line 21, in <module>
+    import numpy as np  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'numpy'
+##### command ended with exit code 1 at 2026-10-08T21:40:55
+
+##### guarded start 2026-10-08T21:41:41 (memory limit 85%, load now 73%)
+M0 drift_dev: done in 24 s
+M0 original: done in 107 s
+M1 drift_dev: done in 32 s
+M1 original: done in 139 s
+M2 drift_dev: done in 30 s
+M2 original: done in 127 s
+M3 drift_dev: done in 31 s
+M3 original: done in 109 s
+M4 not run: the two best of M1-M3 (M1, M3) do not both beat M0 on Drift-Dev
+# v2 candidates (POST-HOC; decisions_log G4-G6)
+
+Clean SVM Macro-F1. Drift-Dev: train 1-3, evaluate 6 and 7. Original: train 1-6, Validation 7. g2_val7 = median over fault types of the isolation AUROC (k=1, medium) on Validation 7. CI: paired bootstrap over rows (1000, per batch, averaged), optimistic.
+
+| candidate   |   drift_dev_b6 |   drift_dev_b7 |   drift_dev_mean | dev_mean_diff_vs_M0_ci   |   original_b7 |   g2_val7 |   auroc_dropout |   auroc_bias |   auroc_stuck |   auroc_random | eligible   |
+|:------------|---------------:|---------------:|-----------------:|:-------------------------|--------------:|----------:|----------------:|-------------:|--------------:|---------------:|:-----------|
+| M0          |          0.618 |          0.619 |            0.618 | [+0.000, +0.000]         |         0.859 |     0.977 |               1 |        0.98  |         0.937 |          0.974 | True       |
+| M1          |          0.578 |          0.614 |            0.596 | [-0.031, -0.014]         |         0.652 |     0.943 |               1 |        0.5   |         0.921 |          0.966 | False      |
+| M2          |          0.355 |          0.394 |            0.374 | [-0.254, -0.233]         |         0.506 |     0.888 |               1 |        0.907 |         0.758 |          0.869 | False      |
+| M3          |          0.593 |          0.593 |            0.593 | [-0.031, -0.019]         |         0.758 |     0.977 |               1 |        0.98  |         0.937 |          0.974 | False      |
+
+M4 not run: the two best of M1-M3 (M1, M3) do not both beat M0 on Drift-Dev.
+
+Choice (G6): **M0** (no candidate improved the base model); tied within 0.01: M0.
+##### command ended with exit code 0 at 2026-10-08T21:51:56

@@ -1,0 +1,11 @@
+{
+ "winner": "M0",
+ "tied_within_0.01": [
+  "M0"
+ ],
+ "best_eligible_dev_mean": 0.6184567323389626,
+ "m4": "M4 not run: the two best of M1-M3 (M1, M3) do not both beat M0 on Drift-Dev",
+ "rule": "decisions_log G6",
+ "post_hoc": true,
+ "no_improvement": true
+}

@@ -231,3 +231,18 @@ Written before any v2 code was run or any v2 number was computed.
 * H4 (v2 run stopped). The first `scripts/v2_dev.py` run (started on the uncommitted v2 code after commit 3e2365f) was stopped at the user's
   request after M0 (both protocols) and M1 (Drift-Dev); it had printed only run times, no score, and had written no file. It will be run again on the
   committed, corrected code.
+
+## I. Implementation details of the fault-layer check and the arbiter (written before any arbiter number; fill gaps left by G7-G8)
+* I1. Scenario set: the clean case + `build_scenarios(seeds 0-4, k1 and k2, medium)` = 1 + 480 scenarios per evaluation batch (Drift-Dev: batches 6
+  and 7, each with its own batch transform; original split: batch 7). Faults are injected on the raw readings with the raw Train statistics, as in v1.
+* I2. Single methods = the v1 definitions: SVM (no handling); A = A_det_twin (v1 headline, twin allowed as predictor); B = B_det (v1 cap of 4 acted
+  sensors); augmentation = SVM+Aug and LGBM+Aug, each the mean Macro-F1 over the 5 augmentation seeds, "best aug" = the higher of the two per setting.
+  Oracle A and B (true faulty sensors) are reported in the fault-layer check only; they are not arbiter components and not in the arbiter rule.
+* I3. Probabilities: the SVM, the 5 SVM+Aug models and the reduced B models are trained once with probability=True (Platt, random_state 0); their
+  labels for the single methods still come from the decision function (fast_svm_predict), exactly as v1. n_flag = all flagged sensors of the row
+  (not capped); A and B act on the capped sets as in v1.
+* I4. Rule of G8 read literally: "mean over all scenarios" = mean over the 481 per-scenario Macro-F1 values of a protocol (Drift-Dev: mean of the
+  two batches), so the clean case weighs 1/481 there; the clean case is protected by the per-setting condition (clean, k1, k2, each protocol: not below
+  the best single method by more than 0.01). The setting-balanced mean (clean, k1, k2 equally weighted) is shown for information only.
+* I5. Worst case per method = lowest per-scenario Macro-F1 over the 481 scenarios (per evaluation batch). Branch shares = share of rows per branch
+  of H1 and H2 and per n_flag level of H3, on the clean case, k1 and k2.
