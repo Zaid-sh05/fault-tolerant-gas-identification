@@ -1,0 +1,16 @@
+results\_backup_20261008_014346\main\02_baselines\models: 2 SVC, min classes 6
+results\_backup_20261008_014346\main_cleaned\02_baselines\models: 2 SVC, min classes 6
+results\_backup_20261008_014346\main_cleaned_drop223\02_baselines\models: 2 SVC, min classes 6
+results\final_test\test\models: 6 SVC, min classes 6
+results\final_test\test\reduced: 1639 SVC, min classes 6
+results\final_test_check\test\models: 6 SVC, min classes 6
+results\final_test_dryrun\test\models: 6 SVC, min classes 6
+results\final_test_dryrun\test\reduced: 1226 SVC, min classes 6
+results\main\02_baselines\models: 2 SVC, min classes 6
+results\main_cleaned\02_baselines\models: 2 SVC, min classes 6
+results\main_cleaned_drop223\02_baselines\models: 2 SVC, min classes 6
+results\overnight\reference_iid\models: 6 SVC, min classes 6
+results\overnight\reference_iid\reduced: 1126 SVC, min classes 6
+results\overnight\temporal\models: 6 SVC, min classes 6
+results\overnight\temporal\reduced: 1213 SVC, min classes 6
+TOTAL: 5246 SVC models; with < 3 classes: 0; unreadable files: 0

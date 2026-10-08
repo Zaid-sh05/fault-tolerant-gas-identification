@@ -16,3 +16,17 @@ def test_matches_sklearn_predict_on_six_classes(gamma):
     Xt = X[600:] + rng.normal(size=(300, 20)) * 0.5
     assert np.array_equal(fast_svm_predict(model, Xt), model.predict(Xt))
     assert np.array_equal(fast_svm_predict(model, X[:100]), model.predict(X[:100]))
+
+
+@pytest.mark.parametrize("n_class", [2, 3, 5])
+@pytest.mark.parametrize("labels_offset", [0, 4])
+def test_matches_sklearn_predict_for_few_classes(n_class, labels_offset):
+    """Two classes was wrong before (sklearn flips the binary sign); unordered labels check the classes_ mapping."""
+    rng = np.random.default_rng(n_class)
+    centers = rng.normal(size=(n_class, 5)) * 1.5
+    k = rng.integers(0, n_class, size=600)
+    X = centers[k] + rng.normal(size=(600, 5))
+    y = np.array([7, 3, 9, 1, 5])[k] + labels_offset
+    model = SVC(kernel="rbf", C=10, gamma=0.3).fit(X[:400], y[:400])
+    assert np.array_equal(fast_svm_predict(model, X[400:]), model.predict(X[400:]))
+    assert np.array_equal(fast_svm_predict(model, X[:400]), model.predict(X[:400]))

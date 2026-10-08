@@ -11,6 +11,11 @@ def fast_svm_predict(model, X):
     assert model.kernel == "rbf"
     K = rbf_kernel(X, model.support_vectors_, gamma=model._gamma)
     n_class = len(model.classes_)
+    assert n_class >= 2, "an SVC needs at least two classes"
+    if n_class == 2:
+        # sklearn stores the binary dual_coef_/intercept_ with the sign flipped relative to libsvm: classes_[1] when f >= 0
+        f = K @ model.dual_coef_[0] + model.intercept_[0]
+        return model.classes_[(f >= 0).astype(int)]
     starts = np.r_[0, np.cumsum(model.n_support_)]
     votes = np.zeros((len(X), n_class))
     p = 0

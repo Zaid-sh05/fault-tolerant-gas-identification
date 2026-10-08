@@ -212,3 +212,22 @@ Written before any v2 code was run or any v2 number was computed.
   method; share of rows sent to each arbiter branch. Limitations: post-hoc and test-informed (G0); M1/M2 are transductive (they need a batch of
   unlabelled readings, so a single-sample edge deployment needs a buffer of recent readings); batch statistics depend on the gas mix of the batch.
 * G11 (stop point). The work stops after the candidate table (G6) for the user's review, before the fault layer, the arbiter and the final run.
+
+## H. Defect in `fast_svm_predict` for two-class models (found 2026-10-08 while writing the v2 tests; user decisions)
+* H1 (defect). `src/fastsvm.py` reproduced libsvm's one-vs-one vote with sklearn's public `dual_coef_`/`intercept_`. For a TWO-class SVC sklearn
+  stores these with the sign flipped relative to libsvm, so the function returned the opposite class for every row. With 3 or more classes it is
+  exact (tested against `SVC.predict` since Part 2). Found by a v2 unit test of the batch ensemble (`tests/test_drift.py`) on two classes.
+* H2 (effect on v1: none). `scripts/check_svm_classes.py` opened every saved model under `results/` (every *.joblib; SVC alone, inside a pipeline
+  or in the list of C experts) and counted its classes: 5246 SVC models, ALL with 6 classes, none with fewer than 3, no unreadable file
+  (`results/svm_class_inventory.txt`). This covers every model `fast_svm_predict` was applied to in v1: the base and the 5 augmented SVMs
+  (`overnight/temporal/models`, `overnight/reference_iid/models`, `final_test/test/models`), every reduced B model (`.../reduced`, 1213 Validation,
+  1126 reference, 1639 Test), and the 8 C experts (6 classes each; C uses `predict_proba`, not this function). Every v1 model is trained on rows
+  that contain all 6 gases. v1 is NOT re-run.
+* H3 (fix). The two-class case now uses the binary decision value (classes_[1] when f >= 0, the libsvm tie rule); a guard rejects a model with fewer
+  than two classes. New test `tests/test_fastsvm.py::test_matches_sklearn_predict_for_few_classes` (2, 3 and 5 classes, two label sets) fails on
+  the old code (both two-class cases) and passes on the new one; the full suite passes (106 tests). The user also asked for an assertion that rejects
+  two-class models "until it is fixed": the fix and its test land in the same commit, so the rejection was not added (it would block the corrected
+  path); only the < 2 classes guard is in place.
+* H4 (v2 run stopped). The first `scripts/v2_dev.py` run (started on the uncommitted v2 code after commit 3e2365f) was stopped at the user's
+  request after M0 (both protocols) and M1 (Drift-Dev); it had printed only run times, no score, and had written no file. It will be run again on the
+  committed, corrected code.
