@@ -99,7 +99,7 @@ def guarded_reconstruct(det, Xf, R, sets):
     return Xr
 
 
-def run_chunk(proto, batch, index, sids, out):
+def run_chunk(proto, batch, index, sids, out, light=False):
     path = out / proto / f"b{batch}_chunks" / f"chunk_{index:03d}.pkl"
     if path.exists():
         return str(path)
@@ -131,6 +131,9 @@ def run_chunk(proto, batch, index, sids, out):
                 row[f"{v}_auroc"], row[f"{v}_tpr"] = auc(R[truth], R[healthy]), float(flags[truth].mean())
             if v == "V0":
                 A0, n_flag, sets0 = fast_svm_predict(svm, Z(Xr)), flags.sum(1), sets
+        if light:                                                                  # decisions_log L8: A variants only
+            rows.append(row)
+            continue
         B = kit.predict_B(Xf, sets0)
         augs = [fast_svm_predict(m, Zf) for m in f["svm_aug"]]
         row["B"], row["svm_aug"] = f1(B), float(np.mean([f1(g) for g in augs]))
@@ -175,8 +178,8 @@ def boot_gain(df, proto, m, ref="V0"):
     return point, *np.percentile(boots, [2.5, 97.5])
 
 
-def decide(df):
-    methods = VARIANTS + [f"{T}_t{t}" for T in ("B", "aug") for t in TS] + ["svm", "B", "svm_aug"]
+def decide(df, light=False):
+    methods = VARIANTS + ["svm"] + ([] if light else [f"{T}_t{t}" for T in ("B", "aug") for t in TS] + ["B", "svm_aug"])
     s = summary(df, methods)
     dev, val = s["drift_dev"], s["original"]
     base = dev["V0"]
@@ -192,7 +195,9 @@ def decide(df):
     else:
         res.update(success=False, note="no variant beat V0 on Drift-Dev (within the tie margin)")
     lr = json.load(open("results/v2/light/lr_choice.json")) if Path("results/v2/light/lr_choice.json").exists() else {}
-    if lr.get("selected") and lr.get("passes_validation_stage"):
+    if light:
+        res["lr_confirmation"] = {"note": "not part of the light run (needs new reduced B models, L8)"}
+    elif lr.get("selected") and lr.get("passes_validation_stage"):
         col = f"{lr['target']}_t{lr['t']}"
         g, lo, hi = boot_gain(df, "drift_dev", col)
         res["lr_confirmation"] = {"rule": col, "dev_gain_vs_A": [g, lo, hi], "dev_clean_drop": dev["V0"][0] - dev[col][0],
@@ -202,14 +207,14 @@ def decide(df):
     return s, res
 
 
-def main(jobs, limit, only):
-    out = OUT if not limit else Path("results/v2/improve_smoke")
+def main(jobs, limit, only, light):
+    out = Path("results/v2/improve_smoke") if limit else Path("results/v2/improve_light") if light else OUT
     n = len(scenario_list()) if not limit else limit
     protos = [only] if only else list(PROTOCOLS)
     for p in protos:
         lpo_detector(p, out)
         print(f"{p}: leave-pair-out detector ready", flush=True)
-    tasks = [delayed(run_chunk)(p, b, i, list(range(a, min(a + CHUNK, n))), out)
+    tasks = [delayed(run_chunk)(p, b, i, list(range(a, min(a + CHUNK, n))), out, light)
              for p in protos for b in load(PROTOCOLS[p])[3] for i, a in enumerate(range(0, n, CHUNK))]
     paths = Parallel(n_jobs=jobs, verbose=5)(tasks)
     df = pd.DataFrame([r for p in paths for r in pickle.load(open(p, "rb"))])
@@ -217,7 +222,7 @@ def main(jobs, limit, only):
     if limit:
         print(df.head().to_string())
         return
-    s, res = decide(df)
+    s, res = decide(df, light)
     json.dump(res, open(out / "choice.json", "w"), indent=1)
     tab = pd.DataFrame([{"protocol": p, "method": m, "clean": v[0], "mean_under_faults": v[1], "worst": v[2]}
                         for p, d in s.items() for m, v in d.items()])
@@ -238,6 +243,7 @@ if __name__ == "__main__":
     ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--limit-scenarios", type=int, default=0)
     ap.add_argument("--only", choices=list(PROTOCOLS), default=None, help="smoke tests only")
+    ap.add_argument("--light", action="store_true", help="A variants only, no B / augmentation / routing (decisions_log L8)")
     a = ap.parse_args()
     assert not a.only or a.limit_scenarios, "--only is for smoke tests"
-    main(a.jobs, a.limit_scenarios, a.only)
+    main(a.jobs, a.limit_scenarios, a.only, a.light)

@@ -354,3 +354,10 @@ Written before any v2 code was run or any v2 number was computed.
     by inference with saved models on clean rows only.
   - V0-V5 of L2 (heavy: new A predictions over the scenarios on Drift-Dev and Validation 7): unchanged, L4 (select on Drift-Dev, confirm on
     Validation 7). V4 of L2 is replaced by LR.
+* L8 (operational decision 01:30, before any V result). Stage 2 runs far slower than estimated (9 of 234 chunks in 40 min: every calibrated
+  configuration fits its own Platt-scaled reduced models), so it will likely end around noon and the heavy window (until 14:00) would be too short.
+  The A variants V0-V3, V5 need no model fitting: inference with saved models, plus one leave-pair-out detector on the Drift-Dev Train rows
+  (a closed-form ridge fit of about a minute; Validation 7 reuses the saved v1 one). They are therefore run NOW as a light single-thread job
+  (`v2_improve.py --light`: no B, no augmentation, no routing; output `results/v2/improve_light/`), with the unchanged L4 rule (select on
+  Drift-Dev, confirm on Validation 7). The Drift-Dev confirmation of LR needs new reduced B models (fitting) and stays a heavy job for after stage 2,
+  until 14:00, same criteria (L7).
