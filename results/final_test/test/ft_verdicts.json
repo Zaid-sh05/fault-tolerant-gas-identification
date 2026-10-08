@@ -1,0 +1,95 @@
+{
+ "pooled": {
+  "rows": 4364,
+  "G3_passes": true,
+  "comparisons": 108,
+  "cells_passing": 61,
+  "passing_after_bonferroni": 58,
+  "note": "intervals resample rows only (optimistic); G3 needs a single passing comparison (lenient)",
+  "G1": {
+   "best_clean_baseline": "svm",
+   "clean_macro_f1": 0.5354023762409466,
+   "k1_medium_mean_drop_by_fault": {
+    "dropout": 0.028149587697245387,
+    "bias": 0.01929807790761958,
+    "stuck": 0.034594488428491055,
+    "random": 0.07008259126192104
+   },
+   "types_with_drop_ge_0.03": [
+    "stuck",
+    "random"
+   ],
+   "G1_passes": true
+  }
+ },
+ "b8": {
+  "rows": 294,
+  "G3_passes": true,
+  "comparisons": 108,
+  "cells_passing": 52,
+  "passing_after_bonferroni": 44,
+  "note": "intervals resample rows only (optimistic); G3 needs a single passing comparison (lenient)",
+  "G1": {
+   "best_clean_baseline": "svm",
+   "clean_macro_f1": 0.797932609020585,
+   "k1_medium_mean_drop_by_fault": {
+    "dropout": 0.07382749179891172,
+    "bias": 0.07682877987515353,
+    "stuck": 0.07349584360809547,
+    "random": 0.17011689603220842
+   },
+   "types_with_drop_ge_0.03": [
+    "dropout",
+    "bias",
+    "stuck",
+    "random"
+   ],
+   "G1_passes": true
+  }
+ },
+ "b9": {
+  "rows": 470,
+  "G3_passes": true,
+  "comparisons": 108,
+  "cells_passing": 29,
+  "passing_after_bonferroni": 22,
+  "note": "intervals resample rows only (optimistic); G3 needs a single passing comparison (lenient)",
+  "G1": {
+   "best_clean_baseline": "svm",
+   "clean_macro_f1": 0.6552766379492723,
+   "k1_medium_mean_drop_by_fault": {
+    "dropout": 0.03506430951528179,
+    "bias": 0.03551127779257722,
+    "stuck": 0.04091121572030015,
+    "random": 0.090386157411063
+   },
+   "types_with_drop_ge_0.03": [
+    "dropout",
+    "bias",
+    "stuck",
+    "random"
+   ],
+   "G1_passes": true
+  }
+ },
+ "b10": {
+  "rows": 3600,
+  "G3_passes": true,
+  "comparisons": 108,
+  "cells_passing": 70,
+  "passing_after_bonferroni": 64,
+  "note": "intervals resample rows only (optimistic); G3 needs a single passing comparison (lenient)",
+  "G1": {
+   "best_clean_baseline": "lgbm",
+   "clean_macro_f1": 0.4889300034327668,
+   "k1_medium_mean_drop_by_fault": {
+    "dropout": 0.019472716836468604,
+    "bias": 0.022479178595876923,
+    "stuck": 0.01528230914308253,
+    "random": 0.023134468583599955
+   },
+   "types_with_drop_ge_0.03": [],
+   "G1_passes": false
+  }
+ }
+}

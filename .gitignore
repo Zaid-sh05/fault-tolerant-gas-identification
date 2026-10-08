@@ -23,3 +23,5 @@ results/final_test/**/reduced/
 results/final_test/**/*_preds.npz
 results/final_test/**/detectors/
 results/final_test/**/models/
+# integrity-check recomputation (logged in decisions_log F3)
+results/final_test_check/

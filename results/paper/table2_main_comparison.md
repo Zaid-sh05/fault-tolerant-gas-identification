@@ -1,0 +1,18 @@
+**Table 2. Macro-F1 under sensor faults, Test batches 8-10 pooled, medium severity (Dropout 50% of rows, Bias 1 sigma_robust, Stuck 50%, Random 50%), mean over sensor sets and 5 fault seeds.** k = number of simultaneously faulty sensors (k=4 groups are a hypothesis). A, B, C use the real detector; the Oracle rows know the true faulty sensors (upper bound). Every severity and every batch is in table2_full.csv.
+
+| fault   |   k |   SVM (no handling) |   best augmented | best aug. is   |   A (reconstruct) |   B (exclude) |   C (pair experts) |   Oracle A |   Oracle B | A - best aug. [95% CI]   | B - best aug. [95% CI]   |
+|:--------|----:|--------------------:|-----------------:|:---------------|------------------:|--------------:|-------------------:|-----------:|-----------:|:-------------------------|:-------------------------|
+| dropout |   1 |               0.507 |            0.517 | SVM+AUG        |             0.543 |         0.537 |              0.406 |      0.534 |      0.536 | +0.026 [+0.019, +0.034]  | +0.020 [+0.014, +0.027]  |
+| dropout |   2 |               0.480 |            0.500 | SVM+AUG        |             0.541 |         0.535 |              0.405 |      0.536 |      0.534 | +0.042 [+0.035, +0.049]  | +0.035 [+0.029, +0.042]  |
+| dropout |   4 |               0.443 |            0.464 | SVM+AUG        |             0.537 |         0.531 |              0.406 |      0.533 |      0.528 | +0.073 [+0.067, +0.080]  | +0.067 [+0.060, +0.073]  |
+| bias    |   1 |               0.516 |            0.523 | SVM+AUG        |             0.536 |         0.531 |              0.407 |      0.532 |      0.535 | +0.013 [+0.006, +0.020]  | +0.008 [+0.001, +0.014]  |
+| bias    |   2 |               0.464 |            0.510 | SVM+AUG        |             0.505 |         0.514 |              0.410 |      0.536 |      0.531 | -0.005 [-0.011, +0.000]  | +0.003 [-0.002, +0.009]  |
+| bias    |   4 |               0.393 |            0.465 | SVM+AUG        |             0.396 |         0.428 |              0.397 |      0.528 |      0.514 | -0.070 [-0.076, -0.063]  | -0.037 [-0.043, -0.031]  |
+| stuck   |   1 |               0.501 |            0.510 | SVM+AUG        |             0.542 |         0.539 |              0.406 |      0.534 |      0.535 | +0.032 [+0.025, +0.039]  | +0.029 [+0.022, +0.036]  |
+| stuck   |   2 |               0.487 |            0.495 | SVM+AUG        |             0.511 |         0.511 |              0.403 |      0.536 |      0.534 | +0.016 [+0.010, +0.023]  | +0.017 [+0.011, +0.023]  |
+| stuck   |   4 |               0.443 |            0.454 | SVM+AUG        |             0.453 |         0.451 |              0.397 |      0.533 |      0.526 | -0.000 [-0.006, +0.006]  | -0.003 [-0.008, +0.004]  |
+| random  |   1 |               0.465 |            0.489 | SVM+AUG        |             0.543 |         0.538 |              0.405 |      0.534 |      0.535 | +0.053 [+0.046, +0.060]  | +0.049 [+0.043, +0.055]  |
+| random  |   2 |               0.418 |            0.446 | SVM+AUG        |             0.533 |         0.528 |              0.406 |      0.536 |      0.534 | +0.087 [+0.080, +0.094]  | +0.083 [+0.077, +0.089]  |
+| random  |   4 |               0.381 |            0.400 | LGBM+AUG       |             0.471 |         0.475 |              0.403 |      0.532 |      0.527 | +0.071 [+0.061, +0.081]  | +0.075 [+0.065, +0.085]  |
+
+Intervals: paired bootstrap over evaluation rows only (1000 resamples), so they are optimistic: they ignore the variation of the fault draw, of the training set and of the batch. Gate G3 passes if a single comparison passes (lenient).

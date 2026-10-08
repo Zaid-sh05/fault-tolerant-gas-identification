@@ -4,3 +4,235 @@
 test: 1260 scenarios, train 5931, eval 4364
 clean: {'svm': 0.5354, 'lgbm': 0.5141}
 [Parallel(n_jobs=6)]: Using backend LokyBackend with 6 concurrent workers.
+[Parallel(n_jobs=6)]: Done   6 tasks      | elapsed: 24.0min
+
+##### guarded start 2026-10-08T12:09:30 (memory limit 85%, load now 65%)
+<3>WSL (9 - Relay) ERROR: CreateProcessCommon:818: execvpe(/bin/bash) failed: No such file or directory
+##### command ended with exit code 1 at 2026-10-08T12:09:40
+
+##### guarded start 2026-10-08T12:10:49 (memory limit 85%, load now 71%)
+=== 2026-10-08T12:10:58+03:00 scripts/ft_prepare.py --config configs/final_test.yaml --name test
+1222 frozen artefacts verified and copied to results\final_test\test
+=== 2026-10-08T12:11:15+03:00 scripts/ov2_faults_g1.py --config configs/final_test.yaml --name test --jobs 3
+test: 1260 scenarios, train 5931, eval 4364
+clean: {'svm': 0.5354, 'lgbm': 0.5141}
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:   17.4s
+[Parallel(n_jobs=3)]: Done  42 out of  42 | elapsed: 80.5min finished
+kset   fault  level  n  best_clean_drop  svm_drop  svm_f1  lgbm_f1  svm_aug_f1  lgbm_aug_f1  svm_aug_f1_std_over_aug_seeds  lgbm_aug_f1_std_over_aug_seeds
+  k1    bias    0.5 80           0.0057    0.0057  0.5297   0.5010      0.5286       0.4690                         0.0180                          0.0090
+  k1    bias    1.0 80           0.0193    0.0193  0.5161   0.4900      0.5235       0.4678                         0.0149                          0.0086
+  k1    bias    3.0 80           0.1700    0.1700  0.3654   0.4704      0.4449       0.4645                         0.0107                          0.0096
+  k1 dropout    0.5 80           0.0281    0.0281  0.5073   0.4938      0.5167       0.4705                         0.0167                          0.0099
+  k1 dropout    1.0 80           0.0626    0.0626  0.4728   0.4702      0.5013       0.4664                         0.0144                          0.0113
+  k1  random    0.5 80           0.0701    0.0701  0.4653   0.4888      0.4895       0.4673                         0.0154                          0.0084
+  k1  random    1.0 80           0.1568    0.1568  0.3786   0.4605      0.4412       0.4601                         0.0123                          0.0089
+  k1   stuck    0.5 80           0.0346    0.0346  0.5008   0.4971      0.5102       0.4705                         0.0177                          0.0086
+  k1   stuck    1.0 80           0.0652    0.0652  0.4702   0.4842      0.4869       0.4656                         0.0166                          0.0082
+{
+ "best_clean_baseline": "svm",
+ "clean_macro_f1": 0.5354023762409466,
+ "k1_medium_mean_drop_by_fault": {
+  "dropout": 0.028149591212337795,
+  "bias": 0.01929807625549283,
+  "stuck": 0.03459448681775278,
+  "random": 0.0700825906349929
+ },
+ "types_with_drop_ge_0.03": [
+  "stuck",
+  "random"
+ ],
+ "G1_passes": true,
+ "rule": "registered in results/decisions_log.md B4"
+}
+=== 2026-10-08T13:32:37+03:00 scripts/ov3_detector.py --config configs/final_test.yaml --name test --jobs 3 --frozen-choice results/overnight/temporal/g2_verdict.json
+{'sensor': {'alpha': [100.0, 100.0, 100.0, 100.0, 100.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 1.0, 1.0]}}
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:  4.9min
+[Parallel(n_jobs=3)]: Done  21 out of  21 | elapsed:  8.4min finished
+{
+ "candidates_median_auroc": {
+  "sensor": 0.9548271793004353,
+  "median": 0.9785771331752297
+ },
+ "chosen_normalisation": "median",
+ "isolation_auroc_by_fault_k1_medium": {
+  "dropout": 1.0,
+  "bias": 0.977881635679236,
+  "stuck": 0.9483859368912549,
+  "random": 0.9792726306712233
+ },
+ "median_auroc": 0.9785771331752297,
+ "G2_passes": true,
+ "note": "Dropout is detected by definition (NaN block), so its AUROC is trivial",
+ "secondary_leave_pair_out": {
+  "sensor_lpo": 0.9530579522501117,
+  "median_lpo": 0.966242087819412
+ },
+ "rule": "results/decisions_log.md B6, B8"
+}
+detector gas         sensors  rows  alarm_rate_per_sensor_row  rows_with_any_alarm
+  median all     all sensors  4364                     0.0783               0.7420
+  median all without S01,S02  4364                     0.0455               0.4679
+detector  rank_from_least_reliable sensor  median_ratio  alarm_rate
+  median                         1    S01         1.003       0.502
+  median                         2    S08         0.884       0.271
+  median                         3    S07         0.621       0.036
+  median                         4    S09         0.573       0.063
+  median                         5    S14         0.554       0.034
+  median                         6    S16         0.513       0.032
+=== 2026-10-08T13:41:11+03:00 scripts/ov4_strategies.py --config configs/final_test.yaml --name test --jobs 3
+test: 1260 scenarios in 42 chunks (k4, k2, then k1)
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed: 21.3min
+[Parallel(n_jobs=3)]: Done  42 out of  42 | elapsed: 72.2min finished
+merged 1260 scenarios from 42 chunk files
+=== 2026-10-08T14:53:37+03:00 scripts/ov4_analysis.py --config configs/final_test.yaml --name test --jobs 3
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  35 tasks      | elapsed:    8.4s
+[Parallel(n_jobs=3)]: Done 156 tasks      | elapsed:   52.2s
+[Parallel(n_jobs=3)]: Done 359 tasks      | elapsed:  2.1min
+[Parallel(n_jobs=3)]: Done 420 out of 420 | elapsed:  2.5min finished
+{
+ "scenarios_analysed": 1260,
+ "scenarios_total_in_set": 1260,
+ "G3_passes": true,
+ "comparisons": 108,
+ "cells_passing": 61,
+ "bonferroni_supplement": {
+  "z_threshold": 3.501318058648407,
+  "passing_after_bonferroni": 58,
+  "note": "normal approximation of the bootstrap distribution; does not change the gate"
+ },
+ "rule": "results/decisions_log.md B11; real detector only, oracle excluded"
+}
+kset   fault  level       method  counts_for_G3 best_aug_baseline  method_f1  best_aug_f1   diff  ci_low  ci_high  boot_mean_diff       z  beats_and_ci_excludes_0
+  k1    bias    0.5   A_det_twin           True           svm_aug     0.5365       0.5286 0.0079  0.0004   0.0160          0.0080  2.0911                     True
+  k1    bias    0.5 A_det_notwin           True           svm_aug     0.5378       0.5286 0.0092  0.0021   0.0167          0.0093  2.4755                     True
+  k1    bias    1.0   A_det_twin           True           svm_aug     0.5362       0.5235 0.0127  0.0056   0.0197          0.0127  3.6349                     True
+  k1    bias    1.0 A_det_notwin           True           svm_aug     0.5366       0.5235 0.0131  0.0064   0.0201          0.0132  3.8094                     True
+  k1    bias    1.0        B_det           True           svm_aug     0.5311       0.5235 0.0076  0.0011   0.0137          0.0077  2.3093                     True
+  k1    bias    3.0   A_det_twin           True          lgbm_aug     0.5357       0.4645 0.0711  0.0582   0.0827          0.0710 11.1084                     True
+  k1    bias    3.0 A_det_notwin           True          lgbm_aug     0.5359       0.4645 0.0714  0.0584   0.0831          0.0712 11.1935                     True
+  k1    bias    3.0        B_det           True          lgbm_aug     0.5278       0.4645 0.0633  0.0504   0.0749          0.0632 10.0251                     True
+  k1 dropout    0.5   A_det_twin           True           svm_aug     0.5430       0.5167 0.0263  0.0190   0.0338          0.0265  6.9488                     True
+  k1 dropout    0.5 A_det_notwin           True           svm_aug     0.5412       0.5167 0.0245  0.0170   0.0320          0.0247  6.5384                     True
+  k1 dropout    0.5        B_det           True           svm_aug     0.5369       0.5167 0.0203  0.0139   0.0274          0.0203  5.7737                     True
+  k1 dropout    1.0   A_det_twin           True           svm_aug     0.5424       0.5013 0.0411  0.0342   0.0478          0.0411 11.6329                     True
+  k1 dropout    1.0 A_det_notwin           True           svm_aug     0.5417       0.5013 0.0404  0.0337   0.0471          0.0404 11.9596                     True
+  k1 dropout    1.0        B_det           True           svm_aug     0.5333       0.5013 0.0319  0.0255   0.0380          0.0319 10.1055                     True
+  k1  random    0.5   A_det_twin           True           svm_aug     0.5426       0.4895 0.0532  0.0462   0.0601          0.0532 14.7152                     True
+  k1  random    0.5 A_det_notwin           True           svm_aug     0.5404       0.4895 0.0510  0.0439   0.0580          0.0510 14.0229                     True
+  k1  random    0.5        B_det           True           svm_aug     0.5383       0.4895 0.0488  0.0427   0.0553          0.0488 15.0340                     True
+  k1  random    1.0   A_det_twin           True          lgbm_aug     0.5411       0.4601 0.0810  0.0684   0.0931          0.0809 12.7624                     True
+  k1  random    1.0 A_det_notwin           True          lgbm_aug     0.5400       0.4601 0.0799  0.0672   0.0918          0.0798 12.6440                     True
+  k1  random    1.0        B_det           True          lgbm_aug     0.5350       0.4601 0.0749  0.0624   0.0867          0.0748 11.9259                     True
+  k1   stuck    0.5   A_det_twin           True           svm_aug     0.5422       0.5102 0.0321  0.0253   0.0394          0.0322  8.6294                     True
+  k1   stuck    0.5 A_det_notwin           True           svm_aug     0.5403       0.5102 0.0302  0.0232   0.0377          0.0303  8.0724                     True
+  k1   stuck    0.5        B_det           True           svm_aug     0.5388       0.5102 0.0287  0.0223   0.0359          0.0287  8.2424                     True
+  k1   stuck    1.0   A_det_twin           True           svm_aug     0.5419       0.4869 0.0550  0.0487   0.0615          0.0550 16.5057                     True
+  k1   stuck    1.0 A_det_notwin           True           svm_aug     0.5413       0.4869 0.0544  0.0481   0.0607          0.0544 16.4981                     True
+  k1   stuck    1.0        B_det           True           svm_aug     0.5359       0.4869 0.0490  0.0430   0.0551          0.0489 15.8952                     True
+  k2    bias    3.0        B_det           True          lgbm_aug     0.4618       0.4336 0.0282  0.0178   0.0373          0.0282  5.6355                     True
+  k2 dropout    0.5   A_det_twin           True           svm_aug     0.5413       0.4997 0.0416  0.0345   0.0488          0.0416 11.3590                     True
+  k2 dropout    0.5 A_det_notwin           True           svm_aug     0.5393       0.4997 0.0396  0.0326   0.0468          0.0397 10.7964                     True
+  k2 dropout    0.5        B_det           True           svm_aug     0.5351       0.4997 0.0354  0.0291   0.0420          0.0354 10.4988                     True
+=== 2026-10-08T14:56:18+03:00 scripts/ov4_clean_reference.py --config configs/final_test.yaml --name test
+               method  macro_f1  accuracy  mean_flagged_per_row  rows_with_any_flag
+clean_svm_no_handling    0.5354    0.5493                0.0000               0.000
+           A_det_twin    0.5436    0.5612                1.2477               0.742
+         A_det_notwin    0.5405    0.5584                1.2477               0.742
+                B_det    0.5397    0.5593                1.2477               0.742
+                C_det    0.4054    0.4663                1.2477               0.742
+              C_equal    0.4098    0.4707                1.2477               0.742
+=== 2026-10-08T14:57:38+03:00 scripts/ft_analysis.py --config configs/final_test.yaml --name test --jobs 3
+subset     method  rows  macro_f1  accuracy  mean_flagged_per_row  rows_with_any_flag
+pooled        svm  4364    0.5354    0.5493                0.0000              0.0000
+pooled       lgbm  4364    0.5141    0.5410                0.0000              0.0000
+pooled A_det_twin  4364    0.5436    0.5612                1.2477              0.7420
+pooled      B_det  4364    0.5397    0.5593                1.2477              0.7420
+    b8        svm   294    0.7979    0.8503                0.0000              0.0000
+    b8       lgbm   294    0.5867    0.7449                0.0000              0.0000
+    b8 A_det_twin   294    0.7580    0.8639                2.4184              1.0000
+    b8      B_det   294    0.7608    0.8367                2.4184              1.0000
+    b9        svm   470    0.6553    0.6894                0.0000              0.0000
+    b9       lgbm   470    0.5576    0.6128                0.0000              0.0000
+    b9 A_det_twin   470    0.6372    0.6809                1.0681              0.6064
+    b9      B_det   470    0.6372    0.6809                1.0681              0.6064
+   b10        svm  3600    0.4801    0.5064                0.0000              0.0000
+   b10       lgbm  3600    0.4889    0.5150                0.0000              0.0000
+   b10 A_det_twin  3600    0.4934    0.5208                1.1756              0.7386
+   b10      B_det  3600    0.4965    0.5208                1.1756              0.7386
+analysing pooled (4364 rows)
+analysing b8 (294 rows)
+analysing b9 (470 rows)
+analysing b10 (3600 rows)
+cross-check with ov4_analysis.py: max |f1 diff| 4.99e-05, max |ci diff| 4.99e-05, same G3 count
+{
+ "pooled": {
+  "G1": true,
+  "G3": true,
+  "G3_cells": "61/108"
+ },
+ "b8": {
+  "G1": true,
+  "G3": true,
+  "G3_cells": "52/108"
+ },
+ "b9": {
+  "G1": true,
+  "G3": true,
+  "G3_cells": "29/108"
+ },
+ "b10": {
+  "G1": false,
+  "G3": true,
+  "G3_cells": "70/108"
+ }
+}
+=== 2026-10-08T15:04:23+03:00 scripts/ft_detector.py --config configs/final_test.yaml --name test --jobs 3
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:  5.0min
+[Parallel(n_jobs=3)]: Done  21 out of  21 | elapsed:  8.8min finished
+{
+ "pooled": {
+  "G2": true,
+  "median_auroc": 0.9786
+ },
+ "b8": {
+  "G2": true,
+  "median_auroc": 0.9657
+ },
+ "b9": {
+  "G2": true,
+  "median_auroc": 0.9884
+ },
+ "b10": {
+  "G2": true,
+  "median_auroc": 0.9789
+ }
+}
+=== 2026-10-08T15:13:19+03:00 scripts/ft_s01s02.py --config configs/final_test.yaml --name test
+   pair  batch    n  spearman  median_offset  iqr_offset
+S01-S02      1  445     0.991          0.089       0.188
+S01-S02      2 1242     0.988          0.110       0.165
+S01-S02      3 1586     0.993          0.071       0.173
+S01-S02      4  161     0.993         -0.001       0.195
+S01-S02      5  197     0.979          0.107       0.163
+S01-S02      6 2300     0.952          0.042       0.138
+S01-S02      8  294     0.405         -0.591       0.233
+S01-S02      9  470     0.859         -0.171       0.229
+S01-S02     10 3600     0.937         -0.070       0.313
+sensor    S01    S02
+batch               
+1       0.011  0.000
+2       0.083  0.016
+3       0.003  0.127
+4       0.000  0.075
+5       0.000  0.000
+6       0.080  0.027
+8       1.000  0.983
+9       0.126  0.240
+10      0.511  0.026
+=== finished
+##### command ended with exit code 0 at 2026-10-08T15:13:31

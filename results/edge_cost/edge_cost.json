@@ -1,0 +1,31 @@
+{
+ "memory_after_imports_mb": 137.94921875,
+ "fault_free": {
+  "runs": 1000,
+  "median_ms": 5.70425,
+  "p95_ms": 10.048739999999999,
+  "mean_flagged_sensors": 2.191
+ },
+ "bias_one_sensor": {
+  "runs": 1000,
+  "median_ms": 6.1055,
+  "p95_ms": 10.357509999999998,
+  "mean_flagged_sensors": 3.521
+ },
+ "bias_one_sensor_cold_weights": {
+  "runs": 1000,
+  "median_ms": 7.9862,
+  "p95_ms": 14.553924999999998,
+  "mean_flagged_sensors": 3.521
+ },
+ "memory_final_mb": 142.62109375,
+ "memory_peak_mb": 146.7734375,
+ "bundle_kb": 797.791015625,
+ "part_sizes_kb": {
+  "svm": 527.4326171875,
+  "pre": 3.5791015625,
+  "det": 266.8876953125,
+  "det_full_with_training_arrays": 1776.9267578125
+ },
+ "note": "Validation rows, one core, one BLAS thread, laptop CPU; sizes are pickles (float64). The bundle holds the SVM, the preprocessing and the detector without its training-only arrays."
+}

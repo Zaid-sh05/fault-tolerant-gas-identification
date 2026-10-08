@@ -1,0 +1,3 @@
+determinism check chunk 5, 3 workers: IDENTICAL (max row difference 0.0); resume with JOBS=3 and memory guard 85%
+guard exit 1
+guard exit 0
