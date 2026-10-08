@@ -256,3 +256,7 @@ Written before any v2 code was run or any v2 number was computed.
   which loaded the code before): chunk and fit files are now written through a temporary file and renamed (a kill mid-write can no longer leave a
   truncated file that a resume would reuse); the cache folder carries the base-model name (`base_model.txt`) and a mismatch stops the script; an M3 base
   is rejected explicitly (G7 needs its own A/B/augmentation, not implemented). None of this changes any computed value.
+* I8 (sensitivity analysis requested by the user after the candidate table; does NOT change the G6 choice). Drift-Dev Macro-F1 of M0-M3 recomputed
+  with and without the toluene rows of batches 6 and 7, because Dev-Train has almost no toluene (G4). "Without toluene" = the toluene rows are removed
+  from the scored rows; a prediction of toluene on another gas still counts as an error; Macro-F1 over the 5 remaining gases. Same fitted models and
+  code as the candidate table; the full-row numbers must reproduce `results/v2/candidates.csv` (checked). Script `scripts/v2_toluene_sensitivity.py`.
