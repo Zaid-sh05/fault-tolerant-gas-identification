@@ -336,3 +336,21 @@ Written before any v2 code was run or any v2 number was computed.
 * L5 (descriptive, no selection). "A as partial drift correction": clean A - SVM per Dev batch (6, 7) and Validation 7 with a row bootstrap;
   attribution: A restricted to one sensor's flags at a time (16 runs per batch, clean rows), gain per sensor.
 * L6. Few-shot recalibration (J) is not part of L; its stage 2 is summarised separately when it ends.
+* L7 (amendment, user 2026-10-09 ~01:20, written before any L result). Tonight, while stage 2 runs: only LIGHT experiments that use saved
+  outputs (v1 per-row predictions of Validation 7 in `results/overnight/temporal/{strategy_preds,baseline_preds,truth_masks}.npz`, the saved
+  v1 detectors) and detector inference without any fitting. Experiments that need fitting or new SVM predictions over the scenario set are
+  coded, tested on a small sample, and run only after stage 2 ends, until 14:00 at the latest, with these criteria (all registered before 09:00).
+  Direction per experiment, fixed now:
+  - LR (light, routing): selection on Validation 7 from the saved v1 outputs, confirmation on Drift-Dev in the heavy run. Rows with n_flag >= t
+    (v1 median detector, all flagged sensors) go to target T instead of A_det_twin; T in {B_det, SVM+Aug (mean Macro-F1 over the 5 seeds)},
+    t in {2, 3, 4, 5}. Scenarios: the v1 medium-severity cells k1, k2, k4 (5 seeds each) and the clean rows (A, B labels on clean rows
+    recomputed by inference with the saved v1 models). Metric, eligibility, tie rule and success test as L4 with the roles of the two protocols
+    swapped (eligibility and the scenario bootstrap on Validation 7; confirmation on Drift-Dev: gain > 0 with its interval above 0, clean drop <= 0.005).
+    Ties to the larger t (closer to plain A), then B before SVM+Aug.
+  - LD (light, detector, descriptive only on Validation 7): D0 (v1), D1 (max of median and median_lpo ratios), D2 (99th-percentile thresholds),
+    D3 (D1 at 99th); isolation AUROC and TPR per fault x k (medium), clean FAR, share of clean rows with an alarm, and for k=2 pair faults the TPR
+    of the faulty pair and the alarm rate of the healthy sensors in the faulted rows (masking). No choice is made from LD.
+  - LA (light, descriptive): clean A - SVM per batch (Dev 6, 7 from the arbiter files; Validation 7 from the v1 files) and per-sensor attribution
+    by inference with saved models on clean rows only.
+  - V0-V5 of L2 (heavy: new A predictions over the scenarios on Drift-Dev and Validation 7): unchanged, L4 (select on Drift-Dev, confirm on
+    Validation 7). V4 of L2 is replaced by LR.
