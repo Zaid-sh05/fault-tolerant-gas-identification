@@ -246,3 +246,13 @@ Written before any v2 code was run or any v2 number was computed.
   the best single method by more than 0.01). The setting-balanced mean (clean, k1, k2 equally weighted) is shown for information only.
 * I5. Worst case per method = lowest per-scenario Macro-F1 over the 481 scenarios (per evaluation batch). Branch shares = share of rows per branch
   of H1 and H2 and per n_flag level of H3, on the clean case, k1 and k2.
+* I6 (operational incident, 2026-10-08). The arbiter run (`scripts/v2_arbiter.py` under `run_guarded.py`, started 21:55 at 54% memory load) was
+  stopped by Claude Code's low-memory reaper while the session was idle (not by the 85% guard, not a programming error). State: the Drift-Dev fit was
+  finished (`results/v2/arbiter/drift_dev/fitted.joblib`), the original-split fit (6 Platt SVMs) was in progress and wrote nothing; no scenario chunk
+  existed; no python process survived (checked). No arbiter number was produced. Not restarted; waiting for the user.
+* I7 (restart, user decision 2026-10-08 22:00). On the user's instruction, unneeded applications were closed (Chrome, chat apps, updaters; load 73% ->
+  51%) and the run was restarted unchanged (same code, 3 workers, guard 85%) at 22:00:15; the cached Drift-Dev fit was reused, the original-split fit
+  was redone ("original: fitted"), and reduced B models are being created from 22:01. Code review afterwards (not affecting the running process,
+  which loaded the code before): chunk and fit files are now written through a temporary file and renamed (a kill mid-write can no longer leave a
+  truncated file that a resume would reuse); the cache folder carries the base-model name (`base_model.txt`) and a mismatch stops the script; an M3 base
+  is rejected explicitly (G7 needs its own A/B/augmentation, not implemented). None of this changes any computed value.

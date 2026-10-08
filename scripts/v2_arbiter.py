@@ -47,8 +47,16 @@ def scenario_list():
     return [None] + build_scenarios(AUG_SEEDS, ("k1", "k2"), reduced=True)          # None = clean
 
 
+def atomic(path, write):
+    """Write through a temporary file and rename, so a kill in the middle never leaves a truncated file to be reused."""
+    tmp = Path(f"{path}.{os.getpid()}.tmp")
+    write(tmp)
+    os.replace(tmp, path)
+
+
 def fitted(proto, winner):
     """Fit (once, cached) everything on the transformed Train rows of the protocol."""
+    assert "M3" not in winner.split("+"), "a batch-ensemble base (M3) needs its own A/B/augmentation (G7); not implemented"
     d = OUT / proto
     path = d / "fitted.joblib"
     if path.exists():
@@ -73,7 +81,7 @@ def fitted(proto, winner):
         m.set_params(n_jobs=1)
     obj = {"T": T, "Xt": Xt, "ytr": ytr, "pre": pre, "svm": svms[0], "svm_aug": svms[1:], "lgbm_aug": lgbm, "params": params,
            "det": ReliabilityDetector(normalization="median").fit(Xt, btr), "raw_stats": FaultStats.fit(Xtr)}
-    joblib.dump(obj, path)
+    atomic(path, lambda p: joblib.dump(obj, p))
     return obj
 
 
@@ -127,8 +135,7 @@ def run_chunk(proto, winner, batch, index, sids):
                                        for m in f[kind]]))
         rows.append(row)
     path.parent.mkdir(exist_ok=True)
-    with open(path, "wb") as fh:
-        pickle.dump(rows, fh)
+    atomic(path, lambda p: pickle.dump(rows, open(p, "wb")))
     return str(path)
 
 
@@ -159,6 +166,11 @@ def summarise(df):
 def main(jobs):
     winner = json.load(open("results/v2/choice.json"))["winner"]
     print("base model:", winner, flush=True)
+    OUT.mkdir(parents=True, exist_ok=True)
+    marker = OUT / "base_model.txt"                     # cached fits and chunks belong to this base model only
+    if marker.exists():
+        assert marker.read_text().strip() == winner, f"cache in {OUT} was computed for {marker.read_text().strip()}, not {winner}"
+    marker.write_text(winner)
     n = len(scenario_list())
     for proto in PROTOCOLS:
         fitted(proto, winner)
