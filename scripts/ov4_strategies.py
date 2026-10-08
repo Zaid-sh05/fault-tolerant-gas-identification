@@ -68,14 +68,14 @@ def run_chunk(cfg_path, name, reduced, index, sids):
     return str(path)
 
 
-def main(cfg_path, name, reduced):
+def main(cfg_path, name, reduced, jobs=6):
     study = Study(cfg_path, name)
     scenarios = build_scenarios(AUG_SEEDS, ("k1", "k2") if reduced else ("k1", "k2", "k4"), reduced)
     priority = {"k4": 0, "k2": 1, "k1": 2}                    # the user's order if time runs out: k=4 and k=2 first
     sids = sorted(range(len(scenarios)), key=lambda i: (priority[scenarios[i].kset], i))
     chunks = [sids[i:i + CHUNK] for i in range(0, len(sids), CHUNK)]
     print(f"{name}: {len(scenarios)} scenarios in {len(chunks)} chunks (k4, k2, then k1)", flush=True)
-    Parallel(n_jobs=6, verbose=5)(delayed(run_chunk)(cfg_path, name, reduced, i, c) for i, c in enumerate(chunks))
+    Parallel(n_jobs=jobs, verbose=5)(delayed(run_chunk)(cfg_path, name, reduced, i, c) for i, c in enumerate(chunks))
     merge(study, len(chunks))
 
 
@@ -103,5 +103,6 @@ if __name__ == "__main__":
     ap.add_argument("--config", default="configs/preprocessing.yaml")
     ap.add_argument("--name", default="temporal")
     ap.add_argument("--reduced", action="store_true")
+    ap.add_argument("--jobs", type=int, default=6)
     a = ap.parse_args()
-    main(a.config, a.name, a.reduced)
+    main(a.config, a.name, a.reduced, a.jobs)

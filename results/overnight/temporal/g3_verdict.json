@@ -1,0 +1,735 @@
+{
+ "scenarios_analysed": 1260,
+ "scenarios_total_in_set": 1260,
+ "G3_passes": true,
+ "comparisons": 108,
+ "cells_passing": 80,
+ "passing": [
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0654,
+   "ci_low": 0.059,
+   "ci_high": 0.0719
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0649,
+   "ci_low": 0.0587,
+   "ci_high": 0.0714
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.055,
+   "ci_low": 0.0495,
+   "ci_high": 0.0611
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.0655,
+   "ci_low": 0.0595,
+   "ci_high": 0.0722
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.0687,
+   "ci_low": 0.0629,
+   "ci_high": 0.0752
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0621,
+   "ci_low": 0.0564,
+   "ci_high": 0.0681
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "A_det_twin",
+   "diff": 0.1345,
+   "ci_low": 0.1283,
+   "ci_high": 0.1416
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "A_det_notwin",
+   "diff": 0.135,
+   "ci_low": 0.1287,
+   "ci_high": 0.1421
+  },
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "B_det",
+   "diff": 0.1312,
+   "ci_low": 0.125,
+   "ci_high": 0.138
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0665,
+   "ci_low": 0.0608,
+   "ci_high": 0.0727
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0657,
+   "ci_low": 0.0597,
+   "ci_high": 0.0718
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.04,
+   "ci_low": 0.0344,
+   "ci_high": 0.0459
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.0613,
+   "ci_low": 0.0564,
+   "ci_high": 0.0669
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.0594,
+   "ci_low": 0.0546,
+   "ci_high": 0.0651
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0478,
+   "ci_low": 0.0435,
+   "ci_high": 0.0529
+  },
+  {
+   "kset": "k1",
+   "fault": "random",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.1182,
+   "ci_low": 0.112,
+   "ci_high": 0.1253
+  },
+  {
+   "kset": "k1",
+   "fault": "random",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.1179,
+   "ci_low": 0.1118,
+   "ci_high": 0.1248
+  },
+  {
+   "kset": "k1",
+   "fault": "random",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0957,
+   "ci_low": 0.0904,
+   "ci_high": 0.1015
+  },
+  {
+   "kset": "k1",
+   "fault": "random",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.1551,
+   "ci_low": 0.1445,
+   "ci_high": 0.1658
+  },
+  {
+   "kset": "k1",
+   "fault": "random",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.1535,
+   "ci_low": 0.1428,
+   "ci_high": 0.1641
+  },
+  {
+   "kset": "k1",
+   "fault": "random",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.1497,
+   "ci_low": 0.1398,
+   "ci_high": 0.1597
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0797,
+   "ci_low": 0.0735,
+   "ci_high": 0.0864
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0798,
+   "ci_low": 0.0736,
+   "ci_high": 0.0862
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0525,
+   "ci_low": 0.0472,
+   "ci_high": 0.0582
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.088,
+   "ci_low": 0.0822,
+   "ci_high": 0.0942
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.0873,
+   "ci_low": 0.0816,
+   "ci_high": 0.0935
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0718,
+   "ci_low": 0.0675,
+   "ci_high": 0.0768
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0548,
+   "ci_low": 0.0493,
+   "ci_high": 0.0603
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0564,
+   "ci_low": 0.0509,
+   "ci_high": 0.0617
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0602,
+   "ci_low": 0.055,
+   "ci_high": 0.0657
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.0478,
+   "ci_low": 0.0433,
+   "ci_high": 0.0529
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.0521,
+   "ci_low": 0.0474,
+   "ci_high": 0.0573
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0603,
+   "ci_low": 0.0556,
+   "ci_high": 0.0651
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "A_det_twin",
+   "diff": 0.0277,
+   "ci_low": 0.019,
+   "ci_high": 0.0366
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "A_det_notwin",
+   "diff": 0.0333,
+   "ci_low": 0.0245,
+   "ci_high": 0.0421
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "B_det",
+   "diff": 0.0818,
+   "ci_low": 0.0739,
+   "ci_high": 0.0903
+  },
+  {
+   "kset": "k2",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "C_det",
+   "diff": 0.0172,
+   "ci_low": 0.0082,
+   "ci_high": 0.0264
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0814,
+   "ci_low": 0.0757,
+   "ci_high": 0.0878
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0814,
+   "ci_low": 0.0754,
+   "ci_high": 0.0875
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0545,
+   "ci_low": 0.0492,
+   "ci_high": 0.0601
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.0904,
+   "ci_low": 0.0847,
+   "ci_high": 0.097
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.0894,
+   "ci_low": 0.0839,
+   "ci_high": 0.0962
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0776,
+   "ci_low": 0.0721,
+   "ci_high": 0.0835
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.1693,
+   "ci_low": 0.1586,
+   "ci_high": 0.1803
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.172,
+   "ci_low": 0.1613,
+   "ci_high": 0.1827
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.1504,
+   "ci_low": 0.1408,
+   "ci_high": 0.1599
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.1918,
+   "ci_low": 0.1826,
+   "ci_high": 0.2014
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.1958,
+   "ci_low": 0.1867,
+   "ci_high": 0.2055
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.1929,
+   "ci_low": 0.1844,
+   "ci_high": 0.2022
+  },
+  {
+   "kset": "k2",
+   "fault": "random",
+   "level": 1.0,
+   "method": "C_det",
+   "diff": 0.0295,
+   "ci_low": 0.0203,
+   "ci_high": 0.0383
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0571,
+   "ci_low": 0.0518,
+   "ci_high": 0.0627
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.062,
+   "ci_low": 0.0564,
+   "ci_high": 0.0676
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0439,
+   "ci_low": 0.039,
+   "ci_high": 0.0489
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.0346,
+   "ci_low": 0.0306,
+   "ci_high": 0.0391
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.0465,
+   "ci_low": 0.0426,
+   "ci_high": 0.0505
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0541,
+   "ci_low": 0.0506,
+   "ci_high": 0.0581
+  },
+  {
+   "kset": "k4",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0093,
+   "ci_low": 0.0052,
+   "ci_high": 0.0137
+  },
+  {
+   "kset": "k4",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0058,
+   "ci_low": 0.002,
+   "ci_high": 0.0099
+  },
+  {
+   "kset": "k4",
+   "fault": "bias",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0226,
+   "ci_low": 0.0188,
+   "ci_high": 0.0264
+  },
+  {
+   "kset": "k4",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0277,
+   "ci_low": 0.0229,
+   "ci_high": 0.0327
+  },
+  {
+   "kset": "k4",
+   "fault": "bias",
+   "level": 3.0,
+   "method": "C_det",
+   "diff": 0.1463,
+   "ci_low": 0.137,
+   "ci_high": 0.1557
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.1276,
+   "ci_low": 0.1216,
+   "ci_high": 0.1339
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.128,
+   "ci_low": 0.1219,
+   "ci_high": 0.1343
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.1121,
+   "ci_low": 0.1064,
+   "ci_high": 0.118
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.195,
+   "ci_low": 0.1862,
+   "ci_high": 0.205
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.195,
+   "ci_low": 0.1862,
+   "ci_high": 0.205
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.2066,
+   "ci_low": 0.1977,
+   "ci_high": 0.2164
+  },
+  {
+   "kset": "k4",
+   "fault": "dropout",
+   "level": 1.0,
+   "method": "C_det",
+   "diff": 0.0468,
+   "ci_low": 0.0368,
+   "ci_high": 0.0575
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.1442,
+   "ci_low": 0.1352,
+   "ci_high": 0.1529
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.1573,
+   "ci_low": 0.1486,
+   "ci_high": 0.166
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.1386,
+   "ci_low": 0.1305,
+   "ci_high": 0.146
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 0.5,
+   "method": "C_det",
+   "diff": 0.0565,
+   "ci_low": 0.0465,
+   "ci_high": 0.0659
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 1.0,
+   "method": "A_det_twin",
+   "diff": 0.1571,
+   "ci_low": 0.1508,
+   "ci_high": 0.1634
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 1.0,
+   "method": "A_det_notwin",
+   "diff": 0.1821,
+   "ci_low": 0.1763,
+   "ci_high": 0.1882
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.1885,
+   "ci_low": 0.1825,
+   "ci_high": 0.1944
+  },
+  {
+   "kset": "k4",
+   "fault": "random",
+   "level": 1.0,
+   "method": "C_det",
+   "diff": 0.1886,
+   "ci_low": 0.1792,
+   "ci_high": 0.198
+  },
+  {
+   "kset": "k4",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.041,
+   "ci_low": 0.0357,
+   "ci_high": 0.0464
+  },
+  {
+   "kset": "k4",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.0431,
+   "ci_low": 0.0377,
+   "ci_high": 0.0485
+  },
+  {
+   "kset": "k4",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.016,
+   "ci_low": 0.0109,
+   "ci_high": 0.0211
+  },
+  {
+   "kset": "k4",
+   "fault": "stuck",
+   "level": 1.0,
+   "method": "C_det",
+   "diff": 0.0836,
+   "ci_low": 0.0745,
+   "ci_high": 0.0936
+  }
+ ],
+ "bonferroni_supplement": {
+  "z_threshold": 3.501318058648407,
+  "passing_after_bonferroni": 79,
+  "note": "normal approximation of the bootstrap distribution; does not change the gate"
+ },
+ "rule": "results/decisions_log.md B11; real detector only, oracle excluded"
+}

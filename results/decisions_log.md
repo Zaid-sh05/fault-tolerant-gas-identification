@@ -69,3 +69,11 @@ The overnight text leaves these open. They are fixed here and will not be change
   started together and starved each other (BLAS oversubscription: one SVM prediction took 4 s instead of 0.05 s). The
   reproduction run was stopped after 7 of 21 steps (markers in `results/preprocessing/_done`); it resumes with `--resume`
   once the CPU is free. Nothing was changed in the methods. Backup of the earlier results: `results/_backup_*`.
+* C2 (PRE for the reference protocol, written before it was run): reference_iid uses the same classifier settings as the temporal
+  protocol (SVM C=10 gamma=0.01, LightGBM 31 leaves, StandardScaler) instead of re-tuning them with the inner 5-fold, to save time;
+  its detector and strategies are fitted on its own Train part (7,634 rows after cleaning) with the inner folds as the groups.
+  Reduced scenario set (medium severity per fault, k=1 and k=2, 5 seeds = 480 scenarios).
+* C3 (PRE, before the Part-4 results): the cap of 4 acted-on sensors per row (decisions_log B10) applies to A as well as B,
+  so A and B always act on the same sets; C uses all reliability weights without a cap. C experts use gamma='scale' (16 features each)
+  with C=10. Weight per sensor w = 1 / max(1, ratio)^2 and per expert the minimum over its two sensors.
+* C4 (PRE): the Part-4 chunks are processed in the order k=4, k=2, k=1 (the user's rule if time runs out); the analysis accepts a subset.

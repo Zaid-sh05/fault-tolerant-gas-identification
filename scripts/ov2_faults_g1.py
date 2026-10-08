@@ -52,7 +52,7 @@ def run_chunk(cfg_path, name, reduced, index, sids):
     return str(path)
 
 
-def main(cfg_path, name, reduced):
+def main(cfg_path, name, reduced, jobs=6):
     study = Study(cfg_path, name)
     seeds = AUG_SEEDS
     ksets = ("k1", "k2") if reduced else ("k1", "k2", "k4")
@@ -69,7 +69,7 @@ def main(cfg_path, name, reduced):
 
     sids = list(range(len(scenarios)))
     chunks = [sids[i:i + CHUNK] for i in range(0, len(sids), CHUNK)]
-    Parallel(n_jobs=6, verbose=5)(delayed(run_chunk)(cfg_path, name, reduced, i, c) for i, c in enumerate(chunks))
+    Parallel(n_jobs=jobs, verbose=5)(delayed(run_chunk)(cfg_path, name, reduced, i, c) for i, c in enumerate(chunks))
 
     rows, preds = [], {}
     for i in range(len(chunks)):
@@ -116,5 +116,6 @@ if __name__ == "__main__":
     ap.add_argument("--config", default="configs/preprocessing.yaml")
     ap.add_argument("--name", default="temporal")
     ap.add_argument("--reduced", action="store_true")
+    ap.add_argument("--jobs", type=int, default=6)
     a = ap.parse_args()
-    main(a.config, a.name, a.reduced)
+    main(a.config, a.name, a.reduced, a.jobs)
