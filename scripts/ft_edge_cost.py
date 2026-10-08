@@ -49,8 +49,11 @@ def memory_mb():
     """(current, peak) working set of this process in MB."""
     c = Counters()
     c.cb = ctypes.sizeof(Counters)
-    handle = ctypes.windll.kernel32.GetCurrentProcess()
-    ctypes.windll.psapi.GetProcessMemoryInfo(handle, ctypes.byref(c), c.cb)
+    k32 = ctypes.windll.kernel32
+    k32.GetCurrentProcess.restype = wintypes.HANDLE                       # 64-bit handle: the default int restype truncates it
+    k32.K32GetProcessMemoryInfo.argtypes = [wintypes.HANDLE, ctypes.POINTER(Counters), wintypes.DWORD]
+    if not k32.K32GetProcessMemoryInfo(k32.GetCurrentProcess(), ctypes.byref(c), c.cb):
+        raise OSError(ctypes.get_last_error() or "GetProcessMemoryInfo failed")
     return c.WorkingSetSize / 2**20, c.PeakWorkingSetSize / 2**20
 
 
