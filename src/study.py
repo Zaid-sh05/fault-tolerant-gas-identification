@@ -1,7 +1,7 @@
 """Shared setup of the overnight study: one protocol, its fitted preprocessing and its reference models.
 
 Everything is fitted on the Train rows of the protocol (cleaned by the invalid-value rule). Evaluation rows are only
-used to compute predictions. Batches 8-10 are never read (src/splits.py).
+used to compute predictions. Batches 8-10 are read only by the final_test protocol (src/splits.py), once, with approval.
 """
 import json
 from pathlib import Path
@@ -36,7 +36,7 @@ class Study:
         self.Xev, self.yev = xy(self.proto.eval)
         self.pre = fit_preprocessor(self.spec, self.Xtr, self.ytr, self.proto.groups, fill_nan=False)
         self.stats = FaultStats.fit(self.Xtr)
-        self.dir = OVERNIGHT / name
+        self.dir = Path(self.cfg.get("output_root", OVERNIGHT)) / name
         self.dir.mkdir(parents=True, exist_ok=True)
 
     # ---- models -------------------------------------------------------------------------

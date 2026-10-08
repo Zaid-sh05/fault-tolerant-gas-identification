@@ -1,0 +1,12 @@
+# FINAL TEST RUN (batches 8-10), executed once after the freeze (tag frozen-before-test, FREEZE_MANIFEST.md).
+# Same pipeline, models, detector, thresholds, scenarios and strategies as the Validation study; only the evaluation rows change.
+base: configs/preprocessing.yaml
+
+split:
+  type: final_test
+  train_batches: [1, 2, 3, 4, 5, 6]
+  test_batches: [8, 9, 10]
+  approved_by_user: true            # explicit approval given by the user on 2026-10-08 (single run, no edits afterwards)
+  inner_folds: [[1], [2], [3], [4, 5], [6]]
+
+output_root: results/final_test

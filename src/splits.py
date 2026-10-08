@@ -9,6 +9,11 @@ Both protocols: every fitted object (imputers, scalers, selectors, models, fault
 may use the training rows only. Faults are injected AFTER the split, on a clean copy of the evaluation rows.
 Batches 8-10 are never opened by either protocol.
 
+final_test     (once)      Train batches 1-6 (same cleaning, same fitted objects) and the evaluation batches named in
+                           `test_batches`. Opening batches 8-10 needs `approved_by_user: true` in the config; the check
+                           happens before any file is read. Used by configs/final_test.yaml only; the dry run
+                           (configs/final_test_dryrun.yaml) evaluates on a random subsample of Validation instead.
+
 Data cleaning (config key `cleaning`): the invalid-value rule of src/cleaning.py is fitted on the Train
 rows and the records it flags are dropped from Train only. Evaluation rows are never dropped; the flagged
 ones are listed in `Protocol.flagged_eval` so they can be reported.
@@ -88,5 +93,17 @@ def get_protocol_data(cfg):
         for k, (_, held_out) in enumerate(folds.split(tr, tr["gas"]), start=1):
             groups[held_out] = k
         return Protocol("reference_iid", tr, ev, groups, [(k,) for k in range(1, sp["inner_folds"] + 1)],
+                        dropped, flagged)
+    if kind == "final_test":
+        ev_b = sp["test_batches"]
+        if set(ev_b) & TEST_BATCHES:
+            assert sp.get("approved_by_user") is True, "opening batches 8-10 needs approved_by_user: true"
+        assert not set(ev_b) & set(sp["train_batches"]), "evaluation batches overlap Train"
+        df = load_batches(raw_dir, sp["train_batches"] + ev_b)
+        tr, ev = split_by_batches(df, sp["train_batches"]), split_by_batches(df, ev_b)
+        if sp.get("subsample"):                                         # dry run only: fewer rows, same code path
+            ev = ev.sample(n=sp["subsample"], random_state=0).sort_index().reset_index(drop=True)
+        tr, dropped, flagged = _clean_train(cfg, tr, ev)
+        return Protocol("final_test", tr, ev, tr["batch"].to_numpy(), [tuple(f) for f in sp["inner_folds"]],
                         dropped, flagged)
     raise ValueError(kind)

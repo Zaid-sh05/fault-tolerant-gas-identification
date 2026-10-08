@@ -1,0 +1,12 @@
+# Dry run of the final-test code path on a random subsample of VALIDATION batch 7 (no Test data). Only checks that the
+# scripts run end to end; its numbers are not results.
+base: configs/preprocessing.yaml
+
+split:
+  type: final_test
+  train_batches: [1, 2, 3, 4, 5, 6]
+  test_batches: [7]
+  subsample: 250
+  inner_folds: [[1], [2], [3], [4, 5], [6]]
+
+output_root: results/final_test_dryrun

@@ -76,7 +76,7 @@ def run_chunk(cfg_path, name, reduced, index, sids):
     return str(path)
 
 
-def main(cfg_path, name, reduced, jobs=6):
+def main(cfg_path, name, reduced, jobs=6, frozen_choice=None):
     study = Study(cfg_path, name)
     (study.dir / "detectors").mkdir(exist_ok=True)
     for k, kw in VARIANTS.items():
@@ -110,6 +110,8 @@ def main(cfg_path, name, reduced, jobs=6):
         return float(np.median(list(per_type.values()))), per_type
     cand = {k: g2_value(k) for k in ("sensor", "median")}
     chosen = "median" if cand["median"][0] > cand["sensor"][0] else "sensor"
+    if frozen_choice:                                           # final test: the choice made on Validation stays
+        chosen = json.load(open(frozen_choice))["chosen_normalisation"]
     value, per_type = cand[chosen]
     verdict = {"candidates_median_auroc": {k: v[0] for k, v in cand.items()}, "chosen_normalisation": chosen,
                "isolation_auroc_by_fault_k1_medium": per_type, "median_auroc": value, "G2_passes": value >= 0.80,
@@ -153,5 +155,6 @@ if __name__ == "__main__":
     ap.add_argument("--name", default="temporal")
     ap.add_argument("--reduced", action="store_true")
     ap.add_argument("--jobs", type=int, default=6)
+    ap.add_argument("--frozen-choice", default=None, help="g2_verdict.json whose chosen_normalisation is kept as is")
     a = ap.parse_args()
-    main(a.config, a.name, a.reduced, a.jobs)
+    main(a.config, a.name, a.reduced, a.jobs, a.frozen_choice)

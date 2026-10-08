@@ -64,3 +64,25 @@ def test_config_files_parse_and_iid_config_excludes_test_batches():
     cfg = load_config("configs/reference_iid.yaml")
     assert cfg["split"]["type"] == "iid" and not set(cfg["split"]["batches"]) & {8, 9, 10}
     assert "phase1" in cfg                                  # inherited from the base file
+
+
+FINAL = {"data": {"raw_dir": None},
+         "split": {"type": "final_test", "train_batches": [1, 2, 3, 4, 5, 6], "test_batches": [8, 9, 10],
+                   "inner_folds": [[1], [2], [3], [4, 5], [6]]}}
+
+
+def test_final_test_refuses_batches_8_10_without_approval_before_reading(tmp_path):
+    cfg = {**FINAL, "data": {"raw_dir": str(tmp_path / "does_not_exist")}}       # a read would raise FileNotFoundError
+    with pytest.raises(AssertionError, match="approved_by_user"):
+        get_protocol_data(cfg)
+
+
+def test_final_test_dry_run_uses_train_and_a_validation_subsample(raw):
+    p = get_protocol_data(cfg_for(FINAL, raw, test_batches=[7], subsample=50))
+    assert set(p.train["batch"]) == {1, 2, 3, 4, 5, 6} and set(p.eval["batch"]) == {7} and len(p.eval) == 50
+
+
+def test_final_test_configs_parse():
+    real, dry = load_config("configs/final_test.yaml"), load_config("configs/final_test_dryrun.yaml")
+    assert real["split"]["test_batches"] == [8, 9, 10] and real["split"]["approved_by_user"] is True
+    assert dry["split"]["test_batches"] == [7] and not set(dry["split"]["test_batches"]) & {8, 9, 10}

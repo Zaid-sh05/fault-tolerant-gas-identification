@@ -81,3 +81,25 @@ The overnight text leaves these open. They are fixed here and will not be change
   overnight rule). It no longer opens them; the Test row of its split table now says "not read". The overnight run never opened
   batches 8-10 (the loaders refuse them and unit tests prove it). Earlier in the project, the dataset download step hashed the ten
   files (`data/raw/SHA256SUMS.txt`) and the Step-1 audit counted the lines of batches 8-10; no values or labels were looked at.
+
+## D. Final-test decisions (user, 2026-10-08, all PRE: written before batches 8-10 were opened)
+* D1: batches 8-10 are opened once, by `scripts/run_final_test.sh configs/final_test.yaml`, after the tag `frozen-before-test` and
+  `FREEZE_MANIFEST.md`. Same code and configs verbatim; no change afterwards whatever the outcome; a programming error stops the run
+  and is reported to the user (no silent fix-and-rerun). Nothing is refitted: the Validation-time models, detectors, thresholds and
+  reduced SVMs are copied (hash-checked) from `results/overnight/temporal`.
+* D2: results per evaluation batch (8, 9, 10) and pooled, with the Validation tables: baselines, A/B/C and the Oracles, G1-G3, detector
+  AUROC, false alarms per gas (with and without S01/S02), sensor reliability ranking on clean rows, and the S01-S02 plot over batches 1-10.
+  The per-batch and pooled analysis scripts (`ft_analysis.py`, `ft_detector.py`, `ft_s01s02.py`) were written and dry-run (on a 250-row
+  sample of Validation, `configs/final_test_dryrun.yaml`) before the freeze; the pooled tables are cross-checked against `ov4_analysis.py`.
+* D3: strategy C is not redesigned; it is reported as a negative result ("reliability weighting of the pair experts did not improve
+  performance"; C_det ~ C_equal ~ 0.65 on Validation).
+* D4: headline strategy = A, with B and the Oracle as references. The primary detector is the frozen "median" normalisation
+  (Validation median AUROC 0.977); leave-pair-out is a sensitivity analysis.
+* D5: S01/S02 are described as "naturally occurring replica divergence, flagged by the unsupervised reliability estimator on clean data;
+  not flagged under the reference (no-drift) protocol, hence attributable to drift". They are not called faults.
+* D6: fault severities and the k=4 groups stay as they are; k=4 is described as a hypothesis.
+* D7: after the test: edge cost of the full pipeline A (detector + reconstruction + SVM) = size in KB, single-sample latency on one
+  CPU core (median and 95th percentile over 1000 runs), peak memory; then the paper material in `results/paper/`. The report must say
+  that the confidence intervals are optimistic (row resampling only) and that G3 is lenient, so the full tables are shown, not the gate result alone.
+* D8 (operational): the test-time `ov3_detector.py` keeps the Validation choice of the normalisation (`--frozen-choice`); the run folder
+  is `results/final_test/test` (`output_root` in the config).
