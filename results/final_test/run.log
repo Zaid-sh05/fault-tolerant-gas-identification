@@ -1,0 +1,6 @@
+=== 2026-10-08T10:39:03+03:00 scripts/ft_prepare.py --config configs/final_test.yaml --name test
+1222 frozen artefacts verified and copied to results\final_test\test
+=== 2026-10-08T10:39:47+03:00 scripts/ov2_faults_g1.py --config configs/final_test.yaml --name test
+test: 1260 scenarios, train 5931, eval 4364
+clean: {'svm': 0.5354, 'lgbm': 0.5141}
+[Parallel(n_jobs=6)]: Using backend LokyBackend with 6 concurrent workers.
