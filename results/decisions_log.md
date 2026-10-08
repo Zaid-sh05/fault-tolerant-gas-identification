@@ -139,3 +139,76 @@ The overnight text leaves these open. They are fixed here and will not be change
   (int8) and finite scores. Chunk 17 was then recomputed in a separate folder (`results/final_test_check`, same frozen models, same data) and compared
   with the original: IDENTICAL (predictions equal, maximum difference of the row values 0.0). Together with the earlier recomputation of chunk 5
   (3 workers, identical), no inherited chunk had to be recomputed. The pipeline kept running during the check (it touches nothing in the run folder).
+
+## G. Version 2 (drift-robust base model + hybrid arbiter). ALL POST-HOC (user, 2026-10-08, after the v1 Test results were seen)
+Written before any v2 code was run or any v2 number was computed.
+* G0 (status and integrity). v2 is designed AFTER the v1 Test results were seen, and its motivation comes from them (clean Test score 0.859 -> 0.535;
+  the per-domain ordering of the methods). Test batches 8-10 are therefore NOT an independent hold-out for v2: a v2 Test number is a post-hoc,
+  test-informed result, labelled "post-hoc" wherever it appears, and it never replaces v1. The v1 results (tag `frozen-before-test`) stay unchanged,
+  remain the pre-registered results of the paper and are shown in it. Everything of v2 lives in `results/v2/`.
+* G1 (motivation, base model). On Test the clean score collapsed because of long-term drift, not faults. v2 develops a more drift-robust base model;
+  the fault layer (detector, A, B) stays as it is and sits on top of it.
+* G2 (motivation, arbiter = the main contribution of v2). v1 showed a domain where each method is best: the plain SVM without faults, A with one faulty
+  sensor, augmentation with several Bias/Stuck sensors (Test pooled k=4; partly visible on Validation already, where A beat the best augmented
+  baseline in only 1 of 3 Bias k=4 cells). The arbiter routes each row by the number of sensors the detector flags (n_flag); it never sees the truth
+  or the labels.
+* G3 (rules). (1) Batches 8-10 are not used for any development, choice or tuning; they are read once, at the end, after the tag `frozen-v2` and
+  `FREEZE_MANIFEST_v2.md`. (2) Every adaptation is unsupervised on the new data: it uses the readings of the new batch, never its labels. (3) The
+  candidate lists below are closed. (4) Every trial is a row of `results/v2/trials.csv`. (5) If nothing improves, the report says so and no further
+  candidate is tried.
+* G4 (Drift-Dev protocol, batches 1-7 only). Dev-Train = batches 1-3 (months 1-13); Dev-Eval = batch 6 and batch 7 (months 17-21), each scored
+  separately, then averaged. Everything is fitted on Dev-Train: the invalid-value cleaning rule, the scaler, the models, the fault statistics
+  (sigma, p1, p99) and the detector (leave-one-batch-out over batches 1, 2, 3). Confirmation on the original split: Train 1-6, Validation 7 (as v1).
+  Known weaknesses, logged now: Dev-Train has almost no toluene (74 rows in batch 1, 5 in batch 2, 0 in batch 3) while batches 6 and 7 have 467 and
+  568, so Drift-Dev also measures a class-coverage gap, not drift alone; batch 7 was the v1 Validation batch.
+* G5 (candidates, at most 6). SVM settings stay C=10, gamma=0.01; nothing is re-tuned. M1 and M2 are front-end transforms that map the readings of a
+  batch back to raw units of the Train reference, so the frozen pipeline (StandardScaler -> SVM), the detector, A, B and the augmentation run on top of
+  them unchanged.
+  - M0: the v1 model (reference).
+  - M1: per-batch robust normalisation. Each feature x of batch b -> (x - median_b) / s_b * s_ref + median_ref, s = IQR/1.349, (median_ref, s_ref) from
+    the pooled cleaned Train rows. Training: every Train batch with its own statistics. Evaluation: the statistics of the new batch from its own readings
+    (after fault injection when there is a fault), no labels. NaN are ignored in the statistics; where s_b = 0 (e.g. Stuck on every row) the feature is
+    only shifted (s_b := s_ref).
+  - M2: CORAL (Sun, Feng, Saenko, "Return of Frustratingly Easy Domain Adaptation", AAAI 2016; reference verified). In the Train-standardised space,
+    Cs = cov(Train) + I, Ct = cov(new batch) + I, the new batch is mapped Z -> Z Ct^(-1/2) Cs^(1/2), then back to raw units. Stated deviation: the paper
+    maps the SOURCE to the target and retrains the classifier; here the new batch is mapped to the Train statistics (the user's specification), so one
+    classifier serves every batch. NaN (Dropout) are set to 0 (the Train mean) for the covariance and the mapping and put back afterwards.
+  - M3: ensemble of one SVM per Train batch, weighted majority vote (Vergara et al., "Chemical gas sensor drift compensation using classifier
+    ensembles", Sensors and Actuators B 2012, doi 10.1016/j.snb.2012.01.074; reference verified). Weight = Macro-F1 of the member on the most recent
+    labelled Train batch (3 for Drift-Dev, 6 for the original split); for the member trained on that batch itself, 5-fold stratified cross-validated
+    Macro-F1 inside the batch. Only this weighting is tried (not recency). Shared preprocessing (StandardScaler on the pooled Train rows).
+  - M4: the two best of M1-M3 by the Drift-Dev mean (decided from M1-M3 only, before M4 runs), built only if both beat M0 on Drift-Dev; otherwise M4
+    is not run. Fixed definitions: M1+M2 = M1, then CORAL fitted on the M1-normalised Train; M1+M3 = M1, then the batch ensemble on the normalised
+    Train; M2+M3 = CORAL, then the batch ensemble.
+  - M5: standard practice for the final model: after the choice, retrain on batches 1-7. Applied only in the final Test run.
+* G6 (choice of the base model). Winner = highest clean SVM Macro-F1 on Drift-Dev (mean of batches 6 and 7) among the candidates that (a) stay at or
+  above 0.859 - 0.01 = 0.849 on the original split (Validation 7) and (b) keep the detector usable: the v1 G2 statistic (median over the four fault
+  types of the isolation AUROC, k=1, medium severity, 5 seeds, "median" detector fitted on the transformed Train rows) on Validation 7 >= 0.80.
+  Tie = within 0.01 of the best eligible: then the simplest, in the order M0 < M1 < M2 < M3 < M4. A winner M0 means no candidate improved the base.
+* G7 (fault layer on the v2 base, fixed now). Faults are injected on the raw readings, then the base transform (with the statistics of the faulted
+  batch, as specified), then the detector and A/B. Consequence stated before any result: the v1 Bias fault shifts the WHOLE batch by a constant, so
+  M1's per-batch median removes it exactly (M2 partly) and the detector cannot and need not see it. This is a property of the simulation (a fault
+  present for a whole batch); Bias results of M1/M2 are reported as such and not presented as fault handling. Augmentation for M1/M2 is injected on
+  the transformed Train rows (sigma, p1, p99 recomputed there). For M3: A = reconstruct, then the ensemble; B = an ensemble of reduced per-batch SVMs;
+  augmentation = per-batch SVMs trained on augmented batch rows. After the choice, the fault layer (A, B, augmentation, Oracle) is run on the winner on
+  Drift-Dev with a short scenario set (k=1 and k=2, medium severity, 5 seeds) to check that it still works.
+* G8 (hybrid arbiter, three variants only, on top of the winning base model). n_flag = number of sensors flagged in the row (primary detector).
+  Probabilities come from probability-enabled copies (Platt, SVC(probability=True), same data and settings) of the SVM, of the reduced B models and of
+  the 5 SVM+Aug models (their mean = "Aug"); A's probability = that of the probability SVM on the reconstructed row.
+  - H1: n_flag = 0 -> SVM; 1-2 -> A; >= 3 -> mean of the probabilities of B and Aug.
+  - H2: n_flag = 0 -> SVM; 1 -> A; >= 2 -> mean of the probabilities of A, B and Aug.
+  - H3: weighted mean of the probabilities of (SVM, A, Aug) with fixed, not learned, weights:
+    n_flag 0: (0.8, 0.0, 0.2); 1: (0.2, 0.6, 0.2); 2: (0.1, 0.5, 0.4); >= 3: (0.0, 0.4, 0.6).
+  Choice on Drift-Dev and on Validation 7, scenarios = clean + k=1 and k=2 at medium severity. Winner = highest mean Macro-F1 over all scenarios
+  (clean included), averaged over the two protocols, provided that in every setting (clean, k=1, k=2; each protocol) it is not below the best single
+  method (SVM, A, B, best of SVM+Aug/LGBM+Aug) by more than 0.01. If no variant satisfies this, no arbiter is adopted and the report says so.
+  Known before running: on clean Validation rows the v1 detector flags 2.1 sensors per row on average (97% of the rows have a flag), so the n_flag = 0
+  branch will be rare under drift; this is reported, not tuned.
+* G9 (final run). Tag `frozen-v2` and `FREEZE_MANIFEST_v2.md`; final training on batches 1-7 (M5) with the winning method; the full v1 fault pipeline
+  on Test once, same scenarios and seeds, memory guard (3 workers, 85%) and safe resume as before. In the same single run the winner trained on 1-6 is
+  also evaluated, to separate the effect of the method from the effect of adding batch 7 to the training rows.
+* G10 (report). `results/v2/V2_REPORT.md` + Arabic summary: the Drift-Dev table of every candidate; v1 vs v2 on Test (clean, A, B, augmentation, Oracle;
+  pooled and per batch); arbiter vs every single method per fault type and k, with the clean case; worst case (lowest Macro-F1 over scenarios) per
+  method; share of rows sent to each arbiter branch. Limitations: post-hoc and test-informed (G0); M1/M2 are transductive (they need a batch of
+  unlabelled readings, so a single-sample edge deployment needs a buffer of recent readings); batch statistics depend on the gas mix of the batch.
+* G11 (stop point). The work stops after the candidate table (G6) for the user's review, before the fault layer, the arbiter and the final run.
