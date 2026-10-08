@@ -301,3 +301,38 @@ Written before any v2 code was run or any v2 number was computed.
   (`v2_arbiter.py --report-only`); (2) check that the refactored scenario code reproduces one saved arbiter chunk exactly; (3) recalibration stage 1,
   then stage 2 if J4 allows, each under the memory guard (85%, 3 workers); (4) one morning report. A failing step stops the chain and is reported; if
   the system stops a run for memory, it is reported, not restarted. Test is not touched.
+
+## L. Night improvement study (POST-HOC; user 2026-10-09 ~01:00, "improve freely within the integrity rules"; written BEFORE any result of it)
+* L0 (rules). Test (8-10) is never read. Selection on Drift-Dev (train 1-3, eval 6 and 7; mean of the two), confirmation on Validation 7
+  (train 1-6), fixed in this direction. Stage 2 of the recalibration is not touched. Resources: the user answered "no problem" when the worker
+  cap was raised; this is read as permission for ONE extra single-thread analysis process next to stage 2 (12 logical cores, CPU about 50%,
+  memory 65%), under the 85% memory guard; checkpointed atomic chunks. No new experiment starts after 09:00.
+* L1 (answers from files, no new run). Worst A scenario (Drift-Dev b7, F1 0.315): k=2, Bias, medium severity (1.0 sigma), sensors S05-S06 (a
+  replicate pair), fault seed 4; SVM 0.613, B 0.609, Oracle A 0.603. Detection was not stored in the result files; a one-scenario light
+  diagnostic (Dev only) shows masking: the faulty pair was flagged in 2% (S05) and 25% (S06) of the rows, while healthy S03, S08, S13, S14
+  were flagged in 27-51% and reconstructed FROM the biased pair. v1 frozen Test output: A_det_twin on clean pooled Test rows = 0.5436 vs SVM
+  0.5354 (`results/final_test/test/ft_clean_by_subset.csv`; per batch b8 0.758 vs 0.798, b9 0.637 vs 0.655, b10 0.493 vs 0.480).
+* L2 (closed list of variants, base model M0, decision labels only; nothing else is tried):
+  - V0: A as in v1 (median detector, 95th-percentile thresholds). Reference.
+  - V1: twin-aware detection against masking: a sensor is flagged if EITHER the v1 detector OR its leave-pair-out version (predicts the sensor
+    without its twin; the existing "median_lpo" variant, fitted on the same Train rows) exceeds its own 95th-percentile threshold;
+    ratio = max of the two ratios.
+  - V2: fewer false alarms: v1 detector with 99th-percentile thresholds (of the same Train out-of-fold scores).
+  - V3: V1 with 99th-percentile thresholds.
+  - V5: guarded reconstruction against error propagation: as V0, but when a flagged block is reconstructed, every sensor whose ratio exceeds 0.5
+    (half the alarm threshold) is also excluded from the predictors.
+  - V4: routing for the worst case: on top of the best of V0-V3/V5, rows with n_flag >= t go to SVM+Aug (the 5 v1-style augmented SVMs,
+    mean Macro-F1 over seeds as in v1) instead of A; t in {2, 3, 4, 5} chosen on Drift-Dev. (SVM+Aug, not B, because B needs one model per
+    excluded set: about a thousand extra SVM fits per protocol, impossible tonight next to stage 2.)
+* L3 (scenarios and metrics). Clean + k=1, k=2, k=4 at medium severity, 5 fault seeds (1 + 320 + 160 + 80 = 561 per batch), faults on raw
+  readings with raw Train statistics as v1. Per variant: clean Macro-F1, mean Macro-F1 under faults (k1, k2, k4 weighted equally), worst case
+  (lowest per-scenario Macro-F1), detector isolation AUROC and TPR (per fault x k), clean FAR (per sensor-row) and share of clean rows with an alarm.
+* L4 (selection and success, fixed now). Primary = mean Macro-F1 under faults on Drift-Dev. Eligible only if (a) clean Macro-F1 on Drift-Dev not
+  below V0 by more than 0.005 and (b) worst case on Drift-Dev not below V0. Best eligible, ties (< 0.005) to the simplest in the order
+  V0 < V2 < V1 < V3 < V5, then V4's t the same way (V4 adopted only if it passes the same eligibility against its base). SUCCESS only if, against
+  V0, the gain in the primary metric has a 95% paired bootstrap interval above 0 on Drift-Dev (bootstrap over SCENARIOS, 1000 resamples, seed 0:
+  this resamples the fault draws, not only rows) AND is confirmed on Validation 7 (gain > 0 with the same kind of interval above 0, clean drop
+  <= 0.005). Otherwise the variant is reported as failed.
+* L5 (descriptive, no selection). "A as partial drift correction": clean A - SVM per Dev batch (6, 7) and Validation 7 with a row bootstrap;
+  attribution: A restricted to one sensor's flags at a time (16 runs per batch, clean rows), gain per sensor.
+* L6. Few-shot recalibration (J) is not part of L; its stage 2 is summarised separately when it ends.
