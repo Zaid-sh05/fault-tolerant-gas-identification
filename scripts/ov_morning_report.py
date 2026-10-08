@@ -35,7 +35,7 @@ def gate_rows():
     rep = (PP / "REPORT.md")
     rows = []
     if rep.exists():
-        for line in rep.read_text().splitlines():
+        for line in rep.read_text(encoding="utf-8").splitlines():
             m = re.match(r"\| (P\d [^|]+) \| (PASS|FAIL|NOT RUN) \| (.*) \|$", line)
             if m:
                 rows.append((m.group(1).strip(), m.group(2), m.group(3).strip()))
@@ -104,7 +104,7 @@ def main():
     L = []
     w = L.append
     w("# التقرير الصباحي / Morning report\n")
-    w(f"*(مولَّد آليًا من الملفات، {datetime.now():%Y-%m-%d %H:%M}؛ كل رقم له مصدر مذكور في الأقسام الإنجليزية أدناه. الدفعات 8–10 لم تُقرأ إطلاقًا.)*\n")
+    w(f"*(مولَّد آليًا من الملفات، {datetime.now():%Y-%m-%d %H:%M}؛ كل رقم له مصدر مذكور في الأقسام الإنجليزية أدناه. الدفعات 8–10 لم تُفتح إطلاقًا في هذا التشغيل الليلي.)*\n")
     w("## ملخص بالعربية\n")
     w("**أُنجز:** الأجزاء الأربعة على البروتوكول الزمني كاملة (معالجة مسبقة، أعطال وبوابة G1، كاشف موثوقية وبوابة G2، مقارنة الاستراتيجيات وبوابة G3)، "
       "وعلى البروتوكول المرجعي بمجموعة مختصرة" + (" (مكتملة)." if g3_ref else " (لم تكتمل، انظر الحالة أدناه).") +
@@ -128,6 +128,13 @@ def main():
       f"(الـ Oracle = {k4b['A_orc_twin']:.3f})، لأن AUROC العزل ينخفض إلى {k4_bias.min():.2f}–{k4_bias.max():.2f} (Bias) و{k4_stuck.min():.2f}–{k4_stuck.max():.2f} (Stuck).")
     w(f"5. الانجراف يكسر علاقة التوأم S01–S02 (Spearman من {p12['train_spearman_mean']:.3f} إلى {p12['val_spearman']:.3f})، وهما أقل الحساسات موثوقية "
       f"على الدفعة 7 النظيفة (إنذارات {s1.loc['S01', 'alarm_rate']:.0%} و{s1.loc['S02', 'alarm_rate']:.0%})؛ ومعالجتهما دائمًا تكلّف {svm_clean - cl.loc['A_det_twin', 'macro_f1']:.3f} (A) و{svm_clean - cl.loc['B_det', 'macro_f1']:.3f} (B) على بيانات نظيفة.\n")
+    if g1_ref and g3_ref:
+        vr = rd(REF / "strategy_vs_best_aug.csv")
+        vr = vr[vr.counts_for_G3]
+        cl_ref = rd(REF / "strategy_clean_eval.csv").set_index("method")
+        w(f"**ملاحظة مهمة (البروتوكول المرجعي بلا انجراف):** SVM النظيف يصل إلى {cl_ref.loc['clean_svm_no_handling', 'macro_f1']:.3f}، وG1 تنجح بـ {len(g1_ref['types_with_drop_ge_0.03'])} من 4 أنواع فقط، "
+          f"وتفوّق A/B على أفضل Baseline معزَّز يتقلص إلى فروق ≤ {vr['diff'].max():.3f} (G3 تنجح بـ {g3_ref['cells_passing']} من {g3_ref['comparisons']} مقارنة، {g3_ref['bonferroni_supplement']['passing_after_bonferroni']} بعد Bonferroni)؛ "
+          f"أي أن الفائدة الكبيرة في الزمني تأتي من تفاعل الأعطال مع الانجراف، وليس من الأعطال وحدها. ومعدل الإنذار الكاذب هناك ≈ 5% كما صُمِّم ولا شذوذ في S01/S02.\n")
     w("**قرارات أحتاجك فيها قبل تشغيل الاختبار (8–10):** (1) الموافقة الصريحة على تشغيل واحد بالـ Pipeline والكاشف والعتبات المجمَّدة؛ "
       "(2) هل نعيد تصميم C (خبراء أكبر من زوجين) أم نحذفها من الورقة؟ (3) أي استراتيجية تُعلن كنتيجة رئيسية (أقترح A مع تقرير B وOracle)؛ "
       "(4) كيف نصف الإنذارات الدائمة لـ S01/S02 في الورقة؛ (5) هل نكرر التقييم بالكاشف leave-pair-out. التفاصيل في القسم 7 أدناه.\n")
@@ -216,12 +223,13 @@ def main():
 
     w("## 7. Decisions and open items\n")
     w("### Decisions I took alone (rule relied on) — the full log is `results/decisions_log.md`; sections B (interpretations, PRE) and C (during the run):\n")
-    log = (R / "decisions_log.md").read_text()
+    log = (R / "decisions_log.md").read_text(encoding="utf-8")
     w(log[log.index("## B."):])
     w("\n### Suspicious or unexpected\n")
     for item in [
         f"The detector flags S01 and S02 on almost every clean Validation row ({cl.loc['A_det_twin', 'rows_with_any_flag']:.0%} of rows have at least one flag, mean {cl.loc['A_det_twin', 'mean_flagged_per_row']:.2f} sensors per row), so A/B/C always act on them; the per-sensor alarm rate of the other 14 sensors is lower than the 5% target.",
         "Strategy C (8 pair experts) reaches only ~0.65 on clean data and reliability weights do not help (C_det ~ C_equal): the experts use two sensors each and are too weak; this is a design weakness, not evidence about weighting in general.",
+        "On the reference protocol (no drift) the strategies' advantage almost vanishes (differences <= 0.006, G1 passes with 2 of 4 fault types): the benefit seen on the temporal protocol comes from the interaction of faults with drift.",
         "Bootstrap intervals resample evaluation rows only; the scenarios of a cell share the same 3,613 rows and the same augmentation seeds, so the intervals are optimistic about generalisation to new rows and batches.",
         "G3 is a permissive rule (one winning cell out of 108 comparisons suffices); the result is nevertheless broad (see the counts above), and the failures concentrate at k=4.",
         "LightGBM is not exactly scale-invariant (0.68-0.71 across scalers), and its predictions took far longer than SVM's, which shaped the run times.",
@@ -231,7 +239,7 @@ def main():
         w(f"* {item}")
     w("\n### Decisions that need you before the Test run\n")
     for item in [
-        "Explicit approval to read batches 8-10 exactly once, with the pipeline, cleaning rule, detector (normalisation, thresholds), strategy settings and scenario list frozen as committed. No Test data was read, listed, hashed or parsed.",
+        "Explicit approval to read batches 8-10 exactly once, with the pipeline, cleaning rule, detector (normalisation, thresholds), strategy settings and scenario list frozen as committed. The overnight run never opened a Test file; earlier in the project the download step hashed the ten batch files and the Step-1 audit counted the lines of batches 8-10 (no values or labels were looked at; see decisions_log C5).",
         "Whether to redesign C (larger or overlapping sensor groups) or drop it; any redesign must be fixed before the Test run.",
         "Which strategy is the headline result (suggestion: A with the real detector, B and the Oracles as references).",
         "How to describe in the paper the permanent alarms on S01/S02 (a real drift-induced break of a replicate pair).",

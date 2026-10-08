@@ -1,0 +1,373 @@
+[run ] tests
+........................................................................ [ 78%]
+....................                                                     [100%]
+92 passed in 46.13s
+[skip] baselines_old
+[skip] baselines_cleaned
+[skip] baselines_drop223
+[skip] diag
+[skip] invalid_records
+[skip] pp1_temporal
+[run ] pp1_iid
+integrity: {"records": 9544, "expected_records": 9544, "features": 128, "nan": 0, "inf": 0, "constant_features": 0, "duplicate_rows": 0, "gas_codes": [1, 2, 3, 4, 5, 6], "passed": true, "protocol": "reference_iid", "train_rows": 7634, "eval_rows": 1910, "cleaning_dropped_train": [{"batch": 2, "line": 223, "gas": 1}, {"batch": 2, "line": 380, "gas": 2}], "cleaning_flagged_eval_kept": [{"batch": 2, "line": 222, "gas": 1}]}
+reconstruction metrics: 1 flagged evaluation record(s) excluded of 1910
+mean      raw  done in   7.5s
+median    raw  done in   0.8s
+knn       raw  done in  10.7s
+ridge     raw  done in  29.6s
+iterative raw  done in 218.1s
+mean      slog done in   1.5s
+median    slog done in   1.5s
+knn       slog done in  11.1s
+ridge     slog done in  29.9s
+iterative slog done in 217.0s
+   method space  exclude_twin  rmse_mean  rmse_std  mae_mean  medae_mean  r2_mean  r2_median  r2_min  sensors_r2_below_0
+    ridge  slog         False      0.123     0.088     0.048       0.025    0.965      0.984   0.813                   0
+    ridge   raw         False      0.130     0.080     0.059       0.038    0.925      0.980   0.357                   0
+      knn   raw         False      0.133     0.047     0.043       0.018    0.953      0.978   0.742                   0
+      knn  slog         False      0.144     0.048     0.045       0.018    0.962      0.973   0.842                   0
+iterative   raw         False      0.479     0.219     0.361       0.324    0.650      0.743   0.233                   0
+iterative  slog         False      0.520     0.325     0.338       0.219    0.505      0.668  -0.467                   3
+     mean   raw         False      0.927     0.076     0.698       0.612   -0.000     -0.000  -0.001                  16
+   median   raw         False      0.954     0.088     0.672       0.518   -0.057     -0.041  -0.207                  16
+   median  slog         False      0.954     0.088     0.672       0.518   -0.057     -0.041  -0.207                  16
+     mean  slog         False      0.967     0.091     0.677       0.503   -0.086     -0.081  -0.157                  16
+      knn   raw          True      0.136     0.044     0.045       0.018    0.954      0.973   0.742                   0
+      knn  slog          True      0.151     0.048     0.047       0.019    0.959      0.970   0.852                   0
+    ridge   raw          True      0.184     0.069     0.098       0.066    0.915      0.952   0.547                   0
+    ridge  slog          True      0.255     0.324     0.072       0.038    0.568      0.970  -2.252                   2
+iterative   raw          True      0.642     0.122     0.493       0.443    0.473      0.511   0.086                   0
+iterative  slog          True      0.709     0.219     0.475       0.323    0.277      0.515  -1.299                   3
+     mean   raw          True      0.927     0.076     0.698       0.612   -0.000     -0.000  -0.001                  16
+   median   raw          True      0.954     0.088     0.672       0.518   -0.057     -0.041  -0.207                  16
+   median  slog          True      0.954     0.088     0.672       0.518   -0.057     -0.041  -0.207                  16
+     mean  slog          True      0.967     0.091     0.677       0.503   -0.086     -0.081  -0.157                  16
+[run ] pp1_temporal_drop223
+integrity: {"records": 9543, "expected_records": 9543, "features": 128, "nan": 0, "inf": 0, "constant_features": 0, "duplicate_rows": 0, "gas_codes": [1, 2, 3, 4, 5, 6], "passed": true, "protocol": "temporal", "train_rows": 5930, "eval_rows": 3613, "cleaning_dropped_train": [{"batch": 2, "line": 222, "gas": 1}, {"batch": 2, "line": 223, "gas": 1}, {"batch": 2, "line": 380, "gas": 2}], "cleaning_flagged_eval_kept": []}
+reconstruction metrics: 0 flagged evaluation record(s) excluded of 3613
+mean      raw  done in   8.5s
+median    raw  done in   1.1s
+knn       raw  done in  14.7s
+ridge     raw  done in  22.0s
+iterative raw  done in 172.0s
+mean      slog done in   2.6s
+median    slog done in   2.3s
+knn       slog done in  18.3s
+ridge     slog done in  30.6s
+iterative slog done in 195.9s
+   method space  exclude_twin  rmse_mean  rmse_std  mae_mean  medae_mean  r2_mean  r2_median  r2_min  sensors_r2_below_0
+    ridge   raw         False      0.128     0.128     0.093       0.068    0.820      0.965  -0.922                   1
+    ridge  slog         False      0.130     0.140     0.091       0.065    0.819      0.981  -0.845                   1
+      knn   raw         False      0.217     0.110     0.154       0.112    0.741      0.915  -1.250                   1
+      knn  slog         False      0.238     0.108     0.166       0.116    0.734      0.905  -1.354                   1
+iterative  slog         False      0.338     0.223     0.255       0.204    0.465      0.541  -1.249                   2
+iterative   raw         False      0.401     0.148     0.344       0.335    0.335      0.624  -1.893                   3
+   median  slog         False      0.698     0.156     0.558       0.498   -0.145     -0.084  -0.778                  16
+   median   raw         False      0.698     0.156     0.558       0.498   -0.145     -0.084  -0.778                  16
+     mean  slog         False      0.699     0.160     0.547       0.468   -0.152     -0.103  -0.644                  16
+     mean   raw         False      0.748     0.131     0.629       0.603   -0.400     -0.192  -2.383                  16
+    ridge  slog          True      0.171     0.128     0.118       0.078    0.781      0.954  -1.014                   1
+    ridge   raw          True      0.188     0.132     0.138       0.101    0.719      0.877  -1.170                   1
+      knn   raw          True      0.226     0.113     0.161       0.118    0.717      0.910  -1.428                   1
+      knn  slog          True      0.248     0.110     0.174       0.122    0.714      0.893  -1.502                   1
+iterative  slog          True      0.411     0.165     0.313       0.250    0.343      0.507  -2.058                   1
+iterative   raw          True      0.483     0.082     0.412       0.400    0.217      0.301  -1.919                   4
+   median  slog          True      0.698     0.156     0.558       0.498   -0.145     -0.084  -0.778                  16
+   median   raw          True      0.698     0.156     0.558       0.498   -0.145     -0.084  -0.778                  16
+     mean  slog          True      0.699     0.160     0.547       0.468   -0.152     -0.103  -0.644                  16
+     mean   raw          True      0.748     0.131     0.629       0.603   -0.400     -0.192  -2.383                  16
+[run ] pp1_iid_keep223
+integrity: {"records": 9545, "expected_records": 9545, "features": 128, "nan": 0, "inf": 0, "constant_features": 0, "duplicate_rows": 0, "gas_codes": [1, 2, 3, 4, 5, 6], "passed": true, "protocol": "reference_iid", "train_rows": 7635, "eval_rows": 1910, "cleaning_dropped_train": [{"batch": 2, "line": 380, "gas": 2}], "cleaning_flagged_eval_kept": [{"batch": 2, "line": 222, "gas": 1}]}
+reconstruction metrics: 1 flagged evaluation record(s) excluded of 1910
+mean      raw  done in  10.7s
+median    raw  done in   1.2s
+knn       raw  done in  14.6s
+ridge     raw  done in  36.8s
+iterative raw  done in 238.1s
+mean      slog done in   1.2s
+median    slog done in   1.2s
+knn       slog done in  10.9s
+ridge     slog done in  29.9s
+iterative slog done in 213.5s
+   method space  exclude_twin  rmse_mean  rmse_std  mae_mean  medae_mean  r2_mean  r2_median  r2_min  sensors_r2_below_0
+    ridge  slog         False      0.119     0.087     0.048       0.025    0.965      0.984   0.811                   0
+      knn   raw         False      0.129     0.046     0.043       0.018    0.953      0.979   0.742                   0
+    ridge   raw         False      0.130     0.078     0.062       0.041    0.913      0.984   0.367                   0
+      knn  slog         False      0.141     0.047     0.045       0.018    0.962      0.973   0.842                   0
+iterative   raw         False      0.479     0.226     0.363       0.327    0.622      0.714   0.014                   0
+iterative  slog         False      0.521     0.331     0.338       0.217    0.470      0.646  -0.799                   3
+     mean   raw         False      0.917     0.092     0.691       0.607   -0.001     -0.000  -0.004                  16
+   median   raw         False      0.944     0.104     0.665       0.513   -0.057     -0.041  -0.207                  16
+   median  slog         False      0.944     0.104     0.665       0.513   -0.057     -0.041  -0.207                  16
+     mean  slog         False      0.957     0.108     0.670       0.497   -0.085     -0.081  -0.157                  16
+      knn   raw          True      0.133     0.044     0.044       0.018    0.954      0.973   0.742                   0
+      knn  slog          True      0.148     0.046     0.046       0.018    0.959      0.970   0.852                   0
+    ridge   raw          True      0.186     0.069     0.098       0.066    0.881      0.948   0.425                   0
+    ridge  slog          True      0.207     0.279     0.071       0.038    0.786      0.970  -1.837                   1
+iterative   raw          True      0.627     0.132     0.482       0.434    0.474      0.503   0.075                   0
+iterative  slog          True      0.680     0.232     0.459       0.311    0.311      0.536  -1.218                   3
+     mean   raw          True      0.917     0.092     0.691       0.607   -0.001     -0.000  -0.004                  16
+   median   raw          True      0.944     0.104     0.665       0.513   -0.057     -0.041  -0.207                  16
+   median  slog          True      0.944     0.104     0.665       0.513   -0.057     -0.041  -0.207                  16
+     mean  slog          True      0.957     0.108     0.670       0.497   -0.085     -0.081  -0.157                  16
+[run ] pp1_compare
+
+SUMMARY: mean over the 16 sensors (neg_r2 = sensors with R2 < 0)
+   method space  exclude_twin  mae_temporal  mae_iid  drift_cost_mae  medae_temporal  medae_iid  rmse_temporal  rmse_iid  r2_median_temporal  r2_median_iid  neg_r2_temporal  neg_r2_iid
+      knn   raw         False         0.152    0.043           0.108           0.110      0.018          0.214     0.133               0.915          0.978                1           0
+      knn  slog         False         0.163    0.045           0.118           0.114      0.018          0.235     0.144               0.905          0.973                1           0
+    ridge  slog         False         0.089    0.048           0.041           0.064      0.025          0.128     0.123               0.981          0.984                1           0
+    ridge   raw         False         0.092    0.059           0.033           0.067      0.038          0.129     0.130               0.964          0.980                1           0
+iterative  slog         False         0.256    0.338          -0.082           0.203      0.219          0.339     0.520               0.585          0.668                2           3
+iterative   raw         False         0.330    0.361          -0.031           0.322      0.324          0.384     0.479               0.648          0.743                3           0
+   median   raw         False         0.553    0.672          -0.119           0.494      0.518          0.691     0.954              -0.084         -0.041               16          16
+   median  slog         False         0.553    0.672          -0.119           0.494      0.518          0.691     0.954              -0.084         -0.041               16          16
+     mean  slog         False         0.541    0.677          -0.136           0.463      0.503          0.692     0.967              -0.103         -0.081               16          16
+     mean   raw         False         0.624    0.698          -0.074           0.598      0.612          0.741     0.927              -0.192         -0.000               16          16
+      knn   raw          True         0.159    0.045           0.114           0.116      0.018          0.223     0.136               0.909          0.973                1           0
+      knn  slog          True         0.172    0.047           0.125           0.120      0.019          0.245     0.151               0.893          0.970                1           0
+    ridge  slog          True         0.117    0.072           0.044           0.077      0.038          0.170     0.255               0.956          0.970                1           2
+    ridge   raw          True         0.133    0.098           0.035           0.097      0.066          0.184     0.184               0.901          0.952                1           0
+iterative  slog          True         0.322    0.475          -0.152           0.258      0.323          0.425     0.709               0.524          0.515                2           3
+iterative   raw          True         0.422    0.493          -0.072           0.408      0.443          0.492     0.642               0.317          0.511                4           0
+   median   raw          True         0.553    0.672          -0.119           0.494      0.518          0.691     0.954              -0.084         -0.041               16          16
+   median  slog          True         0.553    0.672          -0.119           0.494      0.518          0.691     0.954              -0.084         -0.041               16          16
+     mean  slog          True         0.541    0.677          -0.136           0.463      0.503          0.692     0.967              -0.103         -0.081               16          16
+     mean   raw          True         0.624    0.698          -0.074           0.598      0.612          0.741     0.927              -0.192         -0.000               16          16
+
+PER SENSOR MAE, ridge/slog
+        mae_temporal|twin  mae_temporal|no_twin  mae_iid|twin  mae_iid|no_twin  drift_cost_mae|twin  drift_cost_mae|no_twin
+sensor                                                                                                                     
+S01                 0.376                 0.388         0.187            0.228                0.189                   0.160
+S02                 0.271                 0.108         0.069            0.071                0.202                   0.036
+S03                 0.075                 0.118         0.049            0.063                0.025                   0.054
+S04                 0.048                 0.060         0.036            0.049                0.012                   0.011
+S05                 0.101                 0.099         0.062            0.100                0.039                  -0.001
+S06                 0.089                 0.098         0.055            0.093                0.035                   0.005
+S07                 0.033                 0.053         0.025            0.042                0.008                   0.011
+S08                 0.039                 0.060         0.025            0.044                0.014                   0.016
+S09                 0.117                 0.242         0.039            0.070                0.078                   0.173
+S10                 0.034                 0.180         0.040            0.084               -0.006                   0.096
+S11                 0.054                 0.065         0.035            0.042                0.019                   0.024
+S12                 0.061                 0.078         0.041            0.048                0.021                   0.030
+S13                 0.040                 0.096         0.033            0.078                0.007                   0.018
+S14                 0.041                 0.093         0.034            0.078                0.008                   0.015
+S15                 0.026                 0.060         0.023            0.034                0.003                   0.027
+S16                 0.025                 0.071         0.021            0.033                0.004                   0.038
+
+PER SENSOR MAE, knn/raw
+        mae_temporal|twin  mae_temporal|no_twin  mae_iid|twin  mae_iid|no_twin  drift_cost_mae|twin  drift_cost_mae|no_twin
+sensor                                                                                                                     
+S01                 0.434                 0.459         0.087            0.089                0.347                   0.370
+S02                 0.159                 0.175         0.043            0.043                0.116                   0.132
+S03                 0.139                 0.142         0.040            0.041                0.099                   0.100
+S04                 0.104                 0.107         0.033            0.033                0.072                   0.074
+S05                 0.170                 0.174         0.049            0.052                0.121                   0.122
+S06                 0.144                 0.154         0.046            0.048                0.098                   0.106
+S07                 0.136                 0.138         0.042            0.042                0.094                   0.096
+S08                 0.130                 0.133         0.042            0.043                0.088                   0.090
+S09                 0.110                 0.115         0.038            0.039                0.072                   0.076
+S10                 0.076                 0.082         0.034            0.036                0.042                   0.046
+S11                 0.139                 0.144         0.041            0.042                0.099                   0.102
+S12                 0.150                 0.154         0.041            0.043                0.109                   0.112
+S13                 0.147                 0.159         0.042            0.043                0.105                   0.116
+S14                 0.152                 0.163         0.043            0.044                0.110                   0.119
+S15                 0.117                 0.120         0.038            0.039                0.080                   0.082
+S16                 0.117                 0.120         0.037            0.038                0.081                   0.083
+[run ] pp1_sensitivity
+                                                                                       what  kept_223  dropped_223  abs_change
+                                                            temporal baseline lgbm Macro-F1    0.7026       0.6991      0.0034
+                                                             temporal baseline svm Macro-F1    0.8590       0.8639      0.0049
+                                                        temporal baseline lgbm_aug Macro-F1    0.6824       0.7030      0.0207
+                                                         temporal baseline svm_aug Macro-F1    0.7948       0.7900      0.0048
+      temporal reconstruction rmse_mean (largest change, iterative/raw/twin_excluded=False)    0.3838       0.4007      0.0168
+       temporal reconstruction mae_mean (largest change, iterative/raw/twin_excluded=False)    0.3299       0.3441      0.0142
+     temporal reconstruction medae_mean (largest change, iterative/raw/twin_excluded=False)    0.3218       0.3351      0.0133
+     temporal reconstruction r2_median (largest change, iterative/slog/twin_excluded=False)    0.5851       0.5408      0.0444
+     reference_iid reconstruction rmse_mean (largest change, ridge/slog/twin_excluded=True)    0.2551       0.2067      0.0483
+  reference_iid reconstruction mae_mean (largest change, iterative/slog/twin_excluded=True)    0.4747       0.4587      0.0159
+reference_iid reconstruction medae_mean (largest change, iterative/slog/twin_excluded=True)    0.3227       0.3107      0.0121
+ reference_iid reconstruction r2_median (largest change, iterative/raw/twin_excluded=False)    0.7432       0.7141      0.0291
+
+largest change: 0.0483  (threshold 0.005) -> ABOVE threshold
+[run ] pp1_pair_drift
+   pair  train_offset_mean  val_offset  offset_shift_in_train_iqr  val_spearman  train_spearman_mean
+S01-S02              0.070      -0.210                     -1.638         0.913                0.982
+S03-S04              0.028       0.023                     -0.186         1.000                0.990
+S05-S06              0.007       0.024                      0.456         0.991                0.989
+S07-S08              0.004       0.005                      0.003         0.999                0.999
+S09-S10              0.052       0.121                      0.895         0.994                0.994
+S11-S12              0.009       0.022                      0.210         0.991                0.989
+S13-S14             -0.004       0.001                      0.121         0.995                0.988
+S15-S16              0.025       0.018                     -0.218         0.997                0.997
+[run ] pp2
+outlier rates: train 0.029  val 0.012 | rows with >10% outlying features: train 0.099 val 0.046
+dispersion index (1 = independent): 19.7 7.2
+feature patterns: {'batch_drift': 83, 'gas_related': 30, 'diffuse': 15}
+drop_train_rows removes 587 of 5931 Train rows
+                 n_features  svm_macro_f1  svm_accuracy  lgbm_macro_f1  lgbm_accuracy  seconds  rows_removed
+keep_all              128.0        0.8563        0.8558         0.6805         0.7232     66.6           NaN
+winsorize             128.0        0.8351        0.8361         0.7049         0.7396     66.7           NaN
+drop_train_rows       128.0        0.8601        0.8588         0.6988         0.7382     65.7         587.0
+phase 2 winner: keep_all | LightGBM drop flag: False
+ delta  exclude_twin  auroc_raw  auroc_clipped  shift_retained  auroc_drop
+   1.0         False     0.9927         0.9941          0.9987     -0.0014
+   1.0          True     0.9928         0.9949          0.9987     -0.0021
+   3.0         False     1.0000         1.0000          0.8370      0.0000
+   3.0          True     1.0000         1.0000          0.8370      0.0000
+[run ] pp3
+standard         SVM 0.8563  LGBM 0.6805
+standard+slog    SVM 0.8141  LGBM 0.6995
+robust           SVM 0.8071  LGBM 0.7089
+robust+slog      SVM 0.8336  LGBM 0.7089
+minmax           SVM 0.8841  LGBM 0.6948
+minmax+slog      SVM 0.7844  LGBM 0.6948
+phase 3 winner: minmax | LightGBM drop flag: False
+NEW BASELINE: {
+ "spec": {
+  "clip": "none",
+  "slog": false,
+  "scaler": "minmax",
+  "groups": [],
+  "select": "none"
+ },
+ "trial_id": "minmax",
+ "svm_fixed_params_macro_f1": 0.8840758595802791,
+ "svm_tuned": {
+  "params": "{\"C\": 10, \"gamma\": \"scale\"}",
+  "macro_f1": 0.8840758595802791,
+  "accuracy": 0.879601439247163
+ },
+ "lgbm_tuned": {
+  "params": "{\"num_leaves\": 15, \"class_weight\": null}",
+  "macro_f1": 0.6947629921238098,
+  "accuracy": 0.7312482701356213
+ }
+}
+[run ] pp3b
+features with (p1-p99 range)/(min-max range) < 0.05: 11 of 128
+     feature  p_range  minmax_range  ratio
+ S03_EMAi0.1  43.4392     3069.5387 0.0142
+ S04_EMAi0.1  46.2084     2693.1902 0.0172
+S04_EMAd0.01  17.7573      410.1128 0.0433
+ S04_EMAd0.1  42.1218     2951.0509 0.0143
+ S05_EMAi0.1  13.4647      312.1770 0.0431
+S05_EMAd0.01   3.4902      133.2490 0.0262
+ S05_EMAd0.1   9.0365      882.1959 0.0102
+ S06_EMAi0.1  12.4679      326.5358 0.0382
+ S06_EMAd0.1   9.0994      413.1914 0.0220
+ S13_EMAd0.1  16.9109      407.2924 0.0415
+ S14_EMAd0.1  12.8441      400.2401 0.0321
+              svm_macro_f1  svm_accuracy  lgbm_macro_f1  lgbm_accuracy
+scaler                                                                
+standard            0.8563        0.8558         0.6805         0.7232
+minmax              0.8841        0.8796         0.6948         0.7312
+minmax_p1_99        0.8528        0.8583         0.6921         0.7263
+             difference    mean  ci_low  ci_high  share_positive
+      minmax - standard  0.0275  0.0173   0.0374           1.000
+minmax_p1_99 - standard -0.0036 -0.0088   0.0015           0.103
+  minmax - minmax_p1_99  0.0311  0.0212   0.0413           1.000
+VERDICT: {
+ "features_squeezed_below_flag": [
+  "S03_EMAi0.1",
+  "S04_EMAi0.1",
+  "S04_EMAd0.01",
+  "S04_EMAd0.1",
+  "S05_EMAi0.1",
+  "S05_EMAd0.01",
+  "S05_EMAd0.1",
+  "S06_EMAi0.1",
+  "S06_EMAd0.1",
+  "S13_EMAd0.1",
+  "S14_EMAd0.1"
+ ],
+ "condition_A_ci_excludes_zero": true,
+ "condition_B_percentile_minmax_gain_over_standard": -0.003478964989025002,
+ "condition_B_met": false,
+ "adopted_scaler": "standard"
+}
+NEW BASELINE: {
+ "spec": {
+  "clip": "none",
+  "slog": false,
+  "scaler": "standard",
+  "groups": [],
+  "select": "none"
+ },
+ "trial_id": "standard",
+ "svm_fixed_params_macro_f1": 0.8562797474029503,
+ "svm_tuned": {
+  "params": "{\"C\": 10, \"gamma\": 0.01}",
+  "macro_f1": 0.8589752791127291,
+  "accuracy": 0.8580127318018267
+ },
+ "lgbm_tuned": {
+  "params": "{\"num_leaves\": 31, \"class_weight\": null}",
+  "macro_f1": 0.6918431909292847,
+  "accuracy": 0.73318571823969
+ }
+}
+[run ] pp4
+incumbent  SVM 0.8563  LGBM 0.6805
+trans_ratio                cols + 96 sources<=  1 P4 ok  SVM 0.7363  LGBM 0.6526
+ema_shape                  cols + 32 sources<=  1 P4 ok  SVM 0.7742  LGBM 0.6786
+trans_ratio+ema_shape      cols +128 sources<=  1 P4 ok  SVM 0.7015  LGBM 0.6432
+pn_l2                      cols + 32 sources<= 16 P4 REJECTED  SVM 0.8160  LGBM 0.7840
+pn_logmed                  cols + 16 sources<= 16 P4 REJECTED  SVM 0.7699  LGBM 0.6897
+phase 4 winner: incumbent | LightGBM drop flag: False
+[run ] pp5
+none         columns 128  SVM 0.8563  LGBM 0.6805
+drop_top10   columns 115  SVM 0.8420  LGBM 0.7077
+drop_top20   columns 102  SVM 0.8437  LGBM 0.7225
+most drift-sensitive features (eta2 on batches 1-6):
+      feature  eta2
+       S10_DR 0.312
+    S06_absDR 0.300
+S10_EMAd0.001 0.295
+    S05_absDR 0.282
+S10_EMAi0.001 0.274
+ S10_EMAd0.01 0.271
+       S09_DR 0.269
+       S05_DR 0.264
+ S10_EMAi0.01 0.261
+       S06_DR 0.257
+S09_EMAd0.001 0.252
+S06_EMAd0.001 0.243
+       S01_DR 0.239
+phase 5 winner: none | LightGBM drop flag: False
+[run ] pp45
+                       svm_macro_f1  svm_accuracy  lgbm_macro_f1  lgbm_accuracy
+candidate                                                                      
+baseline                     0.8590        0.8580         0.6918         0.7332
+trans_ratio                  0.7140        0.7382         0.6668         0.6939
+ema_shape                    0.7549        0.7744         0.6756         0.7146
+trans_ratio+ema_shape        0.6822        0.7135         0.6341         0.6773
+drop_top10                   0.8421        0.8417         0.6768         0.7163
+drop_top20                   0.8443        0.8425         0.7009         0.7373
+            candidate  svm_macro_f1  gain_vs_baseline  ci_low  ci_high  gain_gt_0.005  ci_excludes_0  adopt  lgbm_macro_f1  lgbm_gain_vs_baseline
+          trans_ratio        0.7140           -0.1450 -0.1581  -0.1337          False           True  False         0.6668                -0.0251
+            ema_shape        0.7549           -0.1041 -0.1155  -0.0938          False           True  False         0.6756                -0.0162
+trans_ratio+ema_shape        0.6822           -0.1768 -0.1900  -0.1645          False           True  False         0.6341                -0.0578
+           drop_top10        0.8421           -0.0169 -0.0221  -0.0115          False           True  False         0.6768                -0.0150
+           drop_top20        0.8443           -0.0147 -0.0201  -0.0095          False           True  False         0.7009                 0.0091
+FINAL PIPELINE: baseline (no candidate adopted)
+[run ] pp6
+svm_aug seed 0: Macro-F1 0.7876  Accuracy 0.7938
+svm_aug seed 1: Macro-F1 0.7523  Accuracy 0.7697
+svm_aug seed 2: Macro-F1 0.7927  Accuracy 0.7999
+svm_aug seed 3: Macro-F1 0.7613  Accuracy 0.7758
+svm_aug seed 4: Macro-F1 0.7955  Accuracy 0.8049
+lgbm_aug seed 0: Macro-F1 0.6897  Accuracy 0.7299
+lgbm_aug seed 1: Macro-F1 0.7020  Accuracy 0.7384
+lgbm_aug seed 2: Macro-F1 0.6973  Accuracy 0.7365
+lgbm_aug seed 3: Macro-F1 0.7055  Accuracy 0.7434
+lgbm_aug seed 4: Macro-F1 0.7086  Accuracy 0.7459
+   model  n  macro_f1_mean  macro_f1_std  accuracy_mean  accuracy_std
+     svm  1         0.8590        0.0000         0.8580        0.0000
+    lgbm  1         0.6918        0.0000         0.7332        0.0000
+ svm_aug  5         0.7779        0.0197         0.7888        0.0153
+lgbm_aug  5         0.7006        0.0074         0.7388        0.0063
+[run ] report
+report written: results\preprocessing\REPORT.md
+{'P1 integrity': 'PASS', 'P2 no leakage': 'PASS', 'P3 no harm to clean performance': 'PASS', 'P4 traceability': 'PASS', 'P5 reconstruction': 'PASS', 'P6 reproducibility': 'NOT RUN'}
+steps run: [('tests', 57.6), ('pp1_iid', 543.6), ('pp1_temporal_drop223', 486.4), ('pp1_iid_keep223', 578.8), ('pp1_compare', 1.9), ('pp1_sensitivity', 2.0), ('pp1_pair_drift', 19.1), ('pp2', 495.0), ('pp3', 1104.8), ('pp3b', 1376.0), ('pp4', 137.4), ('pp5', 46.2), ('pp45', 206.1), ('pp6', 195.6), ('report', 8.6)]

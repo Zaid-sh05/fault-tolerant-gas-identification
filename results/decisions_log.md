@@ -77,3 +77,7 @@ The overnight text leaves these open. They are fixed here and will not be change
   so A and B always act on the same sets; C uses all reliability weights without a cap. C experts use gamma='scale' (16 features each)
   with C=10. Weight per sensor w = 1 / max(1, ratio)^2 and per expert the minimum over its two sensors.
 * C4 (PRE): the Part-4 chunks are processed in the order k=4, k=2, k=1 (the user's rule if time runs out); the analysis accepts a subset.
+* C5 (operational): `scripts/01_audit.py` used to open the Test files to count their lines (done once, in Step 1, before the
+  overnight rule). It no longer opens them; the Test row of its split table now says "not read". The overnight run never opened
+  batches 8-10 (the loaders refuse them and unit tests prove it). Earlier in the project, the dataset download step hashed the ten
+  files (`data/raw/SHA256SUMS.txt`) and the Step-1 audit counted the lines of batches 8-10; no values or labels were looked at.

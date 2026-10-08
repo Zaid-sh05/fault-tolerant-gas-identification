@@ -3,8 +3,7 @@
 Usage: python scripts/01_audit.py --config configs/main.yaml
 Outputs: results/01_audit/{audit.md, *.csv, *.png}
 
-Leakage rule: only Train/Val batches are loaded. Test files are never parsed;
-their record count is taken from the line count only.
+Leakage rule: only Train/Val batches are loaded. Test files are never opened (not even to count lines).
 """
 import argparse, sys, json
 from pathlib import Path
@@ -111,10 +110,8 @@ def main(cfg_path):
         sub = df[df.batch.isin(bs)]
         c = sub.gas.map(GAS_NAMES).value_counts().reindex(GAS_NAMES.values()).fillna(0).astype(int)
         return {"batches": str(bs), "n": len(sub), **c.to_dict()}
-    n_test = sum(sum(1 for line in open(Path(cfg["data"]["raw_dir"]) / f"batch{b}.dat") if line.strip())
-                 for b in te_b)  # line count only: Test content is not parsed
     sp = pd.DataFrame([{"role": "Train", **cov(tr_b)}, {"role": "Val", **cov(va_b)},
-                       {"role": "Test", "batches": str(te_b), "n": n_test}])
+                       {"role": "Test", "batches": str(te_b), "n": "not read"}])
     sp.to_csv(out / "split.csv", index=False)
     md += ["## 6. Split in config", sp.to_markdown(index=False), ""]
 

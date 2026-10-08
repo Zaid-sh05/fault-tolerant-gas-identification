@@ -1,4 +1,4 @@
 ,n_features,svm_macro_f1,svm_accuracy,lgbm_macro_f1,lgbm_accuracy,seconds,rows_removed
-keep_all,128.0,0.8563,0.8558,0.6805,0.7232,219.0,
-winsorize,128.0,0.8351,0.8361,0.7049,0.7396,77.6,
-drop_train_rows,128.0,0.8601,0.8588,0.6988,0.7382,212.8,587.0
+keep_all,128.0,0.8563,0.8558,0.6805,0.7232,66.6,
+winsorize,128.0,0.8351,0.8361,0.7049,0.7396,66.7,
+drop_train_rows,128.0,0.8601,0.8588,0.6988,0.7382,65.7,587.0

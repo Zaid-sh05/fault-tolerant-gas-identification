@@ -25,12 +25,12 @@ New baselines on the final pipeline, Validation, augmentation with 5 seeds (`fin
 
 | gate | result | evidence |
 |---|---|---|
-| P1 integrity | PASS | 9546 records inspected in batches 1-7 (9544 kept after dropping 2 corrupt Train records), NaN 0, inf 0, 61 tests, 0 failing [phase1/temporal/integrity.json, junit.xml] |
+| P1 integrity | PASS | 9546 records inspected in batches 1-7 (9544 kept after dropping 2 corrupt Train records), NaN 0, inf 0, 92 tests, 0 failing [phase1/temporal/integrity.json, junit.xml] |
 | P2 no leakage | PASS | 5 tests: fitted pipeline unchanged when batch 7 changes, changes when a Train batch changes, Test files unparseable and never read [tests/test_preprocessing.py, test_protocols.py, test_data.py] |
 | P3 no harm to clean performance | PASS | final pipeline = new Baseline (no candidate adopted): SVM Macro-F1 0.8590 (tuned), gate >= 0.8490; the old reference 0.868 is superseded [phase3/new_baseline.json, phase45/decision_rule.csv] |
 | P4 traceability | PASS | 10 tests + final/feature_provenance.csv; groups with a multi-sensor column are rejected [phase4/candidates_val.csv] |
 | P5 reconstruction | PASS | tables per method and per sensor, with and without the twin, both protocols [phase1/protocol_comparison_sensor.csv, protocol_comparison_summary.csv] |
-| P6 reproducibility | NOT RUN | not verified yet |
+| P6 reproducibility | PASS | 106 files compared with the previous run, 0 differing [reproducibility.json] |
 
 ## 3. Combinations compared on Validation (at most 12)
 

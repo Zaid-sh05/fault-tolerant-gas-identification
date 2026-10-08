@@ -22,7 +22,7 @@ def compare_csv(a, b):
         return "shape/columns differ"
     worst = 0.0
     for c in cols:
-        if np.issubdtype(x[c].dtype, np.number):
+        if pd.api.types.is_numeric_dtype(x[c]) and not pd.api.types.is_bool_dtype(x[c]):
             d = np.nanmax(np.abs(x[c].to_numpy(float) - y[c].to_numpy(float))) if len(x) else 0.0
             tol = 1e-9 * max(1.0, float(np.nanmax(np.abs(x[c].to_numpy(float)))) if len(x) else 1.0)
             if d > tol:

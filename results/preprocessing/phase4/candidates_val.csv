@@ -1,6 +1,6 @@
 groups,new_columns,max_source_sensors,passes_P4,n_features,svm_macro_f1,svm_accuracy,lgbm_macro_f1,lgbm_accuracy,seconds
-trans_ratio,96,1,True,224,0.7363,0.7534,0.6526,0.6919,43.3
-ema_shape,32,1,True,160,0.7742,0.7883,0.6786,0.7177,34.0
-trans_ratio+ema_shape,128,1,True,256,0.7015,0.7268,0.6432,0.6845,53.8
-pn_l2,32,16,False,160,0.816,0.8099,0.784,0.783,31.1
-pn_logmed,16,16,False,144,0.7699,0.7777,0.6897,0.7105,31.6
+trans_ratio,96,1,True,224,0.7363,0.7534,0.6526,0.6919,25.7
+ema_shape,32,1,True,160,0.7742,0.7883,0.6786,0.7177,37.3
+trans_ratio+ema_shape,128,1,True,256,0.7015,0.7268,0.6432,0.6845,23.5
+pn_l2,32,16,False,160,0.816,0.8099,0.784,0.783,15.3
+pn_logmed,16,16,False,144,0.7699,0.7777,0.6897,0.7105,13.7
