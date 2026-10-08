@@ -260,3 +260,32 @@ Written before any v2 code was run or any v2 number was computed.
   with and without the toluene rows of batches 6 and 7, because Dev-Train has almost no toluene (G4). "Without toluene" = the toluene rows are removed
   from the scored rows; a prediction of toluene on another gas still counts as an error; Macro-F1 over the 5 remaining gases. Same fitted models and
   code as the candidate table; the full-row numbers must reproduce `results/v2/candidates.csv` (checked). Script `scripts/v2_toluene_sensitivity.py`.
+
+## J. Few-shot recalibration (POST-HOC, added by the user 2026-10-08 after the candidate table was seen; written before any arbiter number was seen)
+* J0 (status). A new candidate added AFTER the unsupervised candidates failed to beat M0. It deliberately departs from G3(2) (it uses LABELS of the new
+  batch) and from G3(3) (the list was closed); both by the user's decision. It is therefore a SEPARATE setting, reported as "with n labeled calibration
+  samples per gas" next to the v1 results without calibration, never mixed with them or with the unsupervised v2 results, and labelled post-hoc. Adding
+  a candidate after seeing the others fail is a forking path; the report says so.
+* J1 (reference, verified). Lei Zhang and David Zhang, "Domain Adaptation Extreme Learning Machines for Drift Compensation in E-Nose Systems", IEEE
+  Transactions on Instrumentation and Measurement 64(7):1790-1801, 2015 (arXiv 1505.06405): a few labeled target-domain samples for drift compensation.
+  DAELM itself (an ELM with a separate target-domain penalty) is NOT implemented; we use the simplest form of its idea with the frozen SVM:
+  "few-shot recalibration (DAELM-inspired)".
+* J2 (motivation). Realistic IoT maintenance: a technician exposes the device to known gases and the readings are stored with their labels.
+* J3 (design). Base = M0 (the G6 winner). For every evaluation batch separately: per gas, m = min(n, floor(count/2)) rows drawn at random
+  (seed s in 0..4, generator keyed by the batch and n) from the CLEAN batch; a gas absent from the batch gives none. n in {5, 10} only. Adaptation =
+  Train rows + calibration rows, unweighted (no separate target penalty, nothing tuned), and every Train-fitted object is refitted on them: StandardScaler,
+  SVM, the 5 augmentation sets and models, the reduced B models, and the detector (the calibration rows form one extra group in its
+  leave-one-batch-out). The fault definitions are unchanged (raw Train statistics of v1). Faults are applied to the FULL batch matrix exactly as in
+  the uncalibrated runs (same faulted matrices); the calibration rows are then removed from scoring, for good. The uncalibrated M0 is scored on the SAME
+  remaining rows of each seed, so every comparison is paired on identical rows.
+* J4 (choice of n, clean only; stage 1). gain(n) = calibrated minus uncalibrated clean SVM Macro-F1 on the same rows, mean over the 5 seeds, computed for
+  Drift-Dev (mean of batches 6 and 7) and for Validation 7, then averaged over these two. n* = 5 if gain(5) >= 0.9 * gain(10), else 10. If gain(10) <= 0,
+  calibration does not help: reported, and no fault layer is run on it.
+* J5 (stage 2). For n* only: the full fault layer (A, B, augmentation, Oracle) and the arbiters H1-H3 on the calibrated model, 5 seeds, the same 481
+  scenarios (clean + k1/k2 medium), Drift-Dev batches 6 and 7 and Validation 7. The arbiter variant chosen by G8 on the uncalibrated model is carried
+  over (no new choice); all three are shown. Results: mean +- std over the 5 calibration seeds.
+* J6 (retention column, for every v2 fault table). retention = Macro-F1 with the fault / clean Macro-F1 of the SAME method, model, evaluation batch
+  (and calibration seed), per scenario, then averaged like the Macro-F1. Computed from the per-scenario files; nothing is re-run for it. For v1 tables it
+  is computed from the existing v1 per-scenario files when v1 is shown next to v2 (reporting only; Test is not read again).
+* J7 (Test, only after the user's approval). One run: every Test batch (8, 9, 10) gets its own calibration rows (rule J3, n*, seeds 0-4), removed from
+  scoring; pooled = the union of the remaining rows. Reported as its own setting next to v1.
