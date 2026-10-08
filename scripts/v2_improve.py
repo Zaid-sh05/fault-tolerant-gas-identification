@@ -99,7 +99,7 @@ def guarded_reconstruct(det, Xf, R, sets):
     return Xr
 
 
-def run_chunk(proto, batch, index, sids, out, light=False):
+def run_chunk(proto, batch, index, sids, out, light=False, routing=False):
     path = out / proto / f"b{batch}_chunks" / f"chunk_{index:03d}.pkl"
     if path.exists():
         return str(path)
@@ -121,6 +121,8 @@ def run_chunk(proto, batch, index, sids, out, light=False):
         row = {"protocol": proto, "batch": batch, "sid": sid, **arb.scenario_info(sc), "svm": f1(fast_svm_predict(svm, Zf))}
         affected, healthy = truth.any(1), ~truth & truth.any(1)[:, None]
         for v, R in ratios.items():
+            if routing and v != "V0":
+                continue
             flags = R > 1.0
             sets = acted_sets(R, flags)
             Xr = guarded_reconstruct(d0, Xf, R, sets) if v == "V5" else kit.reconstruct(Xf, group_by_set(sets), False)
@@ -207,20 +209,37 @@ def decide(df, light=False):
     return s, res
 
 
-def main(jobs, limit, only, light):
-    out = Path("results/v2/improve_smoke") if limit else Path("results/v2/improve_light") if light else OUT
+def confirm_routing(df):
+    lr = json.load(open("results/v2/light/lr_choice.json"))
+    if not (lr.get("selected") and lr.get("passes_validation_stage")):
+        return {"confirmed": False, "note": "LR had no variant passing the Validation-7 stage"}
+    col = f"{lr['target']}_t{lr['t']}"
+    s = summary(df, ["V0", col, "B", "svm_aug", "svm"])["drift_dev"]
+    g, lo, hi = boot_gain(df, "drift_dev", col)
+    return {"rule": col, "dev_summary_clean_faults_worst": s, "dev_gain_vs_A": [g, lo, hi], "dev_clean_drop": s["V0"][0] - s[col][0],
+            "confirmed": bool(lo > 0 and s["V0"][0] - s[col][0] <= MARGIN), "criteria": "decisions_log L7", "post_hoc": True}
+
+
+def main(jobs, limit, only, light, routing=False):
+    out = (Path("results/v2/improve_smoke") if limit else Path("results/v2/improve_light") if light
+           else Path("results/v2/improve_routing") if routing else OUT)
     n = len(scenario_list()) if not limit else limit
-    protos = [only] if only else list(PROTOCOLS)
+    protos = [only] if only else ["drift_dev"] if routing else list(PROTOCOLS)
     for p in protos:
         lpo_detector(p, out)
         print(f"{p}: leave-pair-out detector ready", flush=True)
-    tasks = [delayed(run_chunk)(p, b, i, list(range(a, min(a + CHUNK, n))), out, light)
+    tasks = [delayed(run_chunk)(p, b, i, list(range(a, min(a + CHUNK, n))), out, light, routing)
              for p in protos for b in load(PROTOCOLS[p])[3] for i, a in enumerate(range(0, n, CHUNK))]
     paths = Parallel(n_jobs=jobs, verbose=5)(tasks)
     df = pd.DataFrame([r for p in paths for r in pickle.load(open(p, "rb"))])
     df.round(5).to_csv(out / "scenarios.csv", index=False)
     if limit:
         print(df.head().to_string())
+        return
+    if routing:                                                                    # LR confirmation on Drift-Dev only (L7)
+        res = confirm_routing(df)
+        json.dump(res, open(out / "choice.json", "w"), indent=1)
+        print(json.dumps(res, indent=1))
         return
     s, res = decide(df, light)
     json.dump(res, open(out / "choice.json", "w"), indent=1)
@@ -244,6 +263,7 @@ if __name__ == "__main__":
     ap.add_argument("--limit-scenarios", type=int, default=0)
     ap.add_argument("--only", choices=list(PROTOCOLS), default=None, help="smoke tests only")
     ap.add_argument("--light", action="store_true", help="A variants only, no B / augmentation / routing (decisions_log L8)")
+    ap.add_argument("--routing", action="store_true", help="LR confirmation on Drift-Dev only: V0, B, augmentation, routing (heavy)")
     a = ap.parse_args()
     assert not a.only or a.limit_scenarios, "--only is for smoke tests"
-    main(a.jobs, a.limit_scenarios, a.only, a.light)
+    main(a.jobs, a.limit_scenarios, a.only, a.light, a.routing)
