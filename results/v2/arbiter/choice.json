@@ -1,0 +1,33 @@
+{
+ "variants": {
+  "H1": {
+   "mean_all_scenarios_avg_protocols": 0.7236263513513514,
+   "setting_balanced_mean": 0.7256427369791667,
+   "worst_gap_to_best_single": -0.020248687499999973,
+   "passes_condition": false
+  },
+  "H2": {
+   "mean_all_scenarios_avg_protocols": 0.7238859095634096,
+   "setting_balanced_mean": 0.7226564322916667,
+   "worst_gap_to_best_single": -0.030035000000000034,
+   "passes_condition": false
+  },
+  "H3": {
+   "mean_all_scenarios_avg_protocols": 0.7147361746361747,
+   "setting_balanced_mean": 0.7165201718750001,
+   "worst_gap_to_best_single": -0.02697499999999997,
+   "passes_condition": false
+  }
+ },
+ "winner": null,
+ "post_hoc": true,
+ "single_methods_overall": {
+  "svm": 0.6875084147609147,
+  "A": 0.7356808523908525,
+  "B": 0.7268791683991684,
+  "svm_aug": 0.6741474948024948,
+  "lgbm_aug": 0.6164788357588358
+ },
+ "rule": "decisions_log G8, I4",
+ "base_model": "M0"
+}

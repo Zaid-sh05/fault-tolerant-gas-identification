@@ -1,0 +1,17 @@
+
+##### guarded start 2026-10-09T00:02:37 (memory limit 85%, load now 58%)
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:   12.7s
+[Parallel(n_jobs=3)]: Done  30 out of  30 | elapsed:   29.9s finished
+| protocol   |   batch |   n |   calibrated |   calibrated_std |   uncalibrated |   gain |   gain_std |   n_cal_rows |
+|:-----------|--------:|----:|-------------:|-----------------:|---------------:|-------:|-----------:|-------------:|
+| drift_dev  |       6 |   5 |        0.87  |            0.043 |          0.616 |  0.254 |      0.043 |           30 |
+| drift_dev  |       6 |  10 |        0.935 |            0.014 |          0.614 |  0.321 |      0.014 |           60 |
+| drift_dev  |       7 |   5 |        0.893 |            0.025 |          0.619 |  0.274 |      0.025 |           30 |
+| drift_dev  |       7 |  10 |        0.943 |            0.016 |          0.619 |  0.324 |      0.016 |           60 |
+| original   |       7 |   5 |        0.929 |            0.009 |          0.858 |  0.071 |      0.009 |           30 |
+| original   |       7 |  10 |        0.952 |            0.019 |          0.859 |  0.093 |      0.018 |           60 |
+n* = 10: gain(5) = 0.1675, 0.9 * gain(10) = 0.1869
+##### command ended with exit code 0 at 2026-10-09T00:03:22
+
+##### guarded start 2026-10-09T00:03:23 (memory limit 85%, load now 57%)
