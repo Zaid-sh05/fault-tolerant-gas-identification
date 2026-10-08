@@ -1,0 +1,25 @@
+reference_iid: 480 scenarios, train 7634, eval 1910
+clean: {'svm': 0.999, 'lgbm': 0.9955}
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  16 out of  16 | elapsed: 54.4min finished
+kset   fault  level  n  best_clean_drop  svm_drop  svm_f1  lgbm_f1  svm_aug_f1  lgbm_aug_f1  svm_aug_f1_std_over_aug_seeds  lgbm_aug_f1_std_over_aug_seeds
+  k1    bias    1.0 80           0.0138    0.0138  0.9852   0.9823      0.9975       0.9957                         0.0006                          0.0004
+  k1 dropout    0.5 80           0.0240    0.0240  0.9751   0.9836      0.9944       0.9961                         0.0004                          0.0003
+  k1  random    0.5 80           0.0795    0.0795  0.9195   0.9811      0.9728       0.9951                         0.0008                          0.0003
+  k1   stuck    0.5 80           0.0431    0.0431  0.9559   0.9746      0.9879       0.9953                         0.0011                          0.0003
+{
+ "best_clean_baseline": "svm",
+ "clean_macro_f1": 0.9990310745363935,
+ "k1_medium_mean_drop_by_fault": {
+  "dropout": 0.02397504787841421,
+  "bias": 0.013803409628254649,
+  "stuck": 0.04312997817564835,
+  "random": 0.07951177342708056
+ },
+ "types_with_drop_ge_0.03": [
+  "stuck",
+  "random"
+ ],
+ "G1_passes": true,
+ "rule": "registered in results/decisions_log.md B4"
+}

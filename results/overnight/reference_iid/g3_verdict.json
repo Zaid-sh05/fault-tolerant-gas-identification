@@ -1,0 +1,87 @@
+{
+ "scenarios_analysed": 480,
+ "scenarios_total_in_set": 480,
+ "G3_passes": true,
+ "comparisons": 32,
+ "cells_passing": 8,
+ "passing": [
+  {
+   "kset": "k1",
+   "fault": "bias",
+   "level": 1.0,
+   "method": "B_det",
+   "diff": 0.0012,
+   "ci_low": 0.0006,
+   "ci_high": 0.0019
+  },
+  {
+   "kset": "k1",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0029,
+   "ci_low": 0.0004,
+   "ci_high": 0.0059
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0027,
+   "ci_low": 0.0002,
+   "ci_high": 0.0057
+  },
+  {
+   "kset": "k1",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0035,
+   "ci_low": 0.001,
+   "ci_high": 0.0066
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_twin",
+   "diff": 0.0032,
+   "ci_low": 0.0007,
+   "ci_high": 0.0063
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "A_det_notwin",
+   "diff": 0.003,
+   "ci_low": 0.0003,
+   "ci_high": 0.0061
+  },
+  {
+   "kset": "k2",
+   "fault": "dropout",
+   "level": 0.5,
+   "method": "B_det",
+   "diff": 0.0042,
+   "ci_low": 0.0016,
+   "ci_high": 0.0073
+  },
+  {
+   "kset": "k2",
+   "fault": "stuck",
+   "level": 0.5,
+   "method": "C_det",
+   "diff": 0.0061,
+   "ci_low": 0.0013,
+   "ci_high": 0.0105
+  }
+ ],
+ "bonferroni_supplement": {
+  "z_threshold": 3.1628179656213016,
+  "passing_after_bonferroni": 1,
+  "note": "normal approximation of the bootstrap distribution; does not change the gate"
+ },
+ "rule": "results/decisions_log.md B11; real detector only, oracle excluded"
+}

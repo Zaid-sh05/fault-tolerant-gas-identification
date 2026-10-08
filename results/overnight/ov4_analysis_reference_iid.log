@@ -1,0 +1,25 @@
+[Parallel(n_jobs=6)]: Using backend LokyBackend with 6 concurrent workers.
+[Parallel(n_jobs=6)]: Done  29 tasks      | elapsed:    1.8s
+[Parallel(n_jobs=6)]: Done 160 out of 160 | elapsed:   22.1s finished
+{
+ "scenarios_analysed": 480,
+ "scenarios_total_in_set": 480,
+ "G3_passes": true,
+ "comparisons": 32,
+ "cells_passing": 8,
+ "bonferroni_supplement": {
+  "z_threshold": 3.1628179656213016,
+  "passing_after_bonferroni": 1,
+  "note": "normal approximation of the bootstrap distribution; does not change the gate"
+ },
+ "rule": "results/decisions_log.md B11; real detector only, oracle excluded"
+}
+kset   fault  level       method  counts_for_G3 best_aug_baseline  method_f1  best_aug_f1   diff  ci_low  ci_high  boot_mean_diff      z  beats_and_ci_excludes_0
+  k1    bias    1.0        B_det           True           svm_aug     0.9987       0.9975 0.0012  0.0006   0.0019          0.0012 3.5852                     True
+  k1 dropout    0.5        B_det           True          lgbm_aug     0.9991       0.9961 0.0029  0.0004   0.0059          0.0030 2.0864                     True
+  k1   stuck    0.5   A_det_twin           True          lgbm_aug     0.9980       0.9953 0.0027  0.0002   0.0057          0.0027 1.8835                     True
+  k1   stuck    0.5        B_det           True          lgbm_aug     0.9989       0.9953 0.0035  0.0010   0.0066          0.0036 2.4905                     True
+  k2 dropout    0.5   A_det_twin           True          lgbm_aug     0.9980       0.9948 0.0032  0.0007   0.0063          0.0033 2.2882                     True
+  k2 dropout    0.5 A_det_notwin           True          lgbm_aug     0.9977       0.9948 0.0030  0.0003   0.0061          0.0030 2.0798                     True
+  k2 dropout    0.5        B_det           True          lgbm_aug     0.9989       0.9948 0.0042  0.0016   0.0073          0.0043 2.9293                     True
+  k2   stuck    0.5        C_det           True          lgbm_aug     0.9857       0.9796 0.0061  0.0013   0.0105          0.0060 2.5060                     True

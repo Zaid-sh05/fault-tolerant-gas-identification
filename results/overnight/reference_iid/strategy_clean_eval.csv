@@ -1,0 +1,7 @@
+method,macro_f1,accuracy,mean_flagged_per_row,rows_with_any_flag
+clean_svm_no_handling,0.999,0.999,0.0,0.0
+A_det_twin,0.999,0.999,0.8471,0.5387
+A_det_notwin,0.9985,0.9984,0.8471,0.5387
+B_det,0.999,0.999,0.8471,0.5387
+C_det,0.986,0.9853,0.8471,0.5387
+C_equal,0.9865,0.9859,0.8471,0.5387

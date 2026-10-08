@@ -1,0 +1,16 @@
+{
+ "best_clean_baseline": "svm",
+ "clean_macro_f1": 0.9990310745363935,
+ "k1_medium_mean_drop_by_fault": {
+  "dropout": 0.02397504787841421,
+  "bias": 0.013803409628254649,
+  "stuck": 0.04312997817564835,
+  "random": 0.07951177342708056
+ },
+ "types_with_drop_ge_0.03": [
+  "stuck",
+  "random"
+ ],
+ "G1_passes": true,
+ "rule": "registered in results/decisions_log.md B4"
+}

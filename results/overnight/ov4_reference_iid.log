@@ -1,0 +1,5 @@
+reference_iid: 480 scenarios in 16 chunks (k4, k2, then k1)
+[Parallel(n_jobs=5)]: Using backend LokyBackend with 5 concurrent workers.
+[Parallel(n_jobs=5)]: Done  11 out of  16 | elapsed: 29.1min remaining: 13.2min
+[Parallel(n_jobs=5)]: Done  16 out of  16 | elapsed: 33.8min finished
+merged 480 scenarios from 16 chunk files
