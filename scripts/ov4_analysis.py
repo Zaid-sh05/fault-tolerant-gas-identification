@@ -49,7 +49,7 @@ def chunk_job(y, preds, W):
     return boot_f1(y, preds, W)
 
 
-def main(cfg_path, name):
+def main(cfg_path, name, n_jobs=6):
     study = Study(cfg_path, name)
     y = study.yev.astype(int)
     strat_rows = pd.read_csv(study.dir / "strategy_scenarios.csv")             # may be a subset of the scenarios
@@ -71,7 +71,7 @@ def main(cfg_path, name):
     S = len(scen)
     step = 60
     jobs = [(m, a, min(a + step, S)) for m in names for a in range(0, S, step)]
-    res = Parallel(n_jobs=6, verbose=2)(delayed(chunk_job)(y, methods[m][a:b], W) for m, a, b in jobs)
+    res = Parallel(n_jobs=n_jobs, verbose=2)(delayed(chunk_job)(y, methods[m][a:b], W) for m, a, b in jobs)
     boot = {m: np.concatenate([r for (mm, _, _), r in zip(jobs, res) if mm == m]) for m in names}          # (S, B)
     for kind in ("svm", "lgbm"):                                            # average of the 5 augmentation seeds
         boot[f"{kind}_aug"] = np.mean([boot[f"{kind}_aug{s}"] for s in AUG_SEEDS], axis=0)
@@ -125,5 +125,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--config", default="configs/preprocessing.yaml")
     ap.add_argument("--name", default="temporal")
+    ap.add_argument("--jobs", type=int, default=6)
     a = ap.parse_args()
-    main(a.config, a.name)
+    main(a.config, a.name, a.jobs)

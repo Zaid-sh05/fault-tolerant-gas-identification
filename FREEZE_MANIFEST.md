@@ -112,3 +112,20 @@ Fitted objects: 1222 files, hashes in `results/FREEZE_HASHES.json` (verified by 
 | src/splits.py | 3966914fb940f474a526f6257da539ed3c67f12408aebb699154aeff5188f0b4 |
 | src/strategies.py | 24a156ecfc69b568596f4e684b1559be580d7231e62f0c8097c8527042037a36 |
 | src/study.py | b3bbee2a2d502ea08423f7f30a119feee253f28f9d3b66c4755675f3530bf21d |
+
+## 4. Post-freeze operational amendment (2026-10-08, after the run was interrupted by memory exhaustion)
+The tag `frozen-before-test` is unchanged. The ONLY differences from the tag in anything the run executes are the number of worker processes and operational wrappers; no computation, parameter, chunking or file format changed. Details:
+- `scripts/run_final_test.sh`: reads `JOBS` (default 6, as before) and passes `--jobs "$JOBS"` to the steps that run workers.
+- `scripts/ov4_analysis.py`: gets a `--jobs` option (default 6) instead of the constant 6 in `Parallel(...)`.
+- New files, no effect on results: `scripts/run_guarded.py` (kills the run's process tree if the machine memory load reaches 85%, moves truncated chunk files aside, exits with code 3) and `scripts/ft_ops.py` (chunk verification; determinism check of one finished chunk).
+- Analysis, paper and report scripts added after the tag (`ft_paper.py`, `ft_report.py`, `ft_edge_cost.py`) only read result files.
+- Verified: `git diff frozen-before-test` over `src/`, `configs/` and all other run scripts is empty.
+
+Current sha256 of the two modified files and the two new ones (the tables above keep the frozen hashes):
+
+| file | sha256 |
+|---|---|
+| scripts/ov4_analysis.py | 9bd7d09527ab1a7cea92cd1da14c402817b46c6b86b2c5775b29cbfd5d5323a2 |
+| scripts/run_final_test.sh | d4c6233ca9d1033a1ffd17f22f6684ec5cf16addaca732d2cacefc44c58c52cb |
+| scripts/run_guarded.py | a5c39754ca6527ced2339e20ff83b544fc20e2a2976b63b23cf8621ead15160b |
+| scripts/ft_ops.py | a1be4194f138db2b52881026d1013061488c0e6320a85a71cb6324d60c7a4481 |

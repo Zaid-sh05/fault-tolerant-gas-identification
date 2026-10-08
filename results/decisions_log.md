@@ -118,3 +118,18 @@ The overnight text leaves these open. They are fixed here and will not be change
 * E3 (PRE of the test report): the report adds, per batch 8/9/10 and pooled: the results of every table; the false-alarm rate of the detector on
   clean Test rows; A and B on clean rows against the plain SVM (do the false alarms hurt the clean score under heavy drift); and whether the ordering
   "A and B above augmentation" held on Test, per fault type and per k.
+
+## F. Operational incident during the final-test run (2026-10-08)
+* F1: the final-test shell run (`scripts/run_final_test.sh`, started 10:39) was stopped by Claude Code at about 11:3x because the machine was critically
+  low on memory (an automatic reaper, not a programming error). State: step `ov2_faults_g1.py` of 9, 12 of 42 chunks finished (`results/final_test/test/g1_chunks`,
+  last written 11:27); no result file of any step exists yet; no code or config was changed. The run was NOT restarted; the `RUN_STARTED` marker still
+  blocks a second start. Resuming would reuse the finished chunks (deterministic, checkpointed), but that needs the user's decision.
+* F2 (correction and decisions, 2026-10-08, user approved the resume): the first entry above said the run had stopped with 12 of 42 chunks. In fact the
+  orchestrating shell was killed but its python process (`ov2_faults_g1.py`) and its six workers survived as orphans and kept writing chunks; the
+  count was 18 of 42 when they were ended (taskkill of the process tree, no python process left afterwards). Cause: system memory exhaustion (an
+  infrastructure event, not a decision based on results). Resume conditions set by the user: (1) no old worker left; (2) the only change is the number of
+  workers (`--jobs`, 3 for the resume), which does not touch the computation; (3) the change is a separate commit and is documented in section 4 of
+  `FREEZE_MANIFEST.md`; (4) determinism is demonstrated first by recomputing one finished chunk with the new worker count and comparing it with the original
+  (identical or difference < 1e-9, otherwise stop); (5) a memory guard at 85% stops the run safely instead of letting the system kill it; (6) the
+  `RUN_STARTED` marker is moved aside after the check and the run resumes (finished chunks are reused); (7) partial results are not looked at or shown
+  until the whole run has finished.
