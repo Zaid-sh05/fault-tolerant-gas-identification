@@ -65,3 +65,7 @@ The overnight text leaves these open. They are fixed here and will not be change
 12. Reference protocol: reduced scenario set (medium severity per fault, k=1 and k=2 only), run after the temporal protocol is complete.
 
 ## C. Decisions taken during the overnight run (filled in as they happen)
+* C1 (2026-10-08 ~02:15, operational, not a scientific decision): the full reproduction run (`scripts/run_preprocessing.py`, gate P6) and the Part-2 run were
+  started together and starved each other (BLAS oversubscription: one SVM prediction took 4 s instead of 0.05 s). The
+  reproduction run was stopped after 7 of 21 steps (markers in `results/preprocessing/_done`); it resumes with `--resume`
+  once the CPU is free. Nothing was changed in the methods. Backup of the earlier results: `results/_backup_*`.

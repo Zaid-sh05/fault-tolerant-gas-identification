@@ -1,0 +1,21 @@
+{
+ "candidates_median_auroc": {
+  "sensor": 0.9570143599114866,
+  "median": 0.977041584387244
+ },
+ "chosen_normalisation": "median",
+ "isolation_auroc_by_fault_k1_medium": {
+  "dropout": 1.0,
+  "bias": 0.9796856629427614,
+  "stuck": 0.9372519583766363,
+  "random": 0.9743975058317267
+ },
+ "median_auroc": 0.977041584387244,
+ "G2_passes": true,
+ "note": "Dropout is detected by definition (NaN block), so its AUROC is trivial",
+ "secondary_leave_pair_out": {
+  "sensor_lpo": 0.9572491967688457,
+  "median_lpo": 0.9734261598255234
+ },
+ "rule": "results/decisions_log.md B6, B8"
+}

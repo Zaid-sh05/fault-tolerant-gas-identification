@@ -1,0 +1,35 @@
+{'sensor': {'alpha': [100.0, 100.0, 100.0, 100.0, 100.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 1.0, 1.0]}}
+[Parallel(n_jobs=2)]: Using backend LokyBackend with 2 concurrent workers.
+[Parallel(n_jobs=2)]: Done  14 tasks      | elapsed: 21.1min
+[Parallel(n_jobs=2)]: Done  21 out of  21 | elapsed: 31.9min finished
+{
+ "candidates_median_auroc": {
+  "sensor": 0.9570143599114866,
+  "median": 0.977041584387244
+ },
+ "chosen_normalisation": "median",
+ "isolation_auroc_by_fault_k1_medium": {
+  "dropout": 1.0,
+  "bias": 0.9796856629427614,
+  "stuck": 0.9372519583766363,
+  "random": 0.9743975058317267
+ },
+ "median_auroc": 0.977041584387244,
+ "G2_passes": true,
+ "note": "Dropout is detected by definition (NaN block), so its AUROC is trivial",
+ "secondary_leave_pair_out": {
+  "sensor_lpo": 0.9572491967688457,
+  "median_lpo": 0.9734261598255234
+ },
+ "rule": "results/decisions_log.md B6, B8"
+}
+detector gas         sensors  rows  alarm_rate_per_sensor_row  rows_with_any_alarm
+  median all     all sensors  3613                     0.1347               0.9709
+  median all without S01,S02  3613                     0.0322               0.3341
+detector  rank_from_least_reliable sensor  median_ratio  alarm_rate
+  median                         1    S01         5.390       0.926
+  median                         2    S02         1.732       0.779
+  median                         3    S08         0.638       0.048
+  median                         4    S06         0.622       0.092
+  median                         5    S09         0.615       0.097
+  median                         6    S03         0.551       0.044

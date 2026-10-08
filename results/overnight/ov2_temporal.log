@@ -1,0 +1,34 @@
+temporal: 1260 scenarios, train 5931, eval 3613
+clean: {'svm': 0.859, 'lgbm': 0.6918}
+[Parallel(n_jobs=6)]: Using backend LokyBackend with 6 concurrent workers.
+[Parallel(n_jobs=6)]: Done   6 tasks      | elapsed: 22.3min
+[Parallel(n_jobs=6)]: Done  40 out of  42 | elapsed: 129.8min remaining:  6.5min
+[Parallel(n_jobs=6)]: Done  42 out of  42 | elapsed: 129.8min finished
+kset   fault  level  n  best_clean_drop  svm_drop  svm_f1  lgbm_f1  svm_aug_f1  lgbm_aug_f1  svm_aug_f1_std_over_aug_seeds  lgbm_aug_f1_std_over_aug_seeds
+  k1    bias    0.5 80           0.0133    0.0133  0.8457   0.6889      0.7776       0.6955                         0.0167                          0.0058
+  k1    bias    1.0 80           0.0466    0.0466  0.8124   0.6781      0.7702       0.6927                         0.0134                          0.0064
+  k1    bias    3.0 80           0.2462    0.2462  0.6128   0.6618      0.7082       0.6888                         0.0127                          0.0093
+  k1 dropout    0.5 80           0.0338    0.0338  0.8251   0.6842      0.7808       0.6968                         0.0148                          0.0070
+  k1 dropout    1.0 80           0.0718    0.0718  0.7872   0.6760      0.7833       0.6935                         0.0100                          0.0067
+  k1  random    0.5 80           0.1065    0.1065  0.7525   0.6788      0.7297       0.6952                         0.0136                          0.0071
+  k1  random    1.0 80           0.2314    0.2314  0.6276   0.6671      0.6812       0.6919                         0.0089                          0.0067
+  k1   stuck    0.5 80           0.0329    0.0329  0.8261   0.6810      0.7670       0.6956                         0.0182                          0.0063
+  k1   stuck    1.0 80           0.0766    0.0766  0.7824   0.6664      0.7548       0.6864                         0.0150                          0.0061
+{
+ "best_clean_baseline": "svm",
+ "clean_macro_f1": 0.8589752791127291,
+ "k1_medium_mean_drop_by_fault": {
+  "dropout": 0.033847798536911874,
+  "bias": 0.04661807944186859,
+  "stuck": 0.03285336680106159,
+  "random": 0.10649207864096141
+ },
+ "types_with_drop_ge_0.03": [
+  "dropout",
+  "bias",
+  "stuck",
+  "random"
+ ],
+ "G1_passes": true,
+ "rule": "registered in results/decisions_log.md B4"
+}
