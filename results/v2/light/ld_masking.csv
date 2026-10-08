@@ -1,0 +1,17 @@
+variant,fault,pair_tpr,healthy_alarm_rate_faulted_rows
+D0,bias,0.6266,0.097
+D0,dropout,1.0,0.1212
+D0,random,0.9587,0.1195
+D0,stuck,0.4926,0.1272
+D1,bias,0.8427,0.1775
+D1,dropout,1.0,0.1984
+D1,random,0.9802,0.201
+D1,stuck,0.8146,0.209
+D2,bias,0.5017,0.0453
+D2,dropout,1.0,0.0724
+D2,random,0.8833,0.053
+D2,stuck,0.3401,0.0718
+D3,bias,0.6995,0.0983
+D3,dropout,1.0,0.1228
+D3,random,0.9246,0.1116
+D3,stuck,0.6837,0.1301

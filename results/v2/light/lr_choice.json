@@ -1,0 +1,14 @@
+{
+ "rule": "decisions_log L4 with roles swapped (L7): selection on Validation 7, confirmation on Drift-Dev",
+ "post_hoc": true,
+ "selected": "A->B if n_flag>=5",
+ "target": "B",
+ "t": 5,
+ "gain": 0.002578331478416218,
+ "ci": [
+  0.0014481789553084333,
+  0.0038422732228891674
+ ],
+ "passes_validation_stage": true,
+ "next": "confirmation on Drift-Dev in the heavy run"
+}
