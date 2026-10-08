@@ -128,4 +128,6 @@ Current sha256 of the two modified files and the two new ones (the tables above 
 | scripts/ov4_analysis.py | 9bd7d09527ab1a7cea92cd1da14c402817b46c6b86b2c5775b29cbfd5d5323a2 |
 | scripts/run_final_test.sh | d4c6233ca9d1033a1ffd17f22f6684ec5cf16addaca732d2cacefc44c58c52cb |
 | scripts/run_guarded.py | a5c39754ca6527ced2339e20ff83b544fc20e2a2976b63b23cf8621ead15160b |
-| scripts/ft_ops.py | a1be4194f138db2b52881026d1013061488c0e6320a85a71cb6324d60c7a4481 |
+| scripts/ft_ops.py | 743226e7f202db93e6b6549e8455e1ff9f5acd10e79f7fbb1365fd62d805ea49 |
+
+`scripts/ft_ops.py` hash above is the version with the added `recheck` command (structure check and recomputation of a finished chunk in a separate folder); it does not write into the run folder.

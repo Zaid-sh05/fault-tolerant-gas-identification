@@ -133,3 +133,9 @@ The overnight text leaves these open. They are fixed here and will not be change
   (identical or difference < 1e-9, otherwise stop); (5) a memory guard at 85% stops the run safely instead of letting the system kill it; (6) the
   `RUN_STARTED` marker is moved aside after the check and the run resumes (finished chunks are reused); (7) partial results are not looked at or shown
   until the whole run has finished.
+* F3 (2026-10-08, integrity check of the chunks written by the orphaned process, requested by the user): all 18 inherited Part-2 chunks
+  (`chunk_000`..`chunk_017`; the user's "chunk 18" is the 18th file, index 17, the last one the orphan wrote) were checked with `scripts/ft_ops.py recheck`:
+  every file reads completely; each has the expected 30 scenarios (sids in order), predictions of shape (30, 4364) for each of the 12 models
+  (int8) and finite scores. Chunk 17 was then recomputed in a separate folder (`results/final_test_check`, same frozen models, same data) and compared
+  with the original: IDENTICAL (predictions equal, maximum difference of the row values 0.0). Together with the earlier recomputation of chunk 5
+  (3 workers, identical), no inherited chunk had to be recomputed. The pipeline kept running during the check (it touches nothing in the run folder).
