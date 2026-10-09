@@ -1,7 +1,7 @@
 
 ##### guarded start 2026-10-08T21:40:50 (memory limit 85%, load now 72%)
 Traceback (most recent call last):
-  File "C:\Users\Admin\icsic2026-gasdrift\scripts\v2_dev.py", line 21, in <module>
+  File "scripts\v2_dev.py", line 21, in <module>
     import numpy as np  # noqa: E402
     ^^^^^^^^^^^^^^^^^^
 ModuleNotFoundError: No module named 'numpy'
