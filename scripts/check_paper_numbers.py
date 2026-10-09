@@ -142,22 +142,47 @@ def check_rows():
     return n, bad
 
 
+NUMBER = re.compile(r"(?<![\w.])[-+]?\d+(?:\.\d+)?(?![\w.])")
+
+
+def table_cells(tex):
+    """Body cells as [row][col] (row 0 = first row after \\midrule; col 0 = the text label)."""
+    body = tex.read_text(encoding="utf-8").split("\\midrule")[1].split("\\bottomrule")[0]
+    return [[c.strip() for c in line.split("&")] for line in body.split("\\\\") if line.strip()]
+
+
 def check_tables():
-    values = []
-    for _, v, _ in rows():
-        try:
-            values.append(float(v))
-        except ValueError:
-            pass
+    """Every number in a table body must equal, at its printed precision, the PAPER_NUMBERS value NAMED for its cell in the
+    table's cell map <table>.cells.json ({"cells": [{"row", "col", "names": [...]}]}; one name per number of the cell, in order).
+    A number without a cell map entry is an error. Tables listed in latex/SUPERSEDED.txt are skipped (reported as NOTE)."""
+    pn = {name: value for name, value, _ in rows()}
+    latex = Path("results/paper/latex")
+    superseded = set((latex / "SUPERSEDED.txt").read_text(encoding="utf-8").split()) if (latex / "SUPERSEDED.txt").exists() else set()
     bad, n = [], 0
-    for tex in sorted(Path("results/paper/latex").glob("*.tex")):
-        body = tex.read_text(encoding="utf-8").split("\\midrule")[1].split("\\bottomrule")[0]
-        cells = [c for line in body.split("\\\\") for c in line.split("&")[1:]]          # the first cell of a row is its text label
-        for cell in re.findall(r"(?<![\w.])[-+]?\d+(?:\.\d+)?(?![\w.])", " ".join(cells)):
-            n += 1
-            x = float(cell)
-            if not any(abs(v - x) <= tol(cell) for v in values):
-                bad.append(f"TABLE     {tex.name}: {cell} is not a PAPER_NUMBERS value")
+    for tex in sorted(latex.glob("*.tex")):
+        if tex.name in superseded:
+            NOTES.append(f"NOTE      {tex.name}: superseded (latex/SUPERSEDED.txt), not checked")
+            continue
+        side = tex.with_suffix(".cells.json")
+        cmap = {(e["row"], e["col"]): e["names"] for e in json.load(open(side))["cells"]} if side.exists() else {}
+        for r, line in enumerate(table_cells(tex)):
+            for col, cell in enumerate(line[1:], start=1):
+                nums = NUMBER.findall(cell)
+                if not nums:
+                    continue
+                n += len(nums)
+                names = cmap.get((r, col))
+                if names is None:
+                    bad.append(f"TABLE     {tex.name} row {r} col {col}: '{cell}' has no entry in {side.name}")
+                    continue
+                if len(names) != len(nums):
+                    bad.append(f"TABLE     {tex.name} row {r} col {col}: {len(nums)} numbers but {len(names)} names")
+                    continue
+                for text, name in zip(nums, names):
+                    if name not in pn:
+                        bad.append(f"TABLE     {tex.name} row {r} col {col}: '{name}' is not a PAPER_NUMBERS row")
+                    elif abs(float(pn[name]) - float(text)) > tol(text):
+                        bad.append(f"TABLE     {tex.name} row {r} col {col}: printed {text}, '{name}' = {pn[name]}")
     return n, bad
 
 
