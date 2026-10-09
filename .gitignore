@@ -25,3 +25,16 @@ results/final_test/**/detectors/
 results/final_test/**/models/
 # integrity-check recomputation (logged in decisions_log F3)
 results/final_test_check/
+
+# v2 bulky intermediates (fits, reduced models, chunks)
+results/v2/**/chunks/
+results/v2/**/b*_chunks/
+results/v2/**/reduced/
+results/v2/**/fitted.joblib
+results/v2/**/det_lpo.joblib
+results/v2/recal/uncal_*/
+results/v2/ft_estimate_cache/
+results/v2/ft_smoke/
+results/final_test_v2/**/b*_chunks/
+results/final_test_v2/**/reduced/
+results/final_test_v2/**/fitted.joblib
