@@ -1,0 +1,2 @@
+dataset,n,mean_A,mean_B,mean_scenario_oracle,mean_row_oracle_UNACHIEVABLE,worst_row_oracle,rows_per_scenario
+1_val7_v1,1260,0.8049,0.8004,0.8149,0.8263,0.161,3613

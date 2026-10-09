@@ -1,0 +1,5 @@
+subset,n_cells,mean_A,mean_B,mean_cell_oracle,best_fixed,gain_vs_best,cells_B>A,cells_A>B
+b10,27,0.4446,0.4488,0.4501,B_det,0.0013,9,1
+b8,27,0.6796,0.697,0.6981,B_det,0.001,19,2
+b9,27,0.5843,0.5692,0.589,A_det_twin,0.0047,4,20
+pooled,27,0.4887,0.4896,0.4933,B_det,0.0037,6,11

@@ -441,3 +441,16 @@ Written before the run and before batches 8-10 are opened for v2. Batches 8-10 a
   gain +0.136, [0.132, 0.141] -> [0.117, 0.156]; calibrated A - SVM under faults +0.127, [0.123, 0.132] -> [0.118, 0.138]. The N8 verdict
   (clean gain > 0 with its interval above 0, and calibrated A >= SVM under faults) still holds. Without Dropout the mean detector AUROC is
   lower by about 0.01 (k=1) and 0.03 (k=2), and G2 still passes (the remaining fault types are all >= 0.90 per Test batch at k=1, medium).
+
+## P. POST-HOC ANALYSIS: oracle selector bound (user request 2026-10-09; written before any number of it was computed)
+
+* P1. Descriptive analysis only, from saved results: no model is trained, nothing is re-run on Test, no existing file is changed (this
+  entry is appended). New files only in `results/oracle_selector/` (`scripts/` untouched).
+* P2. Question: how much would a per-scenario "perfect arbiter" that picks A (`A_det_twin`) or B (`B_det`) gain over the better fixed
+  method, where are the gains, and do runtime-visible signals (mean number of flagged sensors per row) separate the scenarios where B wins?
+  Tie: |A - B| < 0.005 Macro-F1. Max score/threshold ratio is not saved in any result file and is reported as not available.
+* P3. Order: Validation 7 (v1) and Drift-Dev stage 2 (v2 recal, batches 6 and 7) first; they are the only reference for any future arbiter
+  design. v1 Test and v2 Test (calibrated model b) are DESCRIPTIVE ONLY: their numbers will NOT be used to design, tune or select any
+  arbiter.
+* P4. Per-row bound ("a row is correct if A or B is correct"): only where per-row predictions AND labels are available without reading
+  Test labels (Validation 7: saved predictions + batch-7 labels from the loader). Extremely optimistic and not achievable; marked as such.
