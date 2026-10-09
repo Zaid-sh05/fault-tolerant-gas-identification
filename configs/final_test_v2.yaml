@@ -1,0 +1,13 @@
+# Final Test v2: few-shot recalibration, ONE run (POST-HOC design, results/decisions_log.md section N).
+# Train = batches 1-7 (cleaned by the invalid-value rule fitted on 1-7); evaluation = batches 8, 9, 10, each with its own calibration rows.
+base: configs/preprocessing.yaml
+split:
+  type: final_test
+  train_batches: [1, 2, 3, 4, 5, 6, 7]
+  test_batches: [8, 9, 10]
+  approved_by_user: true          # user decision 2026-10-09 (decisions_log N): single Test v2 run of the recalibration
+  inner_folds: [[1], [2], [3], [4, 5], [6], [7]]
+recalibration:
+  n_per_gas: 10                   # n* of stage 1 (J4)
+  seeds: [0, 1, 2, 3, 4]          # reduced to [0, 1, 2] before the freeze if the estimated run time exceeds 10 hours (N7)
+output_root: results/final_test_v2
