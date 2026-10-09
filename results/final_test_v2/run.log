@@ -1,0 +1,15 @@
+
+##### guarded start 2026-10-09T13:29:18 (memory limit 85%, load now 53%)
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  16 out of  16 | elapsed:    9.6s finished
+fitted 16 models
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 out of 504 | elapsed:  1.5min
+[Parallel(n_jobs=3)]: Done  66 out of 504 | elapsed:  5.9min
+[Parallel(n_jobs=3)]: Done 156 out of 504 | elapsed: 13.3min
+[Parallel(n_jobs=3)]: Done 282 out of 504 | elapsed: 23.1min
+[Parallel(n_jobs=3)]: Done 444 out of 504 | elapsed: 47.6min
+[Parallel(n_jobs=3)]: Done 504 out of 504 | elapsed: 59.3min finished
+scenarios done
+scored 129720 rows
+##### command ended with exit code 0 at 2026-10-09T14:35:23

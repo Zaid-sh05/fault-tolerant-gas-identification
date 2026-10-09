@@ -1,0 +1,12 @@
+{
+ "rule": "decisions_log N8",
+ "post_hoc": true,
+ "subset": "pooled",
+ "clean_b_minus_a_svm": [
+  0.1361554495626392,
+  0.1315113872479087,
+  0.1413067931980161
+ ],
+ "calibrated_A_minus_SVM_under_faults": 0.12749683730636174,
+ "success": true
+}

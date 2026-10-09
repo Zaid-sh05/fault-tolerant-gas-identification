@@ -379,3 +379,35 @@ Every value is read from a result file by `scripts/ft_paper.py`; nothing is type
 | Latency median, bias_one_sensor_cold_weights (ms) | 7.9862 | results\edge_cost\edge_cost.json, bias_one_sensor_cold_weights.median_ms |
 | Latency p95, bias_one_sensor_cold_weights (ms) | 14.5539 | results\edge_cost\edge_cost.json, bias_one_sensor_cold_weights.p95_ms |
 | Peak memory (MB) | 146.7734 | results\edge_cost\edge_cost.json, memory_peak_mb |
+
+
+## v2 post-hoc
+
+SEPARATE SETTING: 'with 10 labeled calibration samples per gas' (few-shot recalibration). POST-HOC and test-informed design (decisions_log G0, J0, N0); single Test run at tag `frozen-before-test-v2`. Train = batches 1-7, so (a) is NOT the v1 model; do not compare these numbers with the v1 numbers above. Calibration rows are interleaved in time with the scored rows (optimistic, N9).
+
+| quantity | value | source |
+|---|---|---|
+| v2 clean Macro-F1 SVM, b10, (a) no calibration | 0.6743 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, b10, (b) 10 per gas (mean of 5 seeds) | 0.8183 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, b8, (a) no calibration | 0.8994 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, b8, (b) 10 per gas (mean of 5 seeds) | 0.9391 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, b9, (a) no calibration | 0.736 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, b9, (b) 10 per gas (mean of 5 seeds) | 0.9806 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, pooled, (a) no calibration | 0.7056 | results/final_test_v2/test/clean.csv |
+| v2 clean Macro-F1 SVM, pooled, (b) 10 per gas (mean of 5 seeds) | 0.8418 | results/final_test_v2/test/clean.csv |
+| v2 clean (b)-(a) SVM, b10, diff [95% CI] | 0.1440 [0.1384, 0.1495] | results/final_test_v2/test/clean_ci.csv |
+| v2 clean (b)-(a) SVM, b8, diff [95% CI] | 0.0397 [0.0264, 0.0597] | results/final_test_v2/test/clean_ci.csv |
+| v2 clean (b)-(a) SVM, b9, diff [95% CI] | 0.2446 [0.2372, 0.2531] | results/final_test_v2/test/clean_ci.csv |
+| v2 clean (b)-(a) SVM, pooled, diff [95% CI] | 0.1362 [0.1315, 0.1413] | results/final_test_v2/test/clean_ci.csv |
+| v2 pooled A, model (a): mean under faults / worst / retained | 0.6549 / 0.1146 / 0.9630 | results/final_test_v2/test/faults.csv |
+| v2 pooled B, model (a): mean under faults / worst / retained | 0.6608 / 0.2626 / 0.9565 | results/final_test_v2/test/faults.csv |
+| v2 pooled svm, model (a): mean under faults / worst / retained | 0.5441 / 0.1370 / 0.7899 | results/final_test_v2/test/faults.csv |
+| v2 pooled A, model (b): mean under faults / worst / retained | 0.7912 / 0.1370 / 0.9686 | results/final_test_v2/test/faults.csv |
+| v2 pooled B, model (b): mean under faults / worst / retained | 0.8094 / 0.3360 / 0.9734 | results/final_test_v2/test/faults.csv |
+| v2 pooled svm, model (b): mean under faults / worst / retained | 0.6637 / 0.1691 / 0.8079 | results/final_test_v2/test/faults.csv |
+| v2 pooled (b)-(a) svm under faults [95% CI] | 0.1196 [0.1185, 0.1207] | results/final_test_v2/test/faults_ci.csv |
+| v2 pooled (b)-(a) A under faults [95% CI] | 0.1363 [0.1351, 0.1376] | results/final_test_v2/test/faults_ci.csv |
+| v2 pooled (b)-(a) B under faults [95% CI] | 0.1486 [0.1477, 0.1495] | results/final_test_v2/test/faults_ci.csv |
+| v2 pooled A-SVM under faults, model (a) [95% CI] | 0.1108 [0.1072, 0.1147] | results/final_test_v2/test/faults_ci.csv |
+| v2 pooled A-SVM under faults, model (b) [95% CI] | 0.1275 [0.1231, 0.1318] | results/final_test_v2/test/faults_ci.csv |
+| v2 verdict N8 (success) | True | results/final_test_v2/test/verdict.json |
