@@ -409,3 +409,7 @@ Written before the run and before batches 8-10 are opened for v2. Batches 8-10 a
   `os.replace` onto a file another process had open raised PermissionError and the smoke run stopped (no number produced). Fix in the v2
   script only (`SafeKit` in `ft_v2_recal.py`; the frozen v1 `src/strategies.py` is not touched): on that error the other worker's file (the
   same fit: same rows, same seed) is loaded. The smoke folder was deleted and the smoke test re-run from scratch.
+* N12 (checks passed, before the freeze, 13:30). Smoke test (Drift-Dev b6, seed 0, 481 medium scenarios, calibrated and uncalibrated, SVM/A/B):
+  IDENTICAL to stage 2 (max difference 1.1e-16), which also confirms that the SVMs fitted without Platt probabilities give the same labels.
+  Time estimate from fits on the Train rows of batches 1-7 only (no Test data): 1.9 h for 5 seeds (one reduced SVM 0.6 s without Platt), far
+  below 10 h, so seeds stay 0-4 (N7). Ollama closed; memory load 53%; the fixed tree-killing guard is used.
