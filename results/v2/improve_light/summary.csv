@@ -1,0 +1,13 @@
+protocol,method,clean,mean_under_faults,worst
+drift_dev,V0,0.646,0.6119,0.3464
+drift_dev,V1,0.6395,0.6104,0.382
+drift_dev,V2,0.6457,0.6097,0.365
+drift_dev,V3,0.6408,0.6091,0.3635
+drift_dev,V5,0.6247,0.6088,0.3942
+drift_dev,svm,0.6185,0.5626,0.3512
+original,V0,0.8495,0.8043,0.4943
+original,V1,0.8223,0.7968,0.5042
+original,V2,0.852,0.7972,0.48
+original,V3,0.8276,0.7925,0.4795
+original,V5,0.8403,0.8085,0.5556
+original,svm,0.859,0.7422,0.4655
