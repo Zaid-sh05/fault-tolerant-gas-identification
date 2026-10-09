@@ -1,0 +1,15 @@
+# Previous-period recalibration (POST-HOC, EXPLORATORY; results/decisions_log.md section Q). Same data as configs/final_test_v2.yaml:
+# Train = batches 1-7 (cleaned by the invalid-value rule fitted on 1-7); batches 8, 9, 10 read to rebuild the faulted matrices and the scored rows.
+# Fitted models are the v2 ones (results/final_test_v2/test), only read; arm (c) applies b{t-1}_s{s} to batch t.
+base: configs/preprocessing.yaml
+split:
+  type: final_test
+  train_batches: [1, 2, 3, 4, 5, 6, 7]
+  test_batches: [8, 9, 10]
+  approved_by_user: true          # user decision 2026-10-10 (decisions_log Q0): re-open batches 8-10 for this exploratory experiment
+  inner_folds: [[1], [2], [3], [4, 5], [6], [7]]
+recalibration:
+  n_per_gas: 10
+  seeds: [0, 1, 2, 3, 4]
+  targets: [9, 10]                # arm (c): model calibrated on batch t-1, scored on batch t
+output_root: results/v3_prevbatch
