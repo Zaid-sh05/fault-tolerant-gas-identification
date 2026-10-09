@@ -361,3 +361,12 @@ Written before any v2 code was run or any v2 number was computed.
   (`v2_improve.py --light`: no B, no augmentation, no routing; output `results/v2/improve_light/`), with the unchanged L4 rule (select on
   Drift-Dev, confirm on Validation 7). The Drift-Dev confirmation of LR needs new reduced B models (fitting) and stays a heavy job for after stage 2,
   until 14:00, same criteria (L7).
+
+## M. Night incidents (2026-10-09)
+* M1 (07:22, memory). The memory load reached 87%: the largest consumer was the "ollama app" (3.9 GB, a background LLM server, not part of
+  this project), plus Chrome. `run_guarded.py` logged that it stopped stage 2, but its `taskkill /T` did NOT end the tree (the venv launcher
+  -> python -> loky workers survived), so stage 2 kept running unguarded; the Claude Code memory reaper also ended the overnight chain shell
+  (`v2_overnight.sh`; it had nothing left to start). Actions: Ollama was closed (the user had earlier asked to close unneeded applications to
+  free memory; load 88% -> 64%); stage 2 was left running (rule: it is not stopped or modified); a new tree guard (`scripts/tree_guard.py`,
+  85%) watches its process tree from 07:30; `run_guarded.py` now kills the whole tree pid by pid and verifies (self-test: parent + child
+  killed, none left). No result file was lost: chunks are written atomically (103 of 234 finished at 07:22).

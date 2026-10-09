@@ -26,6 +26,35 @@ def memory_load():
     return int(s.dwMemoryLoad)
 
 
+def process_table():
+    """{pid: parent pid} of every process (PowerShell CIM; no extra dependency)."""
+    out = subprocess.run(["powershell", "-NoProfile", "-Command",
+                          "Get-CimInstance Win32_Process | ForEach-Object { \"$($_.ProcessId) $($_.ParentProcessId)\" }"],
+                         capture_output=True, text=True).stdout
+    return {int(a): int(b) for a, b in (line.split() for line in out.splitlines() if line.strip())}
+
+
+def descendants(root):
+    table, out, todo = process_table(), [], [root]
+    while todo:
+        p = todo.pop()
+        kids = [c for c, parent in table.items() if parent == p and c != p]
+        out += kids
+        todo += kids
+    return out
+
+
+def kill_tree(root):
+    """Kill root and every descendant (children first), then verify. `taskkill /T` alone missed the loky workers behind the venv
+    launcher on 2026-10-09 (decisions_log M1). Returns the pids still alive (should be empty)."""
+    pids = descendants(root)[::-1] + [root]
+    for pid in pids:
+        subprocess.run(["taskkill", "/F", "/PID", str(pid)], capture_output=True)
+    time.sleep(2)
+    alive = set(process_table())
+    return [p for p in pids if p in alive]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--limit", type=int, default=85)
@@ -39,7 +68,9 @@ def main():
         p = subprocess.Popen(cmd, stdout=log, stderr=subprocess.STDOUT)
         while p.poll() is None:
             if memory_load() >= a.limit:
-                subprocess.run(["taskkill", "/F", "/T", "/PID", str(p.pid)], capture_output=True)
+                left = kill_tree(p.pid)
+                if left:
+                    log.write(f"##### WARNING: processes still alive after the kill: {left}" + chr(10))
                 subprocess.run([sys.executable, "scripts/ft_ops.py", "verify-chunks"], stdout=log, stderr=subprocess.STDOUT)
                 msg = f"stopped by the memory guard at {memory_load()}% on {datetime.now().isoformat(timespec='seconds')}; finished chunks are kept"
                 Path("results/final_test/STOPPED_MEMORY").write_text(msg + "\n")
