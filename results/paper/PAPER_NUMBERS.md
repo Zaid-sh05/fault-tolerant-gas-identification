@@ -964,3 +964,27 @@ Mean isolation AUROC over the fault types (each type first averaged over its sev
 | AUROC v2 b9 model (b) k1, without Dropout | 0.9551 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k1, column without_dropout |
 | AUROC v2 b9 model (b) k2, with Dropout | 0.9060 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k2, column with_dropout |
 | AUROC v2 b9 model (b) k2, without Dropout | 0.8746 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k2, column without_dropout |
+
+
+## Sanity checks and per-sensor false alarms
+
+Read from existing files only (no new run, no Test re-read). Batch identity: logistic regression, 5-fold stratified CV, predicting the batch id from the preprocessed Train features (results/audit/sanity_checks.py); chance = share of the largest batch. Per-sensor false-alarm rate: share of the clean Test rows in which the sensor is flagged by the frozen v1 'median' detector (design rate on OOF Train: 5%). See results/paper/METHODS_FACTS.md.
+
+| number | value | source |
+|---|---|---|
+| Batch-identity CV accuracy, Train 1-6 | 0.9823 | results/audit/sanity_checks.json, temporal.batch_identity_cv_accuracy |
+| Batch-identity chance level (largest batch share), Train 1-6 | 0.3878 | results/audit/sanity_checks.json, temporal.batch_identity_chance_majority |
+| Batch-identity CV accuracy, Drift-Dev Train 1-3 | 0.9862 | results/audit/sanity_checks.json, drift_dev.batch_identity_cv_accuracy |
+| Batch-identity chance level (largest batch share), Drift-Dev Train 1-3 | 0.4847 | results/audit/sanity_checks.json, drift_dev.batch_identity_chance_majority |
+| Clean false-alarm rate S01, Test pooled | 0.5023 | results/final_test/test/ft_reliability_ranking.csv, subset=pooled, detector=median, sensor=S01, column alarm_rate |
+| Clean false-alarm rate S02, Test pooled | 0.1134 | results/final_test/test/ft_reliability_ranking.csv, subset=pooled, detector=median, sensor=S02, column alarm_rate |
+| Clean false-alarm rate S08, Test pooled | 0.2713 | results/final_test/test/ft_reliability_ranking.csv, subset=pooled, detector=median, sensor=S08, column alarm_rate |
+| Clean false-alarm rate S01, Test b8 | 1.0000 | results/final_test/test/ft_reliability_ranking.csv, subset=b8, detector=median, sensor=S01, column alarm_rate |
+| Clean false-alarm rate S02, Test b8 | 0.9830 | results/final_test/test/ft_reliability_ranking.csv, subset=b8, detector=median, sensor=S02, column alarm_rate |
+| Clean false-alarm rate S08, Test b8 | 0.0340 | results/final_test/test/ft_reliability_ranking.csv, subset=b8, detector=median, sensor=S08, column alarm_rate |
+| Clean false-alarm rate S01, Test b9 | 0.1255 | results/final_test/test/ft_reliability_ranking.csv, subset=b9, detector=median, sensor=S01, column alarm_rate |
+| Clean false-alarm rate S02, Test b9 | 0.2404 | results/final_test/test/ft_reliability_ranking.csv, subset=b9, detector=median, sensor=S02, column alarm_rate |
+| Clean false-alarm rate S08, Test b9 | 0.2872 | results/final_test/test/ft_reliability_ranking.csv, subset=b9, detector=median, sensor=S08, column alarm_rate |
+| Clean false-alarm rate S01, Test b10 | 0.5108 | results/final_test/test/ft_reliability_ranking.csv, subset=b10, detector=median, sensor=S01, column alarm_rate |
+| Clean false-alarm rate S02, Test b10 | 0.0258 | results/final_test/test/ft_reliability_ranking.csv, subset=b10, detector=median, sensor=S02, column alarm_rate |
+| Clean false-alarm rate S08, Test b10 | 0.2886 | results/final_test/test/ft_reliability_ranking.csv, subset=b10, detector=median, sensor=S08, column alarm_rate |
