@@ -1,0 +1,10 @@
+[01:32:11] run: arm c, 280 chunks
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:   39.3s
+[Parallel(n_jobs=3)]: Done  66 tasks      | elapsed:  2.9min
+[Parallel(n_jobs=3)]: Done 156 tasks      | elapsed:  8.3min
+[Parallel(n_jobs=3)]: Done 280 out of 280 | elapsed: 46.0min finished
+[02:18:12] run: finished in 2761 s; new reduced B models fitted (frozen routine): {'b10_s0': 0, 'b10_s1': 0, 'b10_s2': 0, 'b10_s3': 0, 'b10_s4': 0, 'b8_s0': 277, 'b8_s1': 296, 'b8_s2': 296, 'b8_s3': 288, 'b8_s4': 279, 'b9_s0': 503, 'b9_s1': 552, 'b9_s2': 507, 'b9_s3': 520, 'b9_s4': 485, 'uncalibrated': 0}
+exit 0
+[02:23:32] score: 145935 rows
+[02:23:51] tables: P3 +0.0248 [+0.0235, +0.0260] -> SUPPORTED

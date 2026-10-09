@@ -1,0 +1,2 @@
+endpoint,value,ci_low,ci_high,interval,verdict
+"A under faults, arm (c) - arm (a), pooled b9+b10",0.024814,0.023543,0.026007,"95% shared-index scenario bootstrap (k-stratified, 1000, seed 0)",SUPPORTED

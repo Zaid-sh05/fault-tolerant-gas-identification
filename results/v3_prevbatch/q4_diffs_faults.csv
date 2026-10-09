@@ -1,0 +1,46 @@
+subset,comparison,value,ci_low,ci_high
+b9,(c)-(a) svm under faults,0.024572,0.020655,0.028404
+b9,(b)-(a) svm under faults,0.161849,0.153203,0.170411
+b9,(c)-(b) svm under faults,-0.137277,-0.144859,-0.130272
+b9,(c)-(a) A under faults,0.023751,0.021071,0.026467
+b9,(b)-(a) A under faults,0.234519,0.229543,0.23886
+b9,(c)-(b) A under faults,-0.210768,-0.215556,-0.206051
+b9,(c)-(a) B under faults,0.033049,0.030392,0.035856
+b9,(b)-(a) B under faults,0.250595,0.246023,0.255026
+b9,(c)-(b) B under faults,-0.217546,-0.221524,-0.213614
+b9,"A-SVM under faults, arm (a)",0.096381,0.087617,0.105498
+b9,"B-SVM under faults, arm (a)",0.09455,0.086288,0.103214
+b9,"A-SVM under faults, arm (b)",0.169051,0.154752,0.183439
+b9,"B-SVM under faults, arm (b)",0.183296,0.17101,0.196362
+b9,"A-SVM under faults, arm (c)",0.09556,0.085875,0.105923
+b9,"B-SVM under faults, arm (c)",0.103027,0.094487,0.112103
+b10,(c)-(a) svm under faults,0.023761,0.022138,0.025356
+b10,(b)-(a) svm under faults,0.129356,0.127183,0.131501
+b10,(c)-(b) svm under faults,-0.105595,-0.107484,-0.103852
+b10,(c)-(a) A under faults,0.024356,0.02306,0.02562
+b10,(b)-(a) A under faults,0.144149,0.141292,0.146874
+b10,(c)-(b) A under faults,-0.119793,-0.122024,-0.117451
+b10,(c)-(a) B under faults,0.027913,0.026571,0.029194
+b10,(b)-(a) B under faults,0.155544,0.153238,0.157495
+b10,(c)-(b) B under faults,-0.127631,-0.129227,-0.125989
+b10,"A-SVM under faults, arm (a)",0.10905,0.100793,0.117799
+b10,"B-SVM under faults, arm (a)",0.116648,0.109152,0.124709
+b10,"A-SVM under faults, arm (b)",0.123842,0.114714,0.134392
+b10,"B-SVM under faults, arm (b)",0.142836,0.134271,0.151973
+b10,"A-SVM under faults, arm (c)",0.109644,0.100819,0.118883
+b10,"B-SVM under faults, arm (c)",0.120799,0.11299,0.129645
+pooled,(c)-(a) svm under faults,0.024539,0.022913,0.026156
+pooled,(b)-(a) svm under faults,0.128407,0.126064,0.130825
+pooled,(c)-(b) svm under faults,-0.103869,-0.105777,-0.102136
+pooled,(c)-(a) A under faults,0.024814,0.023543,0.026007
+pooled,(b)-(a) A under faults,0.147249,0.144657,0.149697
+pooled,(c)-(b) A under faults,-0.122436,-0.12453,-0.120368
+pooled,(c)-(a) B under faults,0.029222,0.027981,0.030376
+pooled,(b)-(a) B under faults,0.159661,0.157623,0.161484
+pooled,(c)-(b) B under faults,-0.130439,-0.131817,-0.12901
+pooled,"A-SVM under faults, arm (a)",0.107079,0.098918,0.115778
+pooled,"B-SVM under faults, arm (a)",0.113026,0.105796,0.120738
+pooled,"A-SVM under faults, arm (b)",0.125921,0.116623,0.136547
+pooled,"B-SVM under faults, arm (b)",0.14428,0.135431,0.153624
+pooled,"A-SVM under faults, arm (c)",0.107355,0.09883,0.116422
+pooled,"B-SVM under faults, arm (c)",0.117709,0.110345,0.126178
