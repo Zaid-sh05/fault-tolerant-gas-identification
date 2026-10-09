@@ -454,3 +454,50 @@ Written before the run and before batches 8-10 are opened for v2. Batches 8-10 a
   arbiter.
 * P4. Per-row bound ("a row is correct if A or B is correct"): only where per-row predictions AND labels are available without reading
   Test labels (Validation 7: saved predictions + batch-7 labels from the loader). Extremely optimistic and not achievable; marked as such.
+
+## Q. Previous-period recalibration (POST-HOC, EXPLORATORY; written before any of its results were computed)
+User request 2026-10-10. Requested as section "P"; P is already the oracle-selector entry, so this is Q (same content).
+* Q0 (status and data access). Exploratory and test-informed: batches 8-10 and the v2 Test results were seen before this design. It re-opens
+  batches 8-10 (data AND labels) for a new evaluation; this departs from O ("no new reading of the Test data or labels") for this experiment
+  only, by the user's decision of 2026-10-10 (new config `configs/v3_prevbatch.yaml`, `approved_by_user: true`). No frozen file, config, tag
+  or earlier result is changed; new code in `scripts/v3_prevbatch.py`, tests in `tests/test_v3_prevbatch.py`, outputs in
+  `results/v3_prevbatch/`. Branch `exp/prev-batch-recal`, local only.
+* Q1 (question). Does few-shot recalibration with labelled rows from the PREVIOUS period still improve gas identification under faults,
+  with zero labels from the evaluated period?
+* Q2 (three arms, identical rows). For target t in {9, 10} and calibration seed s in {0..4}, the scored rows are
+  `keep_mask(y_t, s, t)` (`scripts/ft_v2_recal.py:75-78`) in every arm, i.e. batch t minus the rows the v2 run used to calibrate batch t
+  with seed s (arm c also leaves them out although it never used them, so the rows are identical):
+  (a) uncal = the v2 model `results/final_test_v2/test/uncalibrated` (Train 1-7);
+  (b) same  = the v2 model `b{t}_s{s}` (Train 1-7 + calibration rows of batch t);
+  (c) prev  = the v2 model `b{t-1}_s{s}` (Train 1-7 + calibration rows of batch t-1, i.e. b8 rows for t=9 and b9 rows for t=10), applied
+      unchanged to batch t: same scaler, SVM and median detector as fitted by v2 (no refit on batch t, thresholds unchanged), cap 4,
+      C=10, gamma=0.01.
+  The fitted v2 files are only read. Reduced B models are taken from that model's v2 cache (read-only); a reduced model missing there (a new
+  acted set) is fitted by the frozen `StrategyKit.reduced_model` routine on the same model's Train+calibration rows (same seed, C, gamma)
+  and cached under `results/v3_prevbatch/models/` only. Faults: the same 1081 scenarios (`ft_v2_recal.scenario_list()`, clean + k1/k2,
+  every type and severity, fault seeds 0-4) applied to the FULL raw batch t with the raw Train 1-7 statistics, as v2, so the faulted
+  matrices are identical across arms. Methods: SVM (no handling), A, B.
+* Q3 (primary endpoint). A, mean Macro-F1 under faults (k1 and k2 weighted equally, N5), arm (c) minus arm (a), POOLED = per seed and
+  scenario the Macro-F1 on the union of the kept rows of batches 9 and 10 (each batch predicted by its own arm model). Paired by scenario.
+  95% interval: the v2 shared-index scenario bootstrap (`scripts/paper_corrections.py: shared_boot`; k-stratified, 1000 replicates,
+  generator seed 0, one resample index per replicate shared by the 5 seeds). Verdict SUPPORTED if the whole interval is above 0;
+  otherwise NOT SUPPORTED.
+* Q4 (secondary, all reported, per batch 9, batch 10 and pooled side by side; batch 9 has 410 scored rows, batch 10 3540).
+  - clean SVM gain (c)-(a): 95% t-interval over the 5 seeds (`paper_corrections.seed_t`); also for A and B;
+  - within arm (c), A-SVM and B-SVM under faults (shared-index bootstrap);
+  - gap to same-period calibration (c)-(b), clean (t over seeds) and under faults (bootstrap), SVM/A/B; share of the same-period gain kept
+    = ((c)-(a)) / ((b)-(a)) under faults for A and B (point value, descriptive);
+  - retention (J6): per scenario Macro-F1 under the fault / clean Macro-F1 of the same method, arm, subset and seed, averaged; worst case as
+    `ft_v2_tables` (per seed the lowest per-scenario Macro-F1 including clean, mean over seeds) plus the identity of the worst scenarios.
+* Q5 (gates, in this order; any failure = stop and report, no partial claim).
+  (1) Tests first (`tests/test_v3_prevbatch.py`), must pass before the full run: no row of batch t is in the training or calibration data of
+      the arm (c) model for t (and its Train rows equal Train 1-7 + the t-1 calibration rows exactly); scored indices identical across arms
+      for every (t, s); the arm (c) detector is the stored v2 detector of `b{t-1}_s{s}` (its groups contain CAL_GROUP+(t-1), not
+      CAL_GROUP+t) and is never refitted.
+  (2) Smoke test (seed 0, a few scenarios), then the reproduction gate: arms (a) and (b) recomputed for batches 9 and 10, all 1081 scenarios,
+      SVM/A/B: per-row labels identical to the saved v2 chunks, and Macro-F1 equal to `results/final_test_v2/test/scores.csv` (max |diff|
+      <= 1e-9), clean values consistent with `clean.csv`.
+  (3) Only then arm (c).
+* Q6 (caveats registered now). The N9 interleaving caveat applies to (b) only; (c) has a real time gap (calibration from the previous batch).
+  Batch 10 dominates the pooled rows. One calibration draw per seed; intervals resample scenarios only (O2 limitation).
+* Q7 (no changes after results). No new n, seeds, models, scenarios, batches, arms or endpoint after any result is seen.
