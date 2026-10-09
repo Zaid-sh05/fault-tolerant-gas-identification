@@ -17,8 +17,10 @@ UCI Machine Learning Repository, **Gas Sensor Array Drift Dataset** (dataset 224
 - 16 sensors × 8 features = 128 features.
 - 6 gases: ethanol, ethylene, ammonia, acetaldehyde, acetone, toluene.
 
-1. Download `batch1.dat` … `batch10.dat` from https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset into `data/raw/`.
-2. Check the files against `data/raw/SHA256SUMS.txt`, which lists the name, size and SHA-256 of each file. Use for example `sha256sum batch1.dat` (Linux/macOS) or `certutil -hashfile batch1.dat SHA256` (Windows).
+The 10 batch files are included in `data/raw/` (redistributed under the dataset's CC BY 4.0 license; source:
+https://archive.ics.uci.edu/dataset/224/gas+sensor+array+drift+dataset). Their names, sizes and SHA-256 are in `data/raw/SHA256SUMS.txt`.
+- Check the included copy: `python scripts/download_data.py --verify-only`
+- Fresh independent copy from UCI (downloads, extracts, checks): `python scripts/download_data.py`
 
 Faults are **simulated** on whole 8-feature sensor blocks: dropout, bias, stuck and random, with 1, 2 or 4 faulty sensors (k=1, 2, 4). They are not recorded real faults.
 
@@ -44,7 +46,7 @@ python -m venv .venv
 .venv\Scripts\activate          (Linux/macOS: source .venv/bin/activate)
 pip install -r requirements.txt
 pip install -e .
-pytest                           (106 tests)
+pytest                           (112 tests)
 ```
 
 All scripts are run from the repository root. Long runs use `scripts/run_guarded.py`, which stops the whole process tree if the memory
@@ -60,7 +62,7 @@ load reaches 85%. Their intermediate results are checkpointed in chunks, so a ru
 | 4. v1 reports, edge cost, paper material | `python scripts/ft_report.py`, `python scripts/ft_edge_cost.py`, `python scripts/ft_paper.py`, `python scripts/detector_breakdown.py` | `results/final_test/TEST_REPORT.md`, `results/edge_cost/`, `results/paper/` |
 | 5. v2 development (post-hoc, batches 1–7 only) | `python scripts/v2_dev.py`, `python scripts/v2_toluene_sensitivity.py`, `python scripts/v2_coral_check.py`, `python scripts/v2_arbiter.py`, `python scripts/v2_recal.py --stage clean`, `python scripts/v2_recal.py --stage faults`, `python scripts/v2_light.py`, `python scripts/v2_improve.py --light` | `results/v2/` |
 | 6. v2 final test (once, at tag `frozen-before-test-v2`) | `python scripts/ft_v2_checks.py smoke` (needs `python scripts/ft_v2_recal.py --config configs/v2_drift_dev.yaml --smoke` first), `python scripts/ft_v2_checks.py estimate`, then at the tag `python scripts/ft_v2_recal.py --config configs/final_test_v2.yaml` and `python scripts/ft_v2_tables.py` | `results/final_test_v2/` |
-| 7. v2 edge cost and paper material | `python scripts/ft_edge_cost_v2.py`, `python scripts/v2_paper.py` | `results/edge_cost/edge_cost_v2.md`, `results/paper/` |
+| 7. v2 edge cost and paper material (post-audit, decisions_log O) | `python scripts/ft_edge_cost_v2.py`, `python scripts/paper_corrections.py ci`, `python scripts/paper_corrections.py auroc`, `python scripts/paper_material.py` (do not re-run the superseded `scripts/v2_paper.py`, see `results/paper/SUPERSEDED.md`) | `results/edge_cost/edge_cost_v2.md`, `results/paper/` |
 | 8. consistency of every paper number | `python scripts/check_paper_numbers.py` | prints any number that does not match its source |
 
 Seeds are fixed everywhere, and SVM/LightGBM run deterministically with one BLAS thread. Re-running a final test is not part of the scientific protocol: each was run once. Their code and inputs are hashed in `FREEZE_MANIFEST.md` and `FREEZE_MANIFEST_v2.md`. The hashes refer to the tagged commits; later cosmetic edits, such as the README or path cleanup, do not change those commits.
@@ -72,7 +74,7 @@ Seeds are fixed everywhere, and SVM/LightGBM run deterministically with one BLAS
   - Under simulated faults, A and B beat SVM in most cells, and also beat fault-augmented training. The exceptions are several faulty Bias/Stuck sensors at once.
   - Strategy C (reliability-weighted pair experts) is a negative result.
 - **v2 (post-hoc, separate setting "with 10 labeled calibration samples per gas"):**
-  - Recalibration raises the clean Test Macro-F1 by +0.136 (95% CI [0.132, 0.141]).
+  - Recalibration raises the clean Test Macro-F1 by +0.136 (95% t-interval over the 5 calibration seeds [0.117, 0.156]; corrected after an independent audit, decisions_log O).
   - A and B keep about 97% of their clean score under faults; SVM keeps 81%.
   - Caveats: the calibration rows are interleaved in time with the scored rows, so the gain is optimistic, and the design is test-informed.
 - Failed and unconfirmed ideas are summarised in [`results/NEGATIVE_RESULTS.md`](results/NEGATIVE_RESULTS.md).
@@ -81,7 +83,7 @@ Seeds are fixed everywhere, and SVM/LightGBM run deterministically with one BLAS
 
 ```
 configs/            YAML configs of every protocol (base: preprocessing.yaml)
-data/raw/           the 10 batch files of UCI #224 (not in git) + SHA256SUMS.txt
+data/raw/           the 10 batch files of UCI #224 (CC BY 4.0) + SHA256SUMS.txt
 src/                data loading, splits, cleaning, preprocessing, faults/scenarios, detector, strategies, drift (v2), fast SVM
 scripts/            one script per study step (see the table above); run_guarded.py / tree_guard.py = memory guard
 tests/              unit tests (pytest)
@@ -98,4 +100,10 @@ results/
 FREEZE_MANIFEST.md, FREEZE_MANIFEST_v2.md   hashes of the code and inputs of the two final tests
 ```
 
-Bulky intermediate files are ignored by git: chunk files, fitted models, and reduced SVMs. The scripts regenerate them.
+Bulky intermediate files are ignored by git: chunk files, fitted models, and reduced SVMs (about 23 GB). The scripts regenerate them.
+
+## License
+
+Code and results: MIT (see `LICENSE`), © 2026 Zaid M. Alshobaki. Data: UCI Gas Sensor Array Drift Dataset, CC BY 4.0
+(A. Vergara, S. Vembu, T. Ayhan, M. Ryan, M. Homer, R. Huerta, "Chemical gas sensor drift compensation using classifier ensembles",
+Sensors and Actuators B: Chemical 166-167 (2012) 320-329, doi:10.1016/j.snb.2012.01.074).
