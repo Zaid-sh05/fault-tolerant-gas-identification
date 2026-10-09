@@ -58,7 +58,38 @@ def test_scored_rows_are_identical_across_arms(v3, data):
             assert len(ref) == len(y) - 60
 
 
-def test_arm_c_detector_is_the_stored_t_minus_1_detector_and_never_refit(v3, data, monkeypatch):
+@pytest.mark.skipif(not Path("results/v3_prevbatch/scores.csv").exists(), reason="scores.csv not computed yet")
+def test_saved_scores_of_every_arm_use_the_shared_scored_rows(v3, data):
+    """Rescore saved labels on keep_mask rows; an arm scored on other rows would not reproduce its scores.csv value."""
+    import pandas as pd
+    from ft_v2_recal import keep_mask
+    from src.models import scores
+    evals = data[3]
+    df = pd.read_csv("results/v3_prevbatch/scores.csv").set_index(["subset", "cal_seed", "arm", "method", "sid"])["f1"]
+    for t, s, sid in ((9, 3, 0), (9, 1, 700), (10, 4, 0), (10, 2, 1000)):
+        y = evals[t][1]
+        keep = keep_mask(y, s, t)
+        for arm in ("a", "b", "c"):
+            labels = v3.load_preds(arm, t, s)["A"][sid]
+            assert abs(scores(y[keep], labels[keep])["macro_f1"] - df[(f"b{t}", s, arm, "A", sid)]) < 1e-12, (arm, t, s, sid)
+
+
+def test_chunks_from_another_model_are_rejected(v3, tmp_path, monkeypatch):
+    import pickle
+    good = pickle.load(open(v3.pred_dir("c", 9, 0) / "chunk_000.pkl", "rb"))
+    d = tmp_path / "c_b9_s0"
+    d.mkdir()
+    for i, _ in v3.chunks():
+        src = pickle.load(open(v3.pred_dir("c", 9, 0) / f"chunk_{i:03d}.pkl", "rb"))
+        if i == 0:
+            src = {**good, "model": str(v3.model_dir("b", 9, 0))}                     # a stale chunk written by the same-period model
+        pickle.dump(src, open(d / f"chunk_{i:03d}.pkl", "wb"))
+    monkeypatch.setattr(v3, "pred_dir", lambda arm, t, s: d)
+    with pytest.raises(AssertionError):
+        v3.load_preds("c", 9, 0)
+
+
+def test_arm_c_detector_is_the_stored_t_minus_1_detector_and_never_refit(v3, data, monkeypatch, tmp_path):
     from src.detector import ReliabilityDetector
     from v2_recal import CAL_GROUP, calib_rows
     evals = data[3]
@@ -73,6 +104,6 @@ def test_arm_c_detector_is_the_stored_t_minus_1_detector_and_never_refit(v3, dat
     monkeypatch.setattr(ReliabilityDetector, "fit", no_fit)
     f = v3.load_fitted("c", 9, 0)
     tau = f["det"].tau_.copy()
-    preds = v3.predict_scenarios(f, v3.cache_dir("c", 9, 0), evals[9][0], data[0], [0, 1])
+    preds = v3.predict_scenarios(f, tmp_path / "b8_s0" / "reduced", evals[9][0], data[0], [0, 1])   # temporary cache, not the run's
     assert np.array_equal(f["det"].tau_, tau)
     assert set(preds) == {"svm", "A", "B"} and preds["A"].shape == (2, len(evals[9][1]))

@@ -501,3 +501,10 @@ User request 2026-10-10. Requested as section "P"; P is already the oracle-selec
 * Q6 (caveats registered now). The N9 interleaving caveat applies to (b) only; (c) has a real time gap (calibration from the previous batch).
   Batch 10 dominates the pooled rows. One calibration draw per seed; intervals resample scenarios only (O2 limitation).
 * Q7 (no changes after results). No new n, seeds, models, scenarios, batches, arms or endpoint after any result is seen.
+* Q8 (after the results and the independent audit, 2026-10-10 02:45; no analysis choice changed). The audit (`results/v3_prevbatch/AUDIT_SUBAGENT.md`)
+  reproduced Q3 (+0.0248 [0.0235, 0.0260]) and every Q4 table, and found no Critical issue. Its Important findings were fixed without touching
+  any prediction: (1) retention now follows J6's text (k1 and k2 weighted equally), and the unweighted value used by `ft_v2_tables` is
+  kept next to it, labelled; (2) the row-identity test was tautological, so a test now rescores saved labels on the shared rows and must
+  equal scores.csv for every arm (checked: arm (c) scored on other rows differs by ~1e-3); (3) prediction chunks are checked for arm,
+  target, model and sids before use. Also, a re-run refuses an existing RUN_STARTED marker, sids are checked before pairing, and tests use
+  a temporary model cache. After the fixes, scores.csv and q3_primary.csv were recomputed byte-identical.

@@ -150,6 +150,8 @@ def jobs_for(arms):
 def load_preds(arm, t, s):
     d = pred_dir(arm, t, s)
     parts = [pickle.load(open(d / f"chunk_{i:03d}.pkl", "rb")) for i, _ in chunks()]
+    for p, (_, sids) in zip(parts, chunks()):                                    # provenance: a stale chunk is never reused silently
+        assert (p["arm"], p["target"], p["model"], p["sids"]) == (arm, t, str(model_dir(arm, t, s)), sids), f"bad chunk in {d}"
     return {m: np.concatenate([p["preds"][m] for p in parts]) for m in METHODS}
 
 
@@ -227,6 +229,8 @@ def stage_gate(jobs):
 def stage_run(jobs):
     gate = json.load(open(OUT / "gate.json"))
     assert gate["passed"], "the reproduction gate has not passed (decisions_log Q5)"
+    if (OUT / "RUN_STARTED").exists() and not os.environ.get("V3_RESUME"):
+        raise SystemExit("refusing to start again: RUN_STARTED exists (resume after an interruption: V3_RESUME=1, logged)")
     (OUT / "RUN_STARTED").write_text(time.strftime("%Y-%m-%dT%H:%M:%S"))
     tasks = jobs_for(("c",))
     log(f"run: arm c, {len(tasks)} chunks")
@@ -255,6 +259,7 @@ def tables():
 
     def ps(sub, arm, m):
         g = f[(f.subset == sub) & (f.arm == arm) & (f.method == m)]
+        assert all(np.array_equal(g[g.cal_seed == s]["sid"].to_numpy(), np.arange(1, len(scenario_list()))) for s in SEEDS), (sub, arm, m)
         return np.stack([g[g.cal_seed == s]["f1"].to_numpy() for s in SEEDS]), g[g.cal_seed == 0]["setting"].to_numpy()
 
     def boot(x, k):
@@ -281,9 +286,11 @@ def tables():
                 for s in SEEDS:
                     gs = f[(f.subset == sub) & (f.arm == arm) & (f.method == m) & (f.cal_seed == s)]
                     c = clean[(clean.subset == sub) & (clean.cal_seed == s) & (clean.method == m)][arm].iloc[0]
-                    per_seed.append(((gs["f1"] / c).mean(), min(gs["f1"].min(), c)))
-                ret.append({"subset": sub, "method": m, "arm": arm, "retention": np.mean([r for r, _ in per_seed]),
-                            "worst": np.mean([w for _, w in per_seed])})
+                    r = gs["f1"] / c
+                    per_seed.append((np.mean([r[gs.setting == kk].mean() for kk in ("k1", "k2")]), r.mean(), min(gs["f1"].min(), c)))
+                ret.append({"subset": sub, "method": m, "arm": arm, "retention": np.mean([x[0] for x in per_seed]),    # J6: k1, k2 equal
+                            "retention_unweighted_v2_tables": np.mean([x[1] for x in per_seed]),                    # as ft_v2_tables
+                            "worst": np.mean([x[2] for x in per_seed])})
         for arm in ("a", "b", "c"):
             for m in ("A", "B"):
                 diff.append({"subset": sub, "comparison": f"{m}-SVM under faults, arm ({arm})", **boot(ps(sub, arm, m)[0] - ps(sub, arm, "svm")[0], k)})
@@ -314,7 +321,7 @@ def tables():
     for name, tab in out.items():
         md += [f"## {name}", "", tab.round(4).to_markdown(index=False), ""]
     (OUT / "TABLES.md").write_text("\n".join(md), encoding="utf-8")
-    log(f"tables: P3 {q3['value']:+.4f} [{q3['ci_low']:+.4f}, {q3['ci_high']:+.4f}] -> {q3['verdict']}")
+    log(f"tables: Q3 {q3['value']:+.4f} [{q3['ci_low']:+.4f}, {q3['ci_high']:+.4f}] -> {q3['verdict']}")
 
 
 if __name__ == "__main__":
