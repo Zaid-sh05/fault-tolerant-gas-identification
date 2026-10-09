@@ -118,7 +118,7 @@ def auroc_no_dropout():
     for (sub, mod, k), g in v2.groupby(["subset", "model", "setting"]):
         per_fault = g.set_index("fault")["auroc"]
         rows.append({"version": "v2", "subset": sub, "model": mod, "k": k, "with_dropout": per_fault.mean(),
-                     "without_dropout": per_fault.drop("dropout").mean(), "source": str(V2 / "detector_summary.csv")})
+                     "without_dropout": per_fault.drop("dropout").mean(), "source": (V2 / "detector_summary.csv").as_posix()})
     out = pd.DataFrame(rows)
     out.round(6).to_csv(AUC_CSV, index=False)
     return out

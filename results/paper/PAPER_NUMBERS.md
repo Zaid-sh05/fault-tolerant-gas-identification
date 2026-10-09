@@ -912,3 +912,55 @@ Post-audit correction (decisions_log O). Replaces the v2 intervals marked '[supe
 | v2c A-SVM under faults, model (b), pooled, value | 0.1275 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (b), column value |
 | v2c A-SVM under faults, model (b), pooled, ci_low | 0.1181 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (b), column ci_low |
 | v2c A-SVM under faults, model (b), pooled, ci_high | 0.1381 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (b), column ci_high |
+
+
+## Detector AUROC without Dropout
+
+Mean isolation AUROC over the fault types (each type first averaged over its severities), primary 'median' detector. Dropout scores 1.0 by construction (a missing block is +inf), so it is shown with and without it (decisions_log O). v2 has no pooled detector value (each Test batch has its own model).
+
+| number | value | source |
+|---|---|---|
+| AUROC v1 Validation k1, with Dropout | 0.9712 | results/paper/auroc_no_dropout.csv, version=v1, subset=Validation, model=-, k=k1, column with_dropout |
+| AUROC v1 Validation k1, without Dropout | 0.9616 | results/paper/auroc_no_dropout.csv, version=v1, subset=Validation, model=-, k=k1, column without_dropout |
+| AUROC v1 Validation k2, with Dropout | 0.9016 | results/paper/auroc_no_dropout.csv, version=v1, subset=Validation, model=-, k=k2, column with_dropout |
+| AUROC v1 Validation k2, without Dropout | 0.8689 | results/paper/auroc_no_dropout.csv, version=v1, subset=Validation, model=-, k=k2, column without_dropout |
+| AUROC v1 b10 k1, with Dropout | 0.9760 | results/paper/auroc_no_dropout.csv, version=v1, subset=b10, model=-, k=k1, column with_dropout |
+| AUROC v1 b10 k1, without Dropout | 0.9680 | results/paper/auroc_no_dropout.csv, version=v1, subset=b10, model=-, k=k1, column without_dropout |
+| AUROC v1 b10 k2, with Dropout | 0.9061 | results/paper/auroc_no_dropout.csv, version=v1, subset=b10, model=-, k=k2, column with_dropout |
+| AUROC v1 b10 k2, without Dropout | 0.8748 | results/paper/auroc_no_dropout.csv, version=v1, subset=b10, model=-, k=k2, column without_dropout |
+| AUROC v1 b8 k1, with Dropout | 0.9579 | results/paper/auroc_no_dropout.csv, version=v1, subset=b8, model=-, k=k1, column with_dropout |
+| AUROC v1 b8 k1, without Dropout | 0.9438 | results/paper/auroc_no_dropout.csv, version=v1, subset=b8, model=-, k=k1, column without_dropout |
+| AUROC v1 b8 k2, with Dropout | 0.8945 | results/paper/auroc_no_dropout.csv, version=v1, subset=b8, model=-, k=k2, column with_dropout |
+| AUROC v1 b8 k2, without Dropout | 0.8594 | results/paper/auroc_no_dropout.csv, version=v1, subset=b8, model=-, k=k2, column without_dropout |
+| AUROC v1 b9 k1, with Dropout | 0.9851 | results/paper/auroc_no_dropout.csv, version=v1, subset=b9, model=-, k=k1, column with_dropout |
+| AUROC v1 b9 k1, without Dropout | 0.9801 | results/paper/auroc_no_dropout.csv, version=v1, subset=b9, model=-, k=k1, column without_dropout |
+| AUROC v1 b9 k2, with Dropout | 0.9292 | results/paper/auroc_no_dropout.csv, version=v1, subset=b9, model=-, k=k2, column with_dropout |
+| AUROC v1 b9 k2, without Dropout | 0.9056 | results/paper/auroc_no_dropout.csv, version=v1, subset=b9, model=-, k=k2, column without_dropout |
+| AUROC v1 pooled k1, with Dropout | 0.9755 | results/paper/auroc_no_dropout.csv, version=v1, subset=pooled, model=-, k=k1, column with_dropout |
+| AUROC v1 pooled k1, without Dropout | 0.9673 | results/paper/auroc_no_dropout.csv, version=v1, subset=pooled, model=-, k=k1, column without_dropout |
+| AUROC v1 pooled k2, with Dropout | 0.9076 | results/paper/auroc_no_dropout.csv, version=v1, subset=pooled, model=-, k=k2, column with_dropout |
+| AUROC v1 pooled k2, without Dropout | 0.8768 | results/paper/auroc_no_dropout.csv, version=v1, subset=pooled, model=-, k=k2, column without_dropout |
+| AUROC v2 b10 model (a) k1, with Dropout | 0.9557 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=a, k=k1, column with_dropout |
+| AUROC v2 b10 model (a) k1, without Dropout | 0.9410 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=a, k=k1, column without_dropout |
+| AUROC v2 b10 model (a) k2, with Dropout | 0.8814 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=a, k=k2, column with_dropout |
+| AUROC v2 b10 model (a) k2, without Dropout | 0.8418 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=a, k=k2, column without_dropout |
+| AUROC v2 b10 model (b) k1, with Dropout | 0.9636 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=b, k=k1, column with_dropout |
+| AUROC v2 b10 model (b) k1, without Dropout | 0.9515 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=b, k=k1, column without_dropout |
+| AUROC v2 b10 model (b) k2, with Dropout | 0.9008 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=b, k=k2, column with_dropout |
+| AUROC v2 b10 model (b) k2, without Dropout | 0.8678 | results/paper/auroc_no_dropout.csv, version=v2, subset=b10, model=b, k=k2, column without_dropout |
+| AUROC v2 b8 model (a) k1, with Dropout | 0.9681 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=a, k=k1, column with_dropout |
+| AUROC v2 b8 model (a) k1, without Dropout | 0.9575 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=a, k=k1, column without_dropout |
+| AUROC v2 b8 model (a) k2, with Dropout | 0.8979 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=a, k=k2, column with_dropout |
+| AUROC v2 b8 model (a) k2, without Dropout | 0.8638 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=a, k=k2, column without_dropout |
+| AUROC v2 b8 model (b) k1, with Dropout | 0.9700 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=b, k=k1, column with_dropout |
+| AUROC v2 b8 model (b) k1, without Dropout | 0.9599 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=b, k=k1, column without_dropout |
+| AUROC v2 b8 model (b) k2, with Dropout | 0.9043 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=b, k=k2, column with_dropout |
+| AUROC v2 b8 model (b) k2, without Dropout | 0.8725 | results/paper/auroc_no_dropout.csv, version=v2, subset=b8, model=b, k=k2, column without_dropout |
+| AUROC v2 b9 model (a) k1, with Dropout | 0.9641 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=a, k=k1, column with_dropout |
+| AUROC v2 b9 model (a) k1, without Dropout | 0.9521 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=a, k=k1, column without_dropout |
+| AUROC v2 b9 model (a) k2, with Dropout | 0.8969 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=a, k=k2, column with_dropout |
+| AUROC v2 b9 model (a) k2, without Dropout | 0.8625 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=a, k=k2, column without_dropout |
+| AUROC v2 b9 model (b) k1, with Dropout | 0.9663 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k1, column with_dropout |
+| AUROC v2 b9 model (b) k1, without Dropout | 0.9551 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k1, column without_dropout |
+| AUROC v2 b9 model (b) k2, with Dropout | 0.9060 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k2, column with_dropout |
+| AUROC v2 b9 model (b) k2, without Dropout | 0.8746 | results/paper/auroc_no_dropout.csv, version=v2, subset=b9, model=b, k=k2, column without_dropout |
