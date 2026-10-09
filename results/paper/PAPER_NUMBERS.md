@@ -412,41 +412,41 @@ SEPARATE SETTING: 'with 10 labeled calibration samples per gas' (few-shot recali
 | v2 clean Macro-F1 SVM, pooled, (a) no calibration | 0.7056 | results/final_test_v2/test/clean.csv, subset=pooled, method=svm, column a |
 | v2 clean Macro-F1 SVM, pooled, (b) 10 per gas, mean of 5 seeds | 0.8418 | results/final_test_v2/test/clean.csv, subset=pooled, method=svm, column b |
 | v2 clean gain (b)-(a) SVM, b10, diff | 0.1440 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=svm, column diff |
-| v2 clean gain (b)-(a) SVM, b10, ci_low | 0.1384 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=svm, column ci_low |
-| v2 clean gain (b)-(a) SVM, b10, ci_high | 0.1495 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=svm, column ci_high |
+| v2 clean gain (b)-(a) SVM, b10, ci_low [superseded: v2 corrected CIs] | 0.1384 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=svm, column ci_low |
+| v2 clean gain (b)-(a) SVM, b10, ci_high [superseded: v2 corrected CIs] | 0.1495 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=svm, column ci_high |
 | v2 clean gain (b)-(a) A, b10, diff | 0.1449 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=A, column diff |
-| v2 clean gain (b)-(a) A, b10, ci_low | 0.1391 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=A, column ci_low |
-| v2 clean gain (b)-(a) A, b10, ci_high | 0.1509 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=A, column ci_high |
+| v2 clean gain (b)-(a) A, b10, ci_low [superseded: v2 corrected CIs] | 0.1391 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=A, column ci_low |
+| v2 clean gain (b)-(a) A, b10, ci_high [superseded: v2 corrected CIs] | 0.1509 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=A, column ci_high |
 | v2 clean gain (b)-(a) B, b10, diff | 0.1486 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=B, column diff |
-| v2 clean gain (b)-(a) B, b10, ci_low | 0.1431 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=B, column ci_low |
-| v2 clean gain (b)-(a) B, b10, ci_high | 0.1544 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=B, column ci_high |
+| v2 clean gain (b)-(a) B, b10, ci_low [superseded: v2 corrected CIs] | 0.1431 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=B, column ci_low |
+| v2 clean gain (b)-(a) B, b10, ci_high [superseded: v2 corrected CIs] | 0.1544 | results/final_test_v2/test/clean_ci.csv, subset=b10, method=B, column ci_high |
 | v2 clean gain (b)-(a) SVM, b8, diff | 0.0397 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=svm, column diff |
-| v2 clean gain (b)-(a) SVM, b8, ci_low | 0.0264 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=svm, column ci_low |
-| v2 clean gain (b)-(a) SVM, b8, ci_high | 0.0597 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=svm, column ci_high |
+| v2 clean gain (b)-(a) SVM, b8, ci_low [superseded: v2 corrected CIs] | 0.0264 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=svm, column ci_low |
+| v2 clean gain (b)-(a) SVM, b8, ci_high [superseded: v2 corrected CIs] | 0.0597 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=svm, column ci_high |
 | v2 clean gain (b)-(a) A, b8, diff | 0.0137 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=A, column diff |
-| v2 clean gain (b)-(a) A, b8, ci_low | -0.0131 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=A, column ci_low |
-| v2 clean gain (b)-(a) A, b8, ci_high | 0.0417 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=A, column ci_high |
+| v2 clean gain (b)-(a) A, b8, ci_low [superseded: v2 corrected CIs] | -0.0131 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=A, column ci_low |
+| v2 clean gain (b)-(a) A, b8, ci_high [superseded: v2 corrected CIs] | 0.0417 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=A, column ci_high |
 | v2 clean gain (b)-(a) B, b8, diff | 0.0403 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=B, column diff |
-| v2 clean gain (b)-(a) B, b8, ci_low | 0.0239 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=B, column ci_low |
-| v2 clean gain (b)-(a) B, b8, ci_high | 0.0654 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=B, column ci_high |
+| v2 clean gain (b)-(a) B, b8, ci_low [superseded: v2 corrected CIs] | 0.0239 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=B, column ci_low |
+| v2 clean gain (b)-(a) B, b8, ci_high [superseded: v2 corrected CIs] | 0.0654 | results/final_test_v2/test/clean_ci.csv, subset=b8, method=B, column ci_high |
 | v2 clean gain (b)-(a) SVM, b9, diff | 0.2446 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=svm, column diff |
-| v2 clean gain (b)-(a) SVM, b9, ci_low | 0.2372 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=svm, column ci_low |
-| v2 clean gain (b)-(a) SVM, b9, ci_high | 0.2531 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=svm, column ci_high |
+| v2 clean gain (b)-(a) SVM, b9, ci_low [superseded: v2 corrected CIs] | 0.2372 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=svm, column ci_low |
+| v2 clean gain (b)-(a) SVM, b9, ci_high [superseded: v2 corrected CIs] | 0.2531 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=svm, column ci_high |
 | v2 clean gain (b)-(a) A, b9, diff | 0.2421 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=A, column diff |
-| v2 clean gain (b)-(a) A, b9, ci_low | 0.2354 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=A, column ci_low |
-| v2 clean gain (b)-(a) A, b9, ci_high | 0.2499 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=A, column ci_high |
+| v2 clean gain (b)-(a) A, b9, ci_low [superseded: v2 corrected CIs] | 0.2354 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=A, column ci_low |
+| v2 clean gain (b)-(a) A, b9, ci_high [superseded: v2 corrected CIs] | 0.2499 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=A, column ci_high |
 | v2 clean gain (b)-(a) B, b9, diff | 0.2421 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=B, column diff |
-| v2 clean gain (b)-(a) B, b9, ci_low | 0.2357 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=B, column ci_low |
-| v2 clean gain (b)-(a) B, b9, ci_high | 0.2496 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=B, column ci_high |
+| v2 clean gain (b)-(a) B, b9, ci_low [superseded: v2 corrected CIs] | 0.2357 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=B, column ci_low |
+| v2 clean gain (b)-(a) B, b9, ci_high [superseded: v2 corrected CIs] | 0.2496 | results/final_test_v2/test/clean_ci.csv, subset=b9, method=B, column ci_high |
 | v2 clean gain (b)-(a) SVM, pooled, diff | 0.1362 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=svm, column diff |
-| v2 clean gain (b)-(a) SVM, pooled, ci_low | 0.1315 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=svm, column ci_low |
-| v2 clean gain (b)-(a) SVM, pooled, ci_high | 0.1413 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=svm, column ci_high |
+| v2 clean gain (b)-(a) SVM, pooled, ci_low [superseded: v2 corrected CIs] | 0.1315 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=svm, column ci_low |
+| v2 clean gain (b)-(a) SVM, pooled, ci_high [superseded: v2 corrected CIs] | 0.1413 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=svm, column ci_high |
 | v2 clean gain (b)-(a) A, pooled, diff | 0.1359 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=A, column diff |
-| v2 clean gain (b)-(a) A, pooled, ci_low | 0.1310 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=A, column ci_low |
-| v2 clean gain (b)-(a) A, pooled, ci_high | 0.1411 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=A, column ci_high |
+| v2 clean gain (b)-(a) A, pooled, ci_low [superseded: v2 corrected CIs] | 0.1310 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=A, column ci_low |
+| v2 clean gain (b)-(a) A, pooled, ci_high [superseded: v2 corrected CIs] | 0.1411 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=A, column ci_high |
 | v2 clean gain (b)-(a) B, pooled, diff | 0.1397 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=B, column diff |
-| v2 clean gain (b)-(a) B, pooled, ci_low | 0.1348 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=B, column ci_low |
-| v2 clean gain (b)-(a) B, pooled, ci_high | 0.1450 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=B, column ci_high |
+| v2 clean gain (b)-(a) B, pooled, ci_low [superseded: v2 corrected CIs] | 0.1348 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=B, column ci_low |
+| v2 clean gain (b)-(a) B, pooled, ci_high [superseded: v2 corrected CIs] | 0.1450 | results/final_test_v2/test/clean_ci.csv, subset=pooled, method=B, column ci_high |
 | v2 mean_under_faults A, model (a), b10 | 0.6211 | results/final_test_v2/test/faults.csv, subset=b10, model=a, method=A, column mean_under_faults |
 | v2 k1 A, model (a), b10 | 0.6564 | results/final_test_v2/test/faults.csv, subset=b10, model=a, method=A, column k1 |
 | v2 k2 A, model (a), b10 | 0.5859 | results/final_test_v2/test/faults.csv, subset=b10, model=a, method=A, column k2 |
@@ -568,101 +568,101 @@ SEPARATE SETTING: 'with 10 labeled calibration samples per gas' (few-shot recali
 | v2 worst SVM, model (b), pooled | 0.1691 | results/final_test_v2/test/faults.csv, subset=pooled, model=b, method=svm, column worst |
 | v2 retained SVM, model (b), pooled | 0.8079 | results/final_test_v2/test/faults.csv, subset=pooled, model=b, method=svm, column retained |
 | v2 (b)-(a) svm under faults, b10, diff | 0.1294 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) svm under faults, column diff |
-| v2 (b)-(a) svm under faults, b10, ci_low | 0.1283 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) svm under faults, column ci_low |
-| v2 (b)-(a) svm under faults, b10, ci_high | 0.1304 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) svm under faults, column ci_high |
+| v2 (b)-(a) svm under faults, b10, ci_low [superseded: v2 corrected CIs] | 0.1283 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) svm under faults, column ci_low |
+| v2 (b)-(a) svm under faults, b10, ci_high [superseded: v2 corrected CIs] | 0.1304 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) svm under faults, column ci_high |
 | v2 (b)-(a) A under faults, b10, diff | 0.1441 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) A under faults, column diff |
-| v2 (b)-(a) A under faults, b10, ci_low | 0.1428 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) A under faults, column ci_low |
-| v2 (b)-(a) A under faults, b10, ci_high | 0.1455 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) A under faults, column ci_high |
+| v2 (b)-(a) A under faults, b10, ci_low [superseded: v2 corrected CIs] | 0.1428 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) A under faults, column ci_low |
+| v2 (b)-(a) A under faults, b10, ci_high [superseded: v2 corrected CIs] | 0.1455 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) A under faults, column ci_high |
 | v2 (b)-(a) B under faults, b10, diff | 0.1555 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) B under faults, column diff |
-| v2 (b)-(a) B under faults, b10, ci_low | 0.1545 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) B under faults, column ci_low |
-| v2 (b)-(a) B under faults, b10, ci_high | 0.1566 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) B under faults, column ci_high |
+| v2 (b)-(a) B under faults, b10, ci_low [superseded: v2 corrected CIs] | 0.1545 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) B under faults, column ci_low |
+| v2 (b)-(a) B under faults, b10, ci_high [superseded: v2 corrected CIs] | 0.1566 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=(b)-(a) B under faults, column ci_high |
 | v2 A-SVM under faults, model (a), b10, diff | 0.1090 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (a), column diff |
-| v2 A-SVM under faults, model (a), b10, ci_low | 0.1056 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (a), column ci_low |
-| v2 A-SVM under faults, model (a), b10, ci_high | 0.1127 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (a), column ci_high |
+| v2 A-SVM under faults, model (a), b10, ci_low [superseded: v2 corrected CIs] | 0.1056 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (a), column ci_low |
+| v2 A-SVM under faults, model (a), b10, ci_high [superseded: v2 corrected CIs] | 0.1127 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (a), column ci_high |
 | v2 A-SVM under faults, model (b), b10, diff | 0.1238 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (b), column diff |
-| v2 A-SVM under faults, model (b), b10, ci_low | 0.1200 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (b), column ci_low |
-| v2 A-SVM under faults, model (b), b10, ci_high | 0.1281 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (b), column ci_high |
+| v2 A-SVM under faults, model (b), b10, ci_low [superseded: v2 corrected CIs] | 0.1200 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (b), column ci_low |
+| v2 A-SVM under faults, model (b), b10, ci_high [superseded: v2 corrected CIs] | 0.1281 | results/final_test_v2/test/faults_ci.csv, subset=b10, comparison=A-SVM under faults, model (b), column ci_high |
 | v2 (b)-(a) svm under faults, b8, diff | 0.0482 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) svm under faults, column diff |
-| v2 (b)-(a) svm under faults, b8, ci_low | 0.0464 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) svm under faults, column ci_low |
-| v2 (b)-(a) svm under faults, b8, ci_high | 0.0499 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) svm under faults, column ci_high |
+| v2 (b)-(a) svm under faults, b8, ci_low [superseded: v2 corrected CIs] | 0.0464 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) svm under faults, column ci_low |
+| v2 (b)-(a) svm under faults, b8, ci_high [superseded: v2 corrected CIs] | 0.0499 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) svm under faults, column ci_high |
 | v2 (b)-(a) A under faults, b8, diff | 0.0354 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) A under faults, column diff |
-| v2 (b)-(a) A under faults, b8, ci_low | 0.0342 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) A under faults, column ci_low |
-| v2 (b)-(a) A under faults, b8, ci_high | 0.0367 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) A under faults, column ci_high |
+| v2 (b)-(a) A under faults, b8, ci_low [superseded: v2 corrected CIs] | 0.0342 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) A under faults, column ci_low |
+| v2 (b)-(a) A under faults, b8, ci_high [superseded: v2 corrected CIs] | 0.0367 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) A under faults, column ci_high |
 | v2 (b)-(a) B under faults, b8, diff | 0.0459 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) B under faults, column diff |
-| v2 (b)-(a) B under faults, b8, ci_low | 0.0449 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) B under faults, column ci_low |
-| v2 (b)-(a) B under faults, b8, ci_high | 0.0471 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) B under faults, column ci_high |
+| v2 (b)-(a) B under faults, b8, ci_low [superseded: v2 corrected CIs] | 0.0449 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) B under faults, column ci_low |
+| v2 (b)-(a) B under faults, b8, ci_high [superseded: v2 corrected CIs] | 0.0471 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=(b)-(a) B under faults, column ci_high |
 | v2 A-SVM under faults, model (a), b8, diff | 0.1468 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (a), column diff |
-| v2 A-SVM under faults, model (a), b8, ci_low | 0.1412 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (a), column ci_low |
-| v2 A-SVM under faults, model (a), b8, ci_high | 0.1529 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (a), column ci_high |
+| v2 A-SVM under faults, model (a), b8, ci_low [superseded: v2 corrected CIs] | 0.1412 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (a), column ci_low |
+| v2 A-SVM under faults, model (a), b8, ci_high [superseded: v2 corrected CIs] | 0.1529 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (a), column ci_high |
 | v2 A-SVM under faults, model (b), b8, diff | 0.1340 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (b), column diff |
-| v2 A-SVM under faults, model (b), b8, ci_low | 0.1282 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (b), column ci_low |
-| v2 A-SVM under faults, model (b), b8, ci_high | 0.1402 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (b), column ci_high |
+| v2 A-SVM under faults, model (b), b8, ci_low [superseded: v2 corrected CIs] | 0.1282 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (b), column ci_low |
+| v2 A-SVM under faults, model (b), b8, ci_high [superseded: v2 corrected CIs] | 0.1402 | results/final_test_v2/test/faults_ci.csv, subset=b8, comparison=A-SVM under faults, model (b), column ci_high |
 | v2 (b)-(a) svm under faults, b9, diff | 0.1618 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) svm under faults, column diff |
-| v2 (b)-(a) svm under faults, b9, ci_low | 0.1585 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) svm under faults, column ci_low |
-| v2 (b)-(a) svm under faults, b9, ci_high | 0.1652 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) svm under faults, column ci_high |
+| v2 (b)-(a) svm under faults, b9, ci_low [superseded: v2 corrected CIs] | 0.1585 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) svm under faults, column ci_low |
+| v2 (b)-(a) svm under faults, b9, ci_high [superseded: v2 corrected CIs] | 0.1652 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) svm under faults, column ci_high |
 | v2 (b)-(a) A under faults, b9, diff | 0.2345 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) A under faults, column diff |
-| v2 (b)-(a) A under faults, b9, ci_low | 0.2323 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) A under faults, column ci_low |
-| v2 (b)-(a) A under faults, b9, ci_high | 0.2368 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) A under faults, column ci_high |
+| v2 (b)-(a) A under faults, b9, ci_low [superseded: v2 corrected CIs] | 0.2323 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) A under faults, column ci_low |
+| v2 (b)-(a) A under faults, b9, ci_high [superseded: v2 corrected CIs] | 0.2368 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) A under faults, column ci_high |
 | v2 (b)-(a) B under faults, b9, diff | 0.2506 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) B under faults, column diff |
-| v2 (b)-(a) B under faults, b9, ci_low | 0.2485 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) B under faults, column ci_low |
-| v2 (b)-(a) B under faults, b9, ci_high | 0.2527 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) B under faults, column ci_high |
+| v2 (b)-(a) B under faults, b9, ci_low [superseded: v2 corrected CIs] | 0.2485 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) B under faults, column ci_low |
+| v2 (b)-(a) B under faults, b9, ci_high [superseded: v2 corrected CIs] | 0.2527 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=(b)-(a) B under faults, column ci_high |
 | v2 A-SVM under faults, model (a), b9, diff | 0.0964 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (a), column diff |
-| v2 A-SVM under faults, model (a), b9, ci_low | 0.0926 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (a), column ci_low |
-| v2 A-SVM under faults, model (a), b9, ci_high | 0.1005 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (a), column ci_high |
+| v2 A-SVM under faults, model (a), b9, ci_low [superseded: v2 corrected CIs] | 0.0926 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (a), column ci_low |
+| v2 A-SVM under faults, model (a), b9, ci_high [superseded: v2 corrected CIs] | 0.1005 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (a), column ci_high |
 | v2 A-SVM under faults, model (b), b9, diff | 0.1691 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (b), column diff |
-| v2 A-SVM under faults, model (b), b9, ci_low | 0.1635 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (b), column ci_low |
-| v2 A-SVM under faults, model (b), b9, ci_high | 0.1752 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (b), column ci_high |
+| v2 A-SVM under faults, model (b), b9, ci_low [superseded: v2 corrected CIs] | 0.1635 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (b), column ci_low |
+| v2 A-SVM under faults, model (b), b9, ci_high [superseded: v2 corrected CIs] | 0.1752 | results/final_test_v2/test/faults_ci.csv, subset=b9, comparison=A-SVM under faults, model (b), column ci_high |
 | v2 (b)-(a) svm under faults, pooled, diff | 0.1196 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) svm under faults, column diff |
-| v2 (b)-(a) svm under faults, pooled, ci_low | 0.1185 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) svm under faults, column ci_low |
-| v2 (b)-(a) svm under faults, pooled, ci_high | 0.1207 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) svm under faults, column ci_high |
+| v2 (b)-(a) svm under faults, pooled, ci_low [superseded: v2 corrected CIs] | 0.1185 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) svm under faults, column ci_low |
+| v2 (b)-(a) svm under faults, pooled, ci_high [superseded: v2 corrected CIs] | 0.1207 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) svm under faults, column ci_high |
 | v2 (b)-(a) A under faults, pooled, diff | 0.1363 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) A under faults, column diff |
-| v2 (b)-(a) A under faults, pooled, ci_low | 0.1351 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) A under faults, column ci_low |
-| v2 (b)-(a) A under faults, pooled, ci_high | 0.1376 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) A under faults, column ci_high |
+| v2 (b)-(a) A under faults, pooled, ci_low [superseded: v2 corrected CIs] | 0.1351 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) A under faults, column ci_low |
+| v2 (b)-(a) A under faults, pooled, ci_high [superseded: v2 corrected CIs] | 0.1376 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) A under faults, column ci_high |
 | v2 (b)-(a) B under faults, pooled, diff | 0.1486 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) B under faults, column diff |
-| v2 (b)-(a) B under faults, pooled, ci_low | 0.1477 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) B under faults, column ci_low |
-| v2 (b)-(a) B under faults, pooled, ci_high | 0.1495 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) B under faults, column ci_high |
+| v2 (b)-(a) B under faults, pooled, ci_low [superseded: v2 corrected CIs] | 0.1477 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) B under faults, column ci_low |
+| v2 (b)-(a) B under faults, pooled, ci_high [superseded: v2 corrected CIs] | 0.1495 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=(b)-(a) B under faults, column ci_high |
 | v2 A-SVM under faults, model (a), pooled, diff | 0.1108 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (a), column diff |
-| v2 A-SVM under faults, model (a), pooled, ci_low | 0.1072 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (a), column ci_low |
-| v2 A-SVM under faults, model (a), pooled, ci_high | 0.1147 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (a), column ci_high |
+| v2 A-SVM under faults, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.1072 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (a), column ci_low |
+| v2 A-SVM under faults, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.1147 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (a), column ci_high |
 | v2 A-SVM under faults, model (b), pooled, diff | 0.1275 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (b), column diff |
-| v2 A-SVM under faults, model (b), pooled, ci_low | 0.1231 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (b), column ci_low |
-| v2 A-SVM under faults, model (b), pooled, ci_high | 0.1318 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (b), column ci_high |
+| v2 A-SVM under faults, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.1231 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (b), column ci_low |
+| v2 A-SVM under faults, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.1318 | results/final_test_v2/test/faults_ci.csv, subset=pooled, comparison=A-SVM under faults, model (b), column ci_high |
 | v2 level clean A, model (a), pooled, value | 0.6922 | results/paper/v2_figure_data.csv, model=a, method=A, kind=clean, column value |
-| v2 level clean A, model (a), pooled, ci_low | 0.6916 | results/paper/v2_figure_data.csv, model=a, method=A, kind=clean, column ci_low |
-| v2 level clean A, model (a), pooled, ci_high | 0.6928 | results/paper/v2_figure_data.csv, model=a, method=A, kind=clean, column ci_high |
+| v2 level clean A, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.6916 | results/paper/v2_figure_data.csv, model=a, method=A, kind=clean, column ci_low |
+| v2 level clean A, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.6928 | results/paper/v2_figure_data.csv, model=a, method=A, kind=clean, column ci_high |
 | v2 level faults A, model (a), pooled, value | 0.6549 | results/paper/v2_figure_data.csv, model=a, method=A, kind=faults, column value |
-| v2 level faults A, model (a), pooled, ci_low | 0.6521 | results/paper/v2_figure_data.csv, model=a, method=A, kind=faults, column ci_low |
-| v2 level faults A, model (a), pooled, ci_high | 0.6576 | results/paper/v2_figure_data.csv, model=a, method=A, kind=faults, column ci_high |
+| v2 level faults A, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.6521 | results/paper/v2_figure_data.csv, model=a, method=A, kind=faults, column ci_low |
+| v2 level faults A, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.6576 | results/paper/v2_figure_data.csv, model=a, method=A, kind=faults, column ci_high |
 | v2 level clean B, model (a), pooled, value | 0.7005 | results/paper/v2_figure_data.csv, model=a, method=B, kind=clean, column value |
-| v2 level clean B, model (a), pooled, ci_low | 0.7000 | results/paper/v2_figure_data.csv, model=a, method=B, kind=clean, column ci_low |
-| v2 level clean B, model (a), pooled, ci_high | 0.7011 | results/paper/v2_figure_data.csv, model=a, method=B, kind=clean, column ci_high |
+| v2 level clean B, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.7000 | results/paper/v2_figure_data.csv, model=a, method=B, kind=clean, column ci_low |
+| v2 level clean B, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.7011 | results/paper/v2_figure_data.csv, model=a, method=B, kind=clean, column ci_high |
 | v2 level faults B, model (a), pooled, value | 0.6608 | results/paper/v2_figure_data.csv, model=a, method=B, kind=faults, column value |
-| v2 level faults B, model (a), pooled, ci_low | 0.6588 | results/paper/v2_figure_data.csv, model=a, method=B, kind=faults, column ci_low |
-| v2 level faults B, model (a), pooled, ci_high | 0.6629 | results/paper/v2_figure_data.csv, model=a, method=B, kind=faults, column ci_high |
+| v2 level faults B, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.6588 | results/paper/v2_figure_data.csv, model=a, method=B, kind=faults, column ci_low |
+| v2 level faults B, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.6629 | results/paper/v2_figure_data.csv, model=a, method=B, kind=faults, column ci_high |
 | v2 level clean SVM, model (a), pooled, value | 0.7056 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=clean, column value |
-| v2 level clean SVM, model (a), pooled, ci_low | 0.7046 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=clean, column ci_low |
-| v2 level clean SVM, model (a), pooled, ci_high | 0.7066 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=clean, column ci_high |
+| v2 level clean SVM, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.7046 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=clean, column ci_low |
+| v2 level clean SVM, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.7066 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=clean, column ci_high |
 | v2 level faults SVM, model (a), pooled, value | 0.5441 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=faults, column value |
-| v2 level faults SVM, model (a), pooled, ci_low | 0.5409 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=faults, column ci_low |
-| v2 level faults SVM, model (a), pooled, ci_high | 0.5476 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=faults, column ci_high |
+| v2 level faults SVM, model (a), pooled, ci_low [superseded: v2 corrected CIs] | 0.5409 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=faults, column ci_low |
+| v2 level faults SVM, model (a), pooled, ci_high [superseded: v2 corrected CIs] | 0.5476 | results/paper/v2_figure_data.csv, model=a, method=svm, kind=faults, column ci_high |
 | v2 level clean A, model (b), pooled, value | 0.8281 | results/paper/v2_figure_data.csv, model=b, method=A, kind=clean, column value |
-| v2 level clean A, model (b), pooled, ci_low | 0.8122 | results/paper/v2_figure_data.csv, model=b, method=A, kind=clean, column ci_low |
-| v2 level clean A, model (b), pooled, ci_high | 0.8440 | results/paper/v2_figure_data.csv, model=b, method=A, kind=clean, column ci_high |
+| v2 level clean A, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.8122 | results/paper/v2_figure_data.csv, model=b, method=A, kind=clean, column ci_low |
+| v2 level clean A, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.8440 | results/paper/v2_figure_data.csv, model=b, method=A, kind=clean, column ci_high |
 | v2 level faults A, model (b), pooled, value | 0.7912 | results/paper/v2_figure_data.csv, model=b, method=A, kind=faults, column value |
-| v2 level faults A, model (b), pooled, ci_low | 0.7884 | results/paper/v2_figure_data.csv, model=b, method=A, kind=faults, column ci_low |
-| v2 level faults A, model (b), pooled, ci_high | 0.7938 | results/paper/v2_figure_data.csv, model=b, method=A, kind=faults, column ci_high |
+| v2 level faults A, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.7884 | results/paper/v2_figure_data.csv, model=b, method=A, kind=faults, column ci_low |
+| v2 level faults A, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.7938 | results/paper/v2_figure_data.csv, model=b, method=A, kind=faults, column ci_high |
 | v2 level clean B, model (b), pooled, value | 0.8402 | results/paper/v2_figure_data.csv, model=b, method=B, kind=clean, column value |
-| v2 level clean B, model (b), pooled, ci_low | 0.8222 | results/paper/v2_figure_data.csv, model=b, method=B, kind=clean, column ci_low |
-| v2 level clean B, model (b), pooled, ci_high | 0.8583 | results/paper/v2_figure_data.csv, model=b, method=B, kind=clean, column ci_high |
+| v2 level clean B, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.8222 | results/paper/v2_figure_data.csv, model=b, method=B, kind=clean, column ci_low |
+| v2 level clean B, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.8583 | results/paper/v2_figure_data.csv, model=b, method=B, kind=clean, column ci_high |
 | v2 level faults B, model (b), pooled, value | 0.8094 | results/paper/v2_figure_data.csv, model=b, method=B, kind=faults, column value |
-| v2 level faults B, model (b), pooled, ci_low | 0.8072 | results/paper/v2_figure_data.csv, model=b, method=B, kind=faults, column ci_low |
-| v2 level faults B, model (b), pooled, ci_high | 0.8114 | results/paper/v2_figure_data.csv, model=b, method=B, kind=faults, column ci_high |
+| v2 level faults B, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.8072 | results/paper/v2_figure_data.csv, model=b, method=B, kind=faults, column ci_low |
+| v2 level faults B, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.8114 | results/paper/v2_figure_data.csv, model=b, method=B, kind=faults, column ci_high |
 | v2 level clean SVM, model (b), pooled, value | 0.8418 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=clean, column value |
-| v2 level clean SVM, model (b), pooled, ci_low | 0.8215 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=clean, column ci_low |
-| v2 level clean SVM, model (b), pooled, ci_high | 0.8620 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=clean, column ci_high |
+| v2 level clean SVM, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.8215 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=clean, column ci_low |
+| v2 level clean SVM, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.8620 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=clean, column ci_high |
 | v2 level faults SVM, model (b), pooled, value | 0.6637 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=faults, column value |
-| v2 level faults SVM, model (b), pooled, ci_low | 0.6598 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=faults, column ci_low |
-| v2 level faults SVM, model (b), pooled, ci_high | 0.6676 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=faults, column ci_high |
+| v2 level faults SVM, model (b), pooled, ci_low [superseded: v2 corrected CIs] | 0.6598 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=faults, column ci_low |
+| v2 level faults SVM, model (b), pooled, ci_high [superseded: v2 corrected CIs] | 0.6676 | results/paper/v2_figure_data.csv, model=b, method=svm, kind=faults, column ci_high |
 | v2 verdict N8 success | True | results/final_test_v2/test/verdict.json, success |
 | v2 edge size (KB), svm_calibrated | 511.4727 | results/edge_cost/edge_cost_v2.json, size_kb.svm_calibrated |
 | v2 edge size (KB), preprocessing | 3.5791 | results/edge_cost/edge_cost_v2.json, size_kb.preprocessing |
@@ -688,3 +688,227 @@ SEPARATE SETTING: 'with 10 labeled calibration samples per gas' (few-shot recali
 | v2 edge memory_peak_mb | 227.8906 | results/edge_cost/edge_cost_v2.json, memory_peak_mb |
 | v2 edge calibration_rows | 60 | results/edge_cost/edge_cost_v2.json, calibration_rows |
 | v2 edge train_rows_for_calibration | 5991 | results/edge_cost/edge_cost_v2.json, train_rows_for_calibration |
+
+
+## v2 corrected CIs
+
+Post-audit correction (decisions_log O). Replaces the v2 intervals marked '[superseded: v2 corrected CIs]' above (kept, not deleted). Under faults: shared-index scenario bootstrap over the 5 calibration seeds; clean: 95% t-interval over the 5 seeds (calibration-draw variance only; row sampling would need the Test labels, not read again). Point estimates are unchanged.
+
+| number | value | source |
+|---|---|---|
+| v2c (b)-(a) A clean, b10, value | 0.1449 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) A clean, column value |
+| v2c (b)-(a) A clean, b10, ci_low | 0.1260 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) A clean, column ci_low |
+| v2c (b)-(a) A clean, b10, ci_high | 0.1637 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) A clean, column ci_high |
+| v2c A model (b) clean, b10, value | 0.8014 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=A model (b) clean, column value |
+| v2c A model (b) clean, b10, ci_low | 0.7824 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=A model (b) clean, column ci_low |
+| v2c A model (b) clean, b10, ci_high | 0.8204 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=A model (b) clean, column ci_high |
+| v2c A model (a) clean, b10, value | 0.6565 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=A model (a) clean, column value |
+| v2c (b)-(a) B clean, b10, value | 0.1486 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) B clean, column value |
+| v2c (b)-(a) B clean, b10, ci_low | 0.1274 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) B clean, column ci_low |
+| v2c (b)-(a) B clean, b10, ci_high | 0.1697 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) B clean, column ci_high |
+| v2c B model (b) clean, b10, value | 0.8143 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=B model (b) clean, column value |
+| v2c B model (b) clean, b10, ci_low | 0.7927 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=B model (b) clean, column ci_low |
+| v2c B model (b) clean, b10, ci_high | 0.8359 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=B model (b) clean, column ci_high |
+| v2c B model (a) clean, b10, value | 0.6657 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=B model (a) clean, column value |
+| v2c (b)-(a) svm clean, b10, value | 0.1440 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) svm clean, column value |
+| v2c (b)-(a) svm clean, b10, ci_low | 0.1205 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) svm clean, column ci_low |
+| v2c (b)-(a) svm clean, b10, ci_high | 0.1675 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b10, comparison=(b)-(a) svm clean, column ci_high |
+| v2c svm model (b) clean, b10, value | 0.8183 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=svm model (b) clean, column value |
+| v2c svm model (b) clean, b10, ci_low | 0.7945 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=svm model (b) clean, column ci_low |
+| v2c svm model (b) clean, b10, ci_high | 0.8421 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=svm model (b) clean, column ci_high |
+| v2c svm model (a) clean, b10, value | 0.6743 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b10, comparison=svm model (a) clean, column value |
+| v2c (b)-(a) A clean, b8, value | 0.0137 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) A clean, column value |
+| v2c (b)-(a) A clean, b8, ci_low | -0.0267 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) A clean, column ci_low |
+| v2c (b)-(a) A clean, b8, ci_high | 0.0541 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) A clean, column ci_high |
+| v2c A model (b) clean, b8, value | 0.8628 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=A model (b) clean, column value |
+| v2c A model (b) clean, b8, ci_low | 0.8365 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=A model (b) clean, column ci_low |
+| v2c A model (b) clean, b8, ci_high | 0.8891 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=A model (b) clean, column ci_high |
+| v2c A model (a) clean, b8, value | 0.8491 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=A model (a) clean, column value |
+| v2c (b)-(a) B clean, b8, value | 0.0403 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) B clean, column value |
+| v2c (b)-(a) B clean, b8, ci_low | 0.0334 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) B clean, column ci_low |
+| v2c (b)-(a) B clean, b8, ci_high | 0.0472 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) B clean, column ci_high |
+| v2c B model (b) clean, b8, value | 0.9587 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=B model (b) clean, column value |
+| v2c B model (b) clean, b8, ci_low | 0.9493 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=B model (b) clean, column ci_low |
+| v2c B model (b) clean, b8, ci_high | 0.9680 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=B model (b) clean, column ci_high |
+| v2c B model (a) clean, b8, value | 0.9183 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=B model (a) clean, column value |
+| v2c (b)-(a) svm clean, b8, value | 0.0397 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) svm clean, column value |
+| v2c (b)-(a) svm clean, b8, ci_low | 0.0190 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) svm clean, column ci_low |
+| v2c (b)-(a) svm clean, b8, ci_high | 0.0604 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b8, comparison=(b)-(a) svm clean, column ci_high |
+| v2c svm model (b) clean, b8, value | 0.9391 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=svm model (b) clean, column value |
+| v2c svm model (b) clean, b8, ci_low | 0.9064 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=svm model (b) clean, column ci_low |
+| v2c svm model (b) clean, b8, ci_high | 0.9717 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=svm model (b) clean, column ci_high |
+| v2c svm model (a) clean, b8, value | 0.8994 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b8, comparison=svm model (a) clean, column value |
+| v2c (b)-(a) A clean, b9, value | 0.2421 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) A clean, column value |
+| v2c (b)-(a) A clean, b9, ci_low | 0.2399 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) A clean, column ci_low |
+| v2c (b)-(a) A clean, b9, ci_high | 0.2443 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) A clean, column ci_high |
+| v2c A model (b) clean, b9, value | 0.9965 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=A model (b) clean, column value |
+| v2c A model (b) clean, b9, ci_low | 0.9929 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=A model (b) clean, column ci_low |
+| v2c A model (b) clean, b9, ci_high | 1.0000 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=A model (b) clean, column ci_high |
+| v2c A model (a) clean, b9, value | 0.7544 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=A model (a) clean, column value |
+| v2c (b)-(a) B clean, b9, value | 0.2421 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) B clean, column value |
+| v2c (b)-(a) B clean, b9, ci_low | 0.2408 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) B clean, column ci_low |
+| v2c (b)-(a) B clean, b9, ci_high | 0.2435 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) B clean, column ci_high |
+| v2c B model (b) clean, b9, value | 0.9970 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=B model (b) clean, column value |
+| v2c B model (b) clean, b9, ci_low | 0.9943 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=B model (b) clean, column ci_low |
+| v2c B model (b) clean, b9, ci_high | 0.9996 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=B model (b) clean, column ci_high |
+| v2c B model (a) clean, b9, value | 0.7548 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=B model (a) clean, column value |
+| v2c (b)-(a) svm clean, b9, value | 0.2446 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) svm clean, column value |
+| v2c (b)-(a) svm clean, b9, ci_low | 0.2398 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) svm clean, column ci_low |
+| v2c (b)-(a) svm clean, b9, ci_high | 0.2495 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=b9, comparison=(b)-(a) svm clean, column ci_high |
+| v2c svm model (b) clean, b9, value | 0.9806 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=svm model (b) clean, column value |
+| v2c svm model (b) clean, b9, ci_low | 0.9758 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=svm model (b) clean, column ci_low |
+| v2c svm model (b) clean, b9, ci_high | 0.9854 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=svm model (b) clean, column ci_high |
+| v2c svm model (a) clean, b9, value | 0.7360 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=b9, comparison=svm model (a) clean, column value |
+| v2c (b)-(a) A clean, pooled, value | 0.1359 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) A clean, column value |
+| v2c (b)-(a) A clean, pooled, ci_low | 0.1204 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) A clean, column ci_low |
+| v2c (b)-(a) A clean, pooled, ci_high | 0.1513 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) A clean, column ci_high |
+| v2c A model (b) clean, pooled, value | 0.8281 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=A model (b) clean, column value |
+| v2c A model (b) clean, pooled, ci_low | 0.8122 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=A model (b) clean, column ci_low |
+| v2c A model (b) clean, pooled, ci_high | 0.8440 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=A model (b) clean, column ci_high |
+| v2c A model (a) clean, pooled, value | 0.6922 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=A model (a) clean, column value |
+| v2c (b)-(a) B clean, pooled, value | 0.1397 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) B clean, column value |
+| v2c (b)-(a) B clean, pooled, ci_low | 0.1219 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) B clean, column ci_low |
+| v2c (b)-(a) B clean, pooled, ci_high | 0.1575 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) B clean, column ci_high |
+| v2c B model (b) clean, pooled, value | 0.8402 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=B model (b) clean, column value |
+| v2c B model (b) clean, pooled, ci_low | 0.8222 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=B model (b) clean, column ci_low |
+| v2c B model (b) clean, pooled, ci_high | 0.8583 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=B model (b) clean, column ci_high |
+| v2c B model (a) clean, pooled, value | 0.7005 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=B model (a) clean, column value |
+| v2c (b)-(a) svm clean, pooled, value | 0.1362 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) svm clean, column value |
+| v2c (b)-(a) svm clean, pooled, ci_low | 0.1166 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) svm clean, column ci_low |
+| v2c (b)-(a) svm clean, pooled, ci_high | 0.1557 | results/paper/v2_corrected_ci.csv, kind=clean_gain, subset=pooled, comparison=(b)-(a) svm clean, column ci_high |
+| v2c svm model (b) clean, pooled, value | 0.8418 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=svm model (b) clean, column value |
+| v2c svm model (b) clean, pooled, ci_low | 0.8215 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=svm model (b) clean, column ci_low |
+| v2c svm model (b) clean, pooled, ci_high | 0.8620 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=svm model (b) clean, column ci_high |
+| v2c svm model (a) clean, pooled, value | 0.7056 | results/paper/v2_corrected_ci.csv, kind=clean_level, subset=pooled, comparison=svm model (a) clean, column value |
+| v2c (b)-(a) svm under faults, b10, value | 0.1294 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) svm under faults, column value |
+| v2c (b)-(a) svm under faults, b10, ci_low | 0.1272 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) svm under faults, column ci_low |
+| v2c (b)-(a) svm under faults, b10, ci_high | 0.1315 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) svm under faults, column ci_high |
+| v2c svm model (a) under faults, b10, value | 0.5121 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=svm model (a) under faults, column value |
+| v2c svm model (a) under faults, b10, ci_low | 0.5037 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=svm model (a) under faults, column ci_low |
+| v2c svm model (a) under faults, b10, ci_high | 0.5205 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=svm model (a) under faults, column ci_high |
+| v2c svm model (b) under faults, b10, value | 0.6415 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=svm model (b) under faults, column value |
+| v2c svm model (b) under faults, b10, ci_low | 0.6329 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=svm model (b) under faults, column ci_low |
+| v2c svm model (b) under faults, b10, ci_high | 0.6501 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=svm model (b) under faults, column ci_high |
+| v2c (b)-(a) A under faults, b10, value | 0.1441 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) A under faults, column value |
+| v2c (b)-(a) A under faults, b10, ci_low | 0.1413 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) A under faults, column ci_low |
+| v2c (b)-(a) A under faults, b10, ci_high | 0.1469 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) A under faults, column ci_high |
+| v2c A model (a) under faults, b10, value | 0.6211 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=A model (a) under faults, column value |
+| v2c A model (a) under faults, b10, ci_low | 0.6148 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=A model (a) under faults, column ci_low |
+| v2c A model (a) under faults, b10, ci_high | 0.6270 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=A model (a) under faults, column ci_high |
+| v2c A model (b) under faults, b10, value | 0.7653 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=A model (b) under faults, column value |
+| v2c A model (b) under faults, b10, ci_low | 0.7587 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=A model (b) under faults, column ci_low |
+| v2c A model (b) under faults, b10, ci_high | 0.7714 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=A model (b) under faults, column ci_high |
+| v2c (b)-(a) B under faults, b10, value | 0.1555 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) B under faults, column value |
+| v2c (b)-(a) B under faults, b10, ci_low | 0.1532 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) B under faults, column ci_low |
+| v2c (b)-(a) B under faults, b10, ci_high | 0.1575 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=(b)-(a) B under faults, column ci_high |
+| v2c B model (a) under faults, b10, value | 0.6287 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=B model (a) under faults, column value |
+| v2c B model (a) under faults, b10, ci_low | 0.6239 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=B model (a) under faults, column ci_low |
+| v2c B model (a) under faults, b10, ci_high | 0.6332 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=B model (a) under faults, column ci_high |
+| v2c B model (b) under faults, b10, value | 0.7843 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=B model (b) under faults, column value |
+| v2c B model (b) under faults, b10, ci_low | 0.7792 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=B model (b) under faults, column ci_low |
+| v2c B model (b) under faults, b10, ci_high | 0.7887 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b10, comparison=B model (b) under faults, column ci_high |
+| v2c A-SVM under faults, model (a), b10, value | 0.1090 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=A-SVM under faults, model (a), column value |
+| v2c A-SVM under faults, model (a), b10, ci_low | 0.1008 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=A-SVM under faults, model (a), column ci_low |
+| v2c A-SVM under faults, model (a), b10, ci_high | 0.1178 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=A-SVM under faults, model (a), column ci_high |
+| v2c A-SVM under faults, model (b), b10, value | 0.1238 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=A-SVM under faults, model (b), column value |
+| v2c A-SVM under faults, model (b), b10, ci_low | 0.1147 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=A-SVM under faults, model (b), column ci_low |
+| v2c A-SVM under faults, model (b), b10, ci_high | 0.1344 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b10, comparison=A-SVM under faults, model (b), column ci_high |
+| v2c (b)-(a) svm under faults, b8, value | 0.0482 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) svm under faults, column value |
+| v2c (b)-(a) svm under faults, b8, ci_low | 0.0446 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) svm under faults, column ci_low |
+| v2c (b)-(a) svm under faults, b8, ci_high | 0.0518 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) svm under faults, column ci_high |
+| v2c svm model (a) under faults, b8, value | 0.6941 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=svm model (a) under faults, column value |
+| v2c svm model (a) under faults, b8, ci_low | 0.6816 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=svm model (a) under faults, column ci_low |
+| v2c svm model (a) under faults, b8, ci_high | 0.7068 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=svm model (a) under faults, column ci_high |
+| v2c svm model (b) under faults, b8, value | 0.7423 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=svm model (b) under faults, column value |
+| v2c svm model (b) under faults, b8, ci_low | 0.7288 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=svm model (b) under faults, column ci_low |
+| v2c svm model (b) under faults, b8, ci_high | 0.7554 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=svm model (b) under faults, column ci_high |
+| v2c (b)-(a) A under faults, b8, value | 0.0354 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) A under faults, column value |
+| v2c (b)-(a) A under faults, b8, ci_low | 0.0331 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) A under faults, column ci_low |
+| v2c (b)-(a) A under faults, b8, ci_high | 0.0378 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) A under faults, column ci_high |
+| v2c A model (a) under faults, b8, value | 0.8409 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=A model (a) under faults, column value |
+| v2c A model (a) under faults, b8, ci_low | 0.8317 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=A model (a) under faults, column ci_low |
+| v2c A model (a) under faults, b8, ci_high | 0.8499 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=A model (a) under faults, column ci_high |
+| v2c A model (b) under faults, b8, value | 0.8764 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=A model (b) under faults, column value |
+| v2c A model (b) under faults, b8, ci_low | 0.8668 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=A model (b) under faults, column ci_low |
+| v2c A model (b) under faults, b8, ci_high | 0.8850 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=A model (b) under faults, column ci_high |
+| v2c (b)-(a) B under faults, b8, value | 0.0459 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) B under faults, column value |
+| v2c (b)-(a) B under faults, b8, ci_low | 0.0438 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) B under faults, column ci_low |
+| v2c (b)-(a) B under faults, b8, ci_high | 0.0482 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=(b)-(a) B under faults, column ci_high |
+| v2c B model (a) under faults, b8, value | 0.8733 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=B model (a) under faults, column value |
+| v2c B model (a) under faults, b8, ci_low | 0.8663 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=B model (a) under faults, column ci_low |
+| v2c B model (a) under faults, b8, ci_high | 0.8796 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=B model (a) under faults, column ci_high |
+| v2c B model (b) under faults, b8, value | 0.9192 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=B model (b) under faults, column value |
+| v2c B model (b) under faults, b8, ci_low | 0.9124 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=B model (b) under faults, column ci_low |
+| v2c B model (b) under faults, b8, ci_high | 0.9251 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b8, comparison=B model (b) under faults, column ci_high |
+| v2c A-SVM under faults, model (a), b8, value | 0.1468 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=A-SVM under faults, model (a), column value |
+| v2c A-SVM under faults, model (a), b8, ci_low | 0.1344 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=A-SVM under faults, model (a), column ci_low |
+| v2c A-SVM under faults, model (a), b8, ci_high | 0.1600 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=A-SVM under faults, model (a), column ci_high |
+| v2c A-SVM under faults, model (b), b8, value | 0.1340 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=A-SVM under faults, model (b), column value |
+| v2c A-SVM under faults, model (b), b8, ci_low | 0.1203 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=A-SVM under faults, model (b), column ci_low |
+| v2c A-SVM under faults, model (b), b8, ci_high | 0.1476 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b8, comparison=A-SVM under faults, model (b), column ci_high |
+| v2c (b)-(a) svm under faults, b9, value | 0.1618 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) svm under faults, column value |
+| v2c (b)-(a) svm under faults, b9, ci_low | 0.1532 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) svm under faults, column ci_low |
+| v2c (b)-(a) svm under faults, b9, ci_high | 0.1704 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) svm under faults, column ci_high |
+| v2c svm model (a) under faults, b9, value | 0.6095 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=svm model (a) under faults, column value |
+| v2c svm model (a) under faults, b9, ci_low | 0.5993 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=svm model (a) under faults, column ci_low |
+| v2c svm model (a) under faults, b9, ci_high | 0.6193 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=svm model (a) under faults, column ci_high |
+| v2c svm model (b) under faults, b9, value | 0.7714 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=svm model (b) under faults, column value |
+| v2c svm model (b) under faults, b9, ci_low | 0.7581 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=svm model (b) under faults, column ci_low |
+| v2c svm model (b) under faults, b9, ci_high | 0.7848 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=svm model (b) under faults, column ci_high |
+| v2c (b)-(a) A under faults, b9, value | 0.2345 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) A under faults, column value |
+| v2c (b)-(a) A under faults, b9, ci_low | 0.2295 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) A under faults, column ci_low |
+| v2c (b)-(a) A under faults, b9, ci_high | 0.2389 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) A under faults, column ci_high |
+| v2c A model (a) under faults, b9, value | 0.7059 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=A model (a) under faults, column value |
+| v2c A model (a) under faults, b9, ci_low | 0.6993 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=A model (a) under faults, column ci_low |
+| v2c A model (a) under faults, b9, ci_high | 0.7123 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=A model (a) under faults, column ci_high |
+| v2c A model (b) under faults, b9, value | 0.9404 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=A model (b) under faults, column value |
+| v2c A model (b) under faults, b9, ci_low | 0.9310 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=A model (b) under faults, column ci_low |
+| v2c A model (b) under faults, b9, ci_high | 0.9493 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=A model (b) under faults, column ci_high |
+| v2c (b)-(a) B under faults, b9, value | 0.2506 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) B under faults, column value |
+| v2c (b)-(a) B under faults, b9, ci_low | 0.2460 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) B under faults, column ci_low |
+| v2c (b)-(a) B under faults, b9, ci_high | 0.2550 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=(b)-(a) B under faults, column ci_high |
+| v2c B model (a) under faults, b9, value | 0.7041 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=B model (a) under faults, column value |
+| v2c B model (a) under faults, b9, ci_low | 0.6992 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=B model (a) under faults, column ci_low |
+| v2c B model (a) under faults, b9, ci_high | 0.7089 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=B model (a) under faults, column ci_high |
+| v2c B model (b) under faults, b9, value | 0.9547 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=B model (b) under faults, column value |
+| v2c B model (b) under faults, b9, ci_low | 0.9474 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=B model (b) under faults, column ci_low |
+| v2c B model (b) under faults, b9, ci_high | 0.9609 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=b9, comparison=B model (b) under faults, column ci_high |
+| v2c A-SVM under faults, model (a), b9, value | 0.0964 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=A-SVM under faults, model (a), column value |
+| v2c A-SVM under faults, model (a), b9, ci_low | 0.0876 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=A-SVM under faults, model (a), column ci_low |
+| v2c A-SVM under faults, model (a), b9, ci_high | 0.1055 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=A-SVM under faults, model (a), column ci_high |
+| v2c A-SVM under faults, model (b), b9, value | 0.1691 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=A-SVM under faults, model (b), column value |
+| v2c A-SVM under faults, model (b), b9, ci_low | 0.1548 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=A-SVM under faults, model (b), column ci_low |
+| v2c A-SVM under faults, model (b), b9, ci_high | 0.1834 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=b9, comparison=A-SVM under faults, model (b), column ci_high |
+| v2c (b)-(a) svm under faults, pooled, value | 0.1196 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) svm under faults, column value |
+| v2c (b)-(a) svm under faults, pooled, ci_low | 0.1173 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) svm under faults, column ci_low |
+| v2c (b)-(a) svm under faults, pooled, ci_high | 0.1220 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) svm under faults, column ci_high |
+| v2c svm model (a) under faults, pooled, value | 0.5441 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=svm model (a) under faults, column value |
+| v2c svm model (a) under faults, pooled, ci_low | 0.5359 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=svm model (a) under faults, column ci_low |
+| v2c svm model (a) under faults, pooled, ci_high | 0.5523 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=svm model (a) under faults, column ci_high |
+| v2c svm model (b) under faults, pooled, value | 0.6637 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=svm model (b) under faults, column value |
+| v2c svm model (b) under faults, pooled, ci_low | 0.6551 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=svm model (b) under faults, column ci_low |
+| v2c svm model (b) under faults, pooled, ci_high | 0.6727 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=svm model (b) under faults, column ci_high |
+| v2c (b)-(a) A under faults, pooled, value | 0.1363 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) A under faults, column value |
+| v2c (b)-(a) A under faults, pooled, ci_low | 0.1339 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) A under faults, column ci_low |
+| v2c (b)-(a) A under faults, pooled, ci_high | 0.1386 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) A under faults, column ci_high |
+| v2c A model (a) under faults, pooled, value | 0.6549 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=A model (a) under faults, column value |
+| v2c A model (a) under faults, pooled, ci_low | 0.6485 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=A model (a) under faults, column ci_low |
+| v2c A model (a) under faults, pooled, ci_high | 0.6608 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=A model (a) under faults, column ci_high |
+| v2c A model (b) under faults, pooled, value | 0.7912 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=A model (b) under faults, column value |
+| v2c A model (b) under faults, pooled, ci_low | 0.7848 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=A model (b) under faults, column ci_low |
+| v2c A model (b) under faults, pooled, ci_high | 0.7975 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=A model (b) under faults, column ci_high |
+| v2c (b)-(a) B under faults, pooled, value | 0.1486 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) B under faults, column value |
+| v2c (b)-(a) B under faults, pooled, ci_low | 0.1466 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) B under faults, column ci_low |
+| v2c (b)-(a) B under faults, pooled, ci_high | 0.1503 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=(b)-(a) B under faults, column ci_high |
+| v2c B model (a) under faults, pooled, value | 0.6608 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=B model (a) under faults, column value |
+| v2c B model (a) under faults, pooled, ci_low | 0.6563 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=B model (a) under faults, column ci_low |
+| v2c B model (a) under faults, pooled, ci_high | 0.6651 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=B model (a) under faults, column ci_high |
+| v2c B model (b) under faults, pooled, value | 0.8094 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=B model (b) under faults, column value |
+| v2c B model (b) under faults, pooled, ci_low | 0.8046 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=B model (b) under faults, column ci_low |
+| v2c B model (b) under faults, pooled, ci_high | 0.8137 | results/paper/v2_corrected_ci.csv, kind=faults_level, subset=pooled, comparison=B model (b) under faults, column ci_high |
+| v2c A-SVM under faults, model (a), pooled, value | 0.1108 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (a), column value |
+| v2c A-SVM under faults, model (a), pooled, ci_low | 0.1024 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (a), column ci_low |
+| v2c A-SVM under faults, model (a), pooled, ci_high | 0.1195 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (a), column ci_high |
+| v2c A-SVM under faults, model (b), pooled, value | 0.1275 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (b), column value |
+| v2c A-SVM under faults, model (b), pooled, ci_low | 0.1181 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (b), column ci_low |
+| v2c A-SVM under faults, model (b), pooled, ci_high | 0.1381 | results/paper/v2_corrected_ci.csv, kind=faults_diff, subset=pooled, comparison=A-SVM under faults, model (b), column ci_high |

@@ -1,0 +1,81 @@
+kind,subset,comparison,value,ci_low,ci_high,interval
+clean_gain,b10,(b)-(a) A clean,0.144866,0.126039,0.163692,95% t over 5 calibration seeds
+clean_level,b10,A model (b) clean,0.80139,0.782363,0.820417,95% t over 5 calibration seeds
+clean_level,b10,A model (a) clean,0.656525,,,single model: no seed interval
+clean_gain,b10,(b)-(a) B clean,0.148564,0.127436,0.169693,95% t over 5 calibration seeds
+clean_level,b10,B model (b) clean,0.814289,0.792714,0.835864,95% t over 5 calibration seeds
+clean_level,b10,B model (a) clean,0.665725,,,single model: no seed interval
+clean_gain,b10,(b)-(a) svm clean,0.144,0.120485,0.167514,95% t over 5 calibration seeds
+clean_level,b10,svm model (b) clean,0.818296,0.794453,0.842138,95% t over 5 calibration seeds
+clean_level,b10,svm model (a) clean,0.674296,,,single model: no seed interval
+clean_gain,b8,(b)-(a) A clean,0.013705,-0.026708,0.054118,95% t over 5 calibration seeds
+clean_level,b8,A model (b) clean,0.862806,0.836513,0.889099,95% t over 5 calibration seeds
+clean_level,b8,A model (a) clean,0.849101,,,single model: no seed interval
+clean_gain,b8,(b)-(a) B clean,0.040309,0.033397,0.047221,95% t over 5 calibration seeds
+clean_level,b8,B model (b) clean,0.958655,0.949336,0.967974,95% t over 5 calibration seeds
+clean_level,b8,B model (a) clean,0.918346,,,single model: no seed interval
+clean_gain,b8,(b)-(a) svm clean,0.0397,0.019039,0.060361,95% t over 5 calibration seeds
+clean_level,b8,svm model (b) clean,0.939054,0.906379,0.971728,95% t over 5 calibration seeds
+clean_level,b8,svm model (a) clean,0.899354,,,single model: no seed interval
+clean_gain,b9,(b)-(a) A clean,0.242094,0.239865,0.244323,95% t over 5 calibration seeds
+clean_level,b9,A model (b) clean,0.996462,0.992898,1.000026,95% t over 5 calibration seeds
+clean_level,b9,A model (a) clean,0.754368,,,single model: no seed interval
+clean_gain,b9,(b)-(a) B clean,0.242135,0.240802,0.243468,95% t over 5 calibration seeds
+clean_level,b9,B model (b) clean,0.996962,0.994336,0.999587,95% t over 5 calibration seeds
+clean_level,b9,B model (a) clean,0.754827,,,single model: no seed interval
+clean_gain,b9,(b)-(a) svm clean,0.244634,0.239804,0.249464,95% t over 5 calibration seeds
+clean_level,b9,svm model (b) clean,0.980626,0.975817,0.985434,95% t over 5 calibration seeds
+clean_level,b9,svm model (a) clean,0.735991,,,single model: no seed interval
+clean_gain,pooled,(b)-(a) A clean,0.135854,0.120409,0.151299,95% t over 5 calibration seeds
+clean_level,pooled,A model (b) clean,0.828062,0.812153,0.84397,95% t over 5 calibration seeds
+clean_level,pooled,A model (a) clean,0.692208,,,single model: no seed interval
+clean_gain,pooled,(b)-(a) B clean,0.139706,0.121939,0.157472,95% t over 5 calibration seeds
+clean_level,pooled,B model (b) clean,0.84024,0.82215,0.85833,95% t over 5 calibration seeds
+clean_level,pooled,B model (a) clean,0.700534,,,single model: no seed interval
+clean_gain,pooled,(b)-(a) svm clean,0.136155,0.116637,0.155674,95% t over 5 calibration seeds
+clean_level,pooled,svm model (b) clean,0.84176,0.821524,0.861996,95% t over 5 calibration seeds
+clean_level,pooled,svm model (a) clean,0.705605,,,single model: no seed interval
+faults_diff,b10,(b)-(a) svm under faults,0.129356,0.127183,0.131501,95% shared-index scenario bootstrap
+faults_level,b10,svm model (a) under faults,0.5121,0.503682,0.520451,95% shared-index scenario bootstrap
+faults_level,b10,svm model (b) under faults,0.641456,0.632931,0.650147,95% shared-index scenario bootstrap
+faults_diff,b10,(b)-(a) A under faults,0.144149,0.141292,0.146874,95% shared-index scenario bootstrap
+faults_level,b10,A model (a) under faults,0.621149,0.614768,0.627033,95% shared-index scenario bootstrap
+faults_level,b10,A model (b) under faults,0.765299,0.758653,0.771403,95% shared-index scenario bootstrap
+faults_diff,b10,(b)-(a) B under faults,0.155544,0.153238,0.157495,95% shared-index scenario bootstrap
+faults_level,b10,B model (a) under faults,0.628748,0.623899,0.633161,95% shared-index scenario bootstrap
+faults_level,b10,B model (b) under faults,0.784292,0.779212,0.788711,95% shared-index scenario bootstrap
+faults_diff,b10,"A-SVM under faults, model (a)",0.10905,0.100793,0.117799,95% shared-index scenario bootstrap
+faults_diff,b10,"A-SVM under faults, model (b)",0.123842,0.114714,0.134392,95% shared-index scenario bootstrap
+faults_diff,b8,(b)-(a) svm under faults,0.048233,0.044628,0.05178,95% shared-index scenario bootstrap
+faults_level,b8,svm model (a) under faults,0.694109,0.681579,0.706763,95% shared-index scenario bootstrap
+faults_level,b8,svm model (b) under faults,0.742342,0.728815,0.755357,95% shared-index scenario bootstrap
+faults_diff,b8,(b)-(a) A under faults,0.035414,0.033116,0.037753,95% shared-index scenario bootstrap
+faults_level,b8,A model (a) under faults,0.840949,0.83171,0.849932,95% shared-index scenario bootstrap
+faults_level,b8,A model (b) under faults,0.876363,0.866847,0.885044,95% shared-index scenario bootstrap
+faults_diff,b8,(b)-(a) B under faults,0.045879,0.043763,0.048233,95% shared-index scenario bootstrap
+faults_level,b8,B model (a) under faults,0.873277,0.86632,0.87958,95% shared-index scenario bootstrap
+faults_level,b8,B model (b) under faults,0.919155,0.912413,0.925118,95% shared-index scenario bootstrap
+faults_diff,b8,"A-SVM under faults, model (a)",0.14684,0.134412,0.160041,95% shared-index scenario bootstrap
+faults_diff,b8,"A-SVM under faults, model (b)",0.134021,0.120342,0.14763,95% shared-index scenario bootstrap
+faults_diff,b9,(b)-(a) svm under faults,0.161849,0.153203,0.170411,95% shared-index scenario bootstrap
+faults_level,b9,svm model (a) under faults,0.609543,0.599253,0.619315,95% shared-index scenario bootstrap
+faults_level,b9,svm model (b) under faults,0.771391,0.758053,0.784833,95% shared-index scenario bootstrap
+faults_diff,b9,(b)-(a) A under faults,0.234519,0.229543,0.23886,95% shared-index scenario bootstrap
+faults_level,b9,A model (a) under faults,0.705924,0.699331,0.712297,95% shared-index scenario bootstrap
+faults_level,b9,A model (b) under faults,0.940442,0.931044,0.949255,95% shared-index scenario bootstrap
+faults_diff,b9,(b)-(a) B under faults,0.250595,0.246023,0.255026,95% shared-index scenario bootstrap
+faults_level,b9,B model (a) under faults,0.704093,0.699161,0.708861,95% shared-index scenario bootstrap
+faults_level,b9,B model (b) under faults,0.954687,0.947418,0.960868,95% shared-index scenario bootstrap
+faults_diff,b9,"A-SVM under faults, model (a)",0.096381,0.087617,0.105498,95% shared-index scenario bootstrap
+faults_diff,b9,"A-SVM under faults, model (b)",0.169051,0.154752,0.183439,95% shared-index scenario bootstrap
+faults_diff,pooled,(b)-(a) svm under faults,0.119625,0.117285,0.122023,95% shared-index scenario bootstrap
+faults_level,pooled,svm model (a) under faults,0.544115,0.535947,0.552324,95% shared-index scenario bootstrap
+faults_level,pooled,svm model (b) under faults,0.66374,0.655093,0.672687,95% shared-index scenario bootstrap
+faults_diff,pooled,(b)-(a) A under faults,0.136339,0.133892,0.138598,95% shared-index scenario bootstrap
+faults_level,pooled,A model (a) under faults,0.654898,0.648534,0.660832,95% shared-index scenario bootstrap
+faults_level,pooled,A model (b) under faults,0.791237,0.78479,0.797452,95% shared-index scenario bootstrap
+faults_diff,pooled,(b)-(a) B under faults,0.148583,0.146631,0.150295,95% shared-index scenario bootstrap
+faults_level,pooled,B model (a) under faults,0.660816,0.656309,0.665121,95% shared-index scenario bootstrap
+faults_level,pooled,B model (b) under faults,0.809399,0.804594,0.813657,95% shared-index scenario bootstrap
+faults_diff,pooled,"A-SVM under faults, model (a)",0.110783,0.102443,0.119541,95% shared-index scenario bootstrap
+faults_diff,pooled,"A-SVM under faults, model (b)",0.127497,0.118111,0.138125,95% shared-index scenario bootstrap
