@@ -131,6 +131,12 @@ def run_chunk(arm, t, s, index, sids):
     return str(path)
 
 
+def worker():
+    """run_chunk of the imported module: pickled by reference, because the lru_cache globals of __main__ do not reach loky workers."""
+    import v3_prevbatch
+    return v3_prevbatch.run_chunk
+
+
 def chunks():
     n = len(scenario_list())
     return [(i, list(range(a, min(a + CHUNK, n)))) for i, a in enumerate(range(0, n, CHUNK))]
@@ -192,7 +198,7 @@ def score_rows(arms):
 def stage_gate(jobs):
     tasks = jobs_for(("a", "b"))
     log(f"gate: {len(tasks)} chunks (arms a, b; batches 9, 10)")
-    Parallel(n_jobs=jobs, verbose=5)(delayed(run_chunk)(*task) for task in tasks)
+    Parallel(n_jobs=jobs, verbose=5)(delayed(worker())(*task) for task in tasks)
     mism = {}
     for arm, t, s in sorted({(a, t, s) for a, t, s, _, _ in tasks}):
         got, ref = load_preds(arm, t, s), v2_preds(arm, t, s)
@@ -207,10 +213,10 @@ def stage_gate(jobs):
     clean = pd.read_csv(V2 / "clean.csv")
     ours = df[df.setting == "clean"].groupby(["subset", "arm", "method"]).f1.mean().unstack("arm").reset_index()
     cm = ours.merge(clean, on=["subset", "method"], suffixes=("", "_v2"))
-    clean_diff = float(max((cm["a"] - cm["a_v2"]).abs().max(), (cm["b"] - cm["b_v2"]).abs().max()))
-    ok = labels_ok and len(m) == len(df) and f1_diff <= 1e-9 and clean_diff <= 1e-9
+    clean_diff = float(max((cm["a"].round(4) - cm["a_v2"]).abs().max(), (cm["b"].round(4) - cm["b_v2"]).abs().max()))  # clean.csv has 4 decimals
+    ok = labels_ok and len(m) == len(df) and f1_diff <= 1e-9 and clean_diff == 0 and len(cm) == 6
     gate = {"label_mismatches": mism, "labels_identical": labels_ok, "f1_rows_compared": len(m), "f1_rows_ours": len(df),
-            "f1_max_abs_diff": f1_diff, "clean_max_abs_diff_vs_clean_csv": clean_diff, "passed": ok}
+            "f1_max_abs_diff": f1_diff, "clean_csv_rows_compared": len(cm), "clean_max_abs_diff_at_4_decimals": clean_diff, "passed": ok}
     json.dump(gate, open(OUT / "gate.json", "w"), indent=1)
     log(f"gate: labels identical={labels_ok}, F1 rows {len(m)}/{len(df)}, max |dF1|={f1_diff:.3g}, clean max |d|={clean_diff:.3g} -> "
         f"{'PASSED' if ok else 'FAILED'}")
@@ -225,7 +231,7 @@ def stage_run(jobs):
     tasks = jobs_for(("c",))
     log(f"run: arm c, {len(tasks)} chunks")
     t0 = time.time()
-    Parallel(n_jobs=jobs, verbose=5)(delayed(run_chunk)(*task) for task in tasks)
+    Parallel(n_jobs=jobs, verbose=5)(delayed(worker())(*task) for task in tasks)
     new_fits = {d.parent.name: len(list(d.glob("B_*.joblib"))) for d in sorted((OUT / "models").glob("*/reduced"))}
     (OUT / "RUN_FINISHED").write_text(time.strftime("%Y-%m-%dT%H:%M:%S"))
     json.dump({"seconds": round(time.time() - t0), "new_reduced_models": new_fits}, open(OUT / "run_info.json", "w"), indent=1)
