@@ -1,0 +1,13 @@
+subset,model,method,kind,value,ci_low,ci_high,interval
+pooled,a,A,clean,0.692208,0.691615,0.6928,95% t-interval over 5 calibration seeds
+pooled,a,A,faults,0.654898,0.652098,0.657619,"95% scenario bootstrap (k-stratified), averaged over seeds"
+pooled,a,B,clean,0.700534,0.699981,0.701088,95% t-interval over 5 calibration seeds
+pooled,a,B,faults,0.660816,0.658792,0.662854,"95% scenario bootstrap (k-stratified), averaged over seeds"
+pooled,a,svm,clean,0.705605,0.704634,0.706576,95% t-interval over 5 calibration seeds
+pooled,a,svm,faults,0.544115,0.540893,0.547588,"95% scenario bootstrap (k-stratified), averaged over seeds"
+pooled,b,A,clean,0.828062,0.812156,0.843968,95% t-interval over 5 calibration seeds
+pooled,b,A,faults,0.791237,0.788376,0.79381,"95% scenario bootstrap (k-stratified), averaged over seeds"
+pooled,b,B,clean,0.84024,0.822153,0.858327,95% t-interval over 5 calibration seeds
+pooled,b,B,faults,0.809399,0.807246,0.811437,"95% scenario bootstrap (k-stratified), averaged over seeds"
+pooled,b,svm,clean,0.84176,0.821527,0.861993,95% t-interval over 5 calibration seeds
+pooled,b,svm,faults,0.66374,0.659809,0.667615,"95% scenario bootstrap (k-stratified), averaged over seeds"
