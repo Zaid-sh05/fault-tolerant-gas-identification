@@ -1,4 +1,4 @@
-# Recalibration stage 2: PARTIAL (8 of 15 calibrated configurations complete)
+# Recalibration stage 2: PARTIAL (9 of 15 calibrated configurations complete)
 
 Calibrated (n = 10 per gas), mean ± std over the finished calibration seeds:
 
@@ -7,11 +7,11 @@ Calibrated (n = 10 per gas), mean ± std over the finished calibration seeds:
 | ('drift_dev', 6, 'clean') | 0.935 ± 0.014 | 0.935 ± 0.013 | 0.936 ± 0.013 | 0.932 ± 0.028 | 0.941 ± 0.018 | 0.943 ± 0.017 | 0.942 ± 0.018 | 0.935 ± 0.014 | 0.935 ± 0.014 |
 | ('drift_dev', 6, 'k1')    | 0.886 ± 0.005 | 0.929 ± 0.010 | 0.928 ± 0.010 | 0.899 ± 0.020 | 0.930 ± 0.013 | 0.934 ± 0.014 | 0.927 ± 0.014 | 0.933 ± 0.013 | 0.934 ± 0.014 |
 | ('drift_dev', 6, 'k2')    | 0.825 ± 0.010 | 0.903 ± 0.008 | 0.908 ± 0.008 | 0.841 ± 0.017 | 0.897 ± 0.009 | 0.905 ± 0.010 | 0.887 ± 0.009 | 0.928 ± 0.011 | 0.930 ± 0.012 |
-| ('drift_dev', 7, 'clean') | 0.937 ± 0.018 | 0.926 ± 0.018 | 0.931 ± 0.021 | 0.933 ± 0.016 | 0.951 ± 0.008 | 0.951 ± 0.008 | 0.950 ± 0.006 | 0.937 ± 0.018 | 0.937 ± 0.018 |
-| ('drift_dev', 7, 'k1')    | 0.893 ± 0.015 | 0.929 ± 0.019 | 0.932 ± 0.020 | 0.900 ± 0.015 | 0.946 ± 0.006 | 0.950 ± 0.006 | 0.942 ± 0.005 | 0.936 ± 0.018 | 0.936 ± 0.018 |
-| ('drift_dev', 7, 'k2')    | 0.826 ± 0.007 | 0.901 ± 0.016 | 0.912 ± 0.018 | 0.844 ± 0.012 | 0.917 ± 0.006 | 0.925 ± 0.005 | 0.903 ± 0.006 | 0.936 ± 0.019 | 0.936 ± 0.019 |
+| ('drift_dev', 7, 'clean') | 0.939 ± 0.015 | 0.925 ± 0.015 | 0.931 ± 0.017 | 0.934 ± 0.013 | 0.952 ± 0.007 | 0.952 ± 0.007 | 0.951 ± 0.006 | 0.939 ± 0.015 | 0.939 ± 0.015 |
+| ('drift_dev', 7, 'k1')    | 0.895 ± 0.012 | 0.928 ± 0.016 | 0.932 ± 0.016 | 0.900 ± 0.012 | 0.947 ± 0.005 | 0.951 ± 0.005 | 0.942 ± 0.004 | 0.937 ± 0.015 | 0.937 ± 0.015 |
+| ('drift_dev', 7, 'k2')    | 0.827 ± 0.006 | 0.901 ± 0.013 | 0.913 ± 0.015 | 0.844 ± 0.010 | 0.916 ± 0.005 | 0.925 ± 0.004 | 0.902 ± 0.005 | 0.937 ± 0.015 | 0.937 ± 0.015 |
 
-Seeds finished per batch: drift_dev b6: 5, drift_dev b7: 3
+Seeds finished per batch: drift_dev b6: 5, drift_dev b7: 4
 
 APPROXIMATE uncalibrated reference (arbiter run, all rows of the batch, not paired):
 
@@ -24,4 +24,4 @@ APPROXIMATE uncalibrated reference (arbiter run, all rows of the batch, not pair
 | ('drift_dev', 7, 'k1')    | 0.595 | 0.666 | 0.658 |     0.611 | 0.634 | 0.626 | 0.624 |      0.619 |      0.62  |
 | ('drift_dev', 7, 'k2')    | 0.558 | 0.639 | 0.642 |     0.581 | 0.617 | 0.61  | 0.605 |      0.616 |      0.62  |
 
-Finished configurations: drift_dev_b6_n10_s0, drift_dev_b6_n10_s1, drift_dev_b6_n10_s2, drift_dev_b6_n10_s3, drift_dev_b6_n10_s4, drift_dev_b7_n10_s0, drift_dev_b7_n10_s1, drift_dev_b7_n10_s2
+Finished configurations: drift_dev_b6_n10_s0, drift_dev_b6_n10_s1, drift_dev_b6_n10_s2, drift_dev_b6_n10_s3, drift_dev_b6_n10_s4, drift_dev_b7_n10_s0, drift_dev_b7_n10_s1, drift_dev_b7_n10_s2, drift_dev_b7_n10_s3
