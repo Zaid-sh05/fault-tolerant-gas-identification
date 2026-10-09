@@ -230,7 +230,7 @@ def tables():
             f"v2 SVM (calibrated) & {pn('v2 edge size (KB), svm_calibrated'):.0f} & {f3('v2 edge latency median_ms, svm_only_fault_free')} & "
             f"{f3('v2 edge latency p95_ms, svm_only_fault_free')} & {pn('v2 edge calibration_svm_s'):.1f}",
             f"v2 A & {pn('v2 edge size (KB), A_bundle_svm_pre_detector'):.0f} & {f3('v2 edge latency median_ms, A_fault_free')} & "
-            f"{f3('v2 edge latency p95_ms, A_fault_free')} & {pn('v2 edge calibration_svm_s') + pn('v2 edge calibration_detector_s'):.1f}",
+            f"{f3('v2 edge latency p95_ms, A_fault_free')} & {pn('v2 edge calibration_svm_s'):.1f} + {pn('v2 edge calibration_detector_s'):.1f}",
             f"v2 B (136 models, $k\\le2$) & {pn('v2 edge size (KB), B_bundle_pre_detector_136_models'):.0f} & {f3('v2 edge latency median_ms, B_fault_free')} & "
             f"{f3('v2 edge latency p95_ms, B_fault_free')} & {pn('v2 edge calibration_total_s'):.1f}"]
     tex_table(T / "tab_edge.tex", "Edge cost on one laptop CPU core (upper bound): bundle size, single-sample latency (1000 runs) and refit time "
