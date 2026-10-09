@@ -1,0 +1,71 @@
+{
+ "label_mismatches": {
+  "a_b9_s0": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "a_b10_s0": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b9_s0": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b9_s1": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b9_s2": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b9_s3": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b9_s4": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b10_s0": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b10_s1": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b10_s2": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b10_s3": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  },
+  "b_b10_s4": {
+   "svm": 0,
+   "A": 0,
+   "B": 0
+  }
+ },
+ "labels_identical": true,
+ "f1_rows_compared": 64860,
+ "f1_rows_ours": 64860,
+ "f1_max_abs_diff": 1.1102230246251565e-16,
+ "clean_csv_rows_compared": 6,
+ "clean_max_abs_diff_at_4_decimals": 0.0,
+ "passed": true
+}

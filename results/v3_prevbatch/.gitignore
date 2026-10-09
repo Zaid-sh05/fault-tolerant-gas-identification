@@ -1,0 +1,3 @@
+# regenerable bulk outputs of scripts/v3_prevbatch.py (per-scenario labels, reduced B models fitted by the frozen routine)
+preds/
+models/

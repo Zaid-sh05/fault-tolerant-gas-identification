@@ -1,0 +1,8 @@
+[01:03:02] gate: 336 chunks (arms a, b; batches 9, 10)
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:   56.8s
+[Parallel(n_jobs=3)]: Done  66 tasks      | elapsed:  6.3min
+[Parallel(n_jobs=3)]: Done 156 tasks      | elapsed:  8.1min
+[Parallel(n_jobs=3)]: Done 282 tasks      | elapsed: 18.9min
+[Parallel(n_jobs=3)]: Done 336 out of 336 | elapsed: 25.1min finished
+[01:31:34] gate: labels identical=True, F1 rows 64860/64860, max |dF1|=1.11e-16, clean max |d|=0 -> PASSED
