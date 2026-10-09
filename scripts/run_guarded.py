@@ -73,7 +73,7 @@ def main():
                     log.write(f"##### WARNING: processes still alive after the kill: {left}" + chr(10))
                 subprocess.run([sys.executable, "scripts/ft_ops.py", "verify-chunks"], stdout=log, stderr=subprocess.STDOUT)
                 msg = f"stopped by the memory guard at {memory_load()}% on {datetime.now().isoformat(timespec='seconds')}; finished chunks are kept"
-                Path("results/final_test/STOPPED_MEMORY").write_text(msg + "\n")
+                (Path(a.log).parent / "STOPPED_MEMORY").write_text(msg + "\n")          # next to the run log
                 log.write(f"##### {msg}\n")
                 sys.exit(3)
             time.sleep(5)
