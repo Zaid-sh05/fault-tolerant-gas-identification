@@ -46,6 +46,27 @@ METHODS = ("svm", "A", "B")
 TAG = "frozen-before-test-v2"
 
 
+class SafeKit(StrategyKit):
+    """Windows: os.replace onto a reduced-model file that another worker has open raises PermissionError (found by the smoke test,
+    decisions_log N11). Then the model the other worker wrote is loaded instead; it is the same fit (same data, same seed)."""
+
+    def reduced_model(self, pattern):
+        try:
+            return super().reduced_model(pattern)
+        except PermissionError:
+            path = os.path.join(self.cache_dir, "B_" + ("none" if not pattern else "_".join(map(str, pattern))) + ".joblib")
+            tmp = f"{path}.{os.getpid()}.tmp"
+            if os.path.exists(tmp):
+                os.remove(tmp)
+            for _ in range(60):
+                try:
+                    self._reduced[pattern] = joblib.load(path)
+                    return self._reduced[pattern]
+                except (PermissionError, EOFError, OSError):
+                    time.sleep(0.5)
+            raise
+
+
 def scenario_list(medium_only=False):
     sc = build_scenarios(AUG_SEEDS, ("k1", "k2"))
     return [None] + [s for s in sc if not medium_only or s.level == MEDIUM[s.fault]]
@@ -77,7 +98,7 @@ def run_chunk(model_dir, batch, X, y, masks, raw_stats, index, sids, medium_only
     if path.exists():
         return str(path)
     f = joblib.load(model_dir / "fitted.joblib")
-    kit = StrategyKit(f["pre"], f["svm"], f["Xtr"], f["ytr"], f["det"], f["params"], str(model_dir / "reduced"))
+    kit = SafeKit(f["pre"], f["svm"], f["Xtr"], f["ytr"], f["det"], f["params"], str(model_dir / "reduced"))
     scen = scenario_list(medium_only)
     preds, det_rows = {m: [] for m in METHODS}, []
     for sid in sids:

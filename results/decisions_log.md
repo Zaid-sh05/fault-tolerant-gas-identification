@@ -405,3 +405,7 @@ Written before the run and before batches 8-10 are opened for v2. Batches 8-10 a
   batch file is unknown; the gain is therefore optimistic (calibration rows are interleaved in time with the scored rows).
 * N10 (freeze). `configs/final_test_v2.yaml`, tag `frozen-before-test-v2`, `FREEZE_MANIFEST_v2.md` with the hashes of code and config. No change
   after the freeze; a bug found after the run is fixed, logged, the run repeated, and both results shown.
+* N11 (pre-freeze fix found by the smoke test, 13:25). Two workers that needed the same reduced B model at the same moment collided on Windows:
+  `os.replace` onto a file another process had open raised PermissionError and the smoke run stopped (no number produced). Fix in the v2
+  script only (`SafeKit` in `ft_v2_recal.py`; the frozen v1 `src/strategies.py` is not touched): on that error the other worker's file (the
+  same fit: same rows, same seed) is loaded. The smoke folder was deleted and the smoke test re-run from scratch.
