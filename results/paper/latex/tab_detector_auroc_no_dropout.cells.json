@@ -1,0 +1,228 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "AUROC v1 Validation k1, with Dropout"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "AUROC v1 Validation k1, without Dropout"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "AUROC v1 Validation k2, with Dropout"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 4,
+   "names": [
+    "AUROC v1 Validation k2, without Dropout"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "AUROC v1 b8 k1, with Dropout"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "AUROC v1 b8 k1, without Dropout"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "AUROC v1 b8 k2, with Dropout"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "names": [
+    "AUROC v1 b8 k2, without Dropout"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "AUROC v1 b9 k1, with Dropout"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "AUROC v1 b9 k1, without Dropout"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "AUROC v1 b9 k2, with Dropout"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "names": [
+    "AUROC v1 b9 k2, without Dropout"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "names": [
+    "AUROC v1 b10 k1, with Dropout"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "names": [
+    "AUROC v1 b10 k1, without Dropout"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "names": [
+    "AUROC v1 b10 k2, with Dropout"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "names": [
+    "AUROC v1 b10 k2, without Dropout"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "names": [
+    "AUROC v1 pooled k1, with Dropout"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "names": [
+    "AUROC v1 pooled k1, without Dropout"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "names": [
+    "AUROC v1 pooled k2, with Dropout"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "names": [
+    "AUROC v1 pooled k2, without Dropout"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "names": [
+    "AUROC v2 b8 model (b) k1, with Dropout"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "names": [
+    "AUROC v2 b8 model (b) k1, without Dropout"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "names": [
+    "AUROC v2 b8 model (b) k2, with Dropout"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "names": [
+    "AUROC v2 b8 model (b) k2, without Dropout"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "names": [
+    "AUROC v2 b9 model (b) k1, with Dropout"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "names": [
+    "AUROC v2 b9 model (b) k1, without Dropout"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "names": [
+    "AUROC v2 b9 model (b) k2, with Dropout"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "names": [
+    "AUROC v2 b9 model (b) k2, without Dropout"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 1,
+   "names": [
+    "AUROC v2 b10 model (b) k1, with Dropout"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 2,
+   "names": [
+    "AUROC v2 b10 model (b) k1, without Dropout"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 3,
+   "names": [
+    "AUROC v2 b10 model (b) k2, with Dropout"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 4,
+   "names": [
+    "AUROC v2 b10 model (b) k2, without Dropout"
+   ]
+  }
+ ]
+}

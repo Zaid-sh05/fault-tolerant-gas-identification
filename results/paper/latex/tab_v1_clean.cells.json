@@ -1,0 +1,144 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "Validation clean Macro-F1, SVM"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "Test clean Macro-F1, SVM, b8"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "Test clean Macro-F1, SVM, b9"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 4,
+   "names": [
+    "Test clean Macro-F1, SVM, b10"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 5,
+   "names": [
+    "Test clean Macro-F1, SVM, pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "Validation clean Macro-F1, SVM + fault augmentation"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "Test clean Macro-F1, SVM + fault augmentation, b8"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "Test clean Macro-F1, SVM + fault augmentation, b9"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "names": [
+    "Test clean Macro-F1, SVM + fault augmentation, b10"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "names": [
+    "Test clean Macro-F1, SVM + fault augmentation, pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "Validation clean Macro-F1, LightGBM"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "Test clean Macro-F1, LightGBM, b8"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "Test clean Macro-F1, LightGBM, b9"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "names": [
+    "Test clean Macro-F1, LightGBM, b10"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "names": [
+    "Test clean Macro-F1, LightGBM, pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "names": [
+    "Validation clean Macro-F1, LightGBM + fault augmentation"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "names": [
+    "Test clean Macro-F1, LightGBM + fault augmentation, b8"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "names": [
+    "Test clean Macro-F1, LightGBM + fault augmentation, b9"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "names": [
+    "Test clean Macro-F1, LightGBM + fault augmentation, b10"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "names": [
+    "Test clean Macro-F1, LightGBM + fault augmentation, pooled"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,110 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "Bundle size of pipeline A (KB)"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "Latency median, fault_free (ms)"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "Latency p95, fault_free (ms)"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "v2 edge size (KB), svm_calibrated"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "v2 edge latency median_ms, svm_only_fault_free"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "v2 edge latency p95_ms, svm_only_fault_free"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "names": [
+    "v2 edge calibration_svm_s"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "v2 edge size (KB), A_bundle_svm_pre_detector"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "v2 edge latency median_ms, A_fault_free"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "v2 edge latency p95_ms, A_fault_free"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "names": [
+    "v2 edge calibration_svm_s",
+    "v2 edge calibration_detector_s"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "names": [
+    "v2 edge size (KB), B_bundle_pre_detector_136_models"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "names": [
+    "v2 edge latency median_ms, B_fault_free"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "names": [
+    "v2 edge latency p95_ms, B_fault_free"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "names": [
+    "v2 edge calibration_total_s"
+   ]
+  }
+ ]
+}

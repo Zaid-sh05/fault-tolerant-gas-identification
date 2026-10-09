@@ -1,0 +1,214 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "Detector isolation AUROC, dropout, Validation"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "Detector isolation AUROC, dropout, Test b8"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "Detector isolation AUROC, dropout, Test b9"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 4,
+   "names": [
+    "Detector isolation AUROC, dropout, Test b10"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 5,
+   "names": [
+    "Detector isolation AUROC, dropout, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "Detector isolation AUROC, bias, Validation"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "Detector isolation AUROC, bias, Test b8"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "Detector isolation AUROC, bias, Test b9"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "names": [
+    "Detector isolation AUROC, bias, Test b10"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "names": [
+    "Detector isolation AUROC, bias, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "Detector isolation AUROC, stuck, Validation"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "Detector isolation AUROC, stuck, Test b8"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "Detector isolation AUROC, stuck, Test b9"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "names": [
+    "Detector isolation AUROC, stuck, Test b10"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "names": [
+    "Detector isolation AUROC, stuck, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "names": [
+    "Detector isolation AUROC, random, Validation"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "names": [
+    "Detector isolation AUROC, random, Test b8"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "names": [
+    "Detector isolation AUROC, random, Test b9"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "names": [
+    "Detector isolation AUROC, random, Test b10"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "names": [
+    "Detector isolation AUROC, random, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "names": [
+    "False-alarm rate per sensor-row, all, all sensors, Validation"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "names": [
+    "False-alarm rate per sensor-row, all, all sensors, Test b8"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "names": [
+    "False-alarm rate per sensor-row, all, all sensors, Test b9"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "names": [
+    "False-alarm rate per sensor-row, all, all sensors, Test b10"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "names": [
+    "False-alarm rate per sensor-row, all, all sensors, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "names": [
+    "False-alarm rate per sensor-row, all, without S01,S02, Validation"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "names": [
+    "False-alarm rate per sensor-row, all, without S01,S02, Test b8"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "names": [
+    "False-alarm rate per sensor-row, all, without S01,S02, Test b9"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "names": [
+    "False-alarm rate per sensor-row, all, without S01,S02, Test b10"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "names": [
+    "False-alarm rate per sensor-row, all, without S01,S02, Test pooled"
+   ]
+  }
+ ]
+}

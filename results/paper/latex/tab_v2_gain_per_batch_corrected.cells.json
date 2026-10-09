@@ -1,0 +1,112 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "v2c (b)-(a) svm clean, b8, value",
+    "v2c (b)-(a) svm clean, b8, ci_low",
+    "v2c (b)-(a) svm clean, b8, ci_high"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "v2c (b)-(a) A clean, b8, value",
+    "v2c (b)-(a) A clean, b8, ci_low",
+    "v2c (b)-(a) A clean, b8, ci_high"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) B clean, b8, value",
+    "v2c (b)-(a) B clean, b8, ci_low",
+    "v2c (b)-(a) B clean, b8, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "v2c (b)-(a) svm clean, b9, value",
+    "v2c (b)-(a) svm clean, b9, ci_low",
+    "v2c (b)-(a) svm clean, b9, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "v2c (b)-(a) A clean, b9, value",
+    "v2c (b)-(a) A clean, b9, ci_low",
+    "v2c (b)-(a) A clean, b9, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) B clean, b9, value",
+    "v2c (b)-(a) B clean, b9, ci_low",
+    "v2c (b)-(a) B clean, b9, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "v2c (b)-(a) svm clean, b10, value",
+    "v2c (b)-(a) svm clean, b10, ci_low",
+    "v2c (b)-(a) svm clean, b10, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "v2c (b)-(a) A clean, b10, value",
+    "v2c (b)-(a) A clean, b10, ci_low",
+    "v2c (b)-(a) A clean, b10, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) B clean, b10, value",
+    "v2c (b)-(a) B clean, b10, ci_low",
+    "v2c (b)-(a) B clean, b10, ci_high"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "names": [
+    "v2c (b)-(a) svm clean, pooled, value",
+    "v2c (b)-(a) svm clean, pooled, ci_low",
+    "v2c (b)-(a) svm clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "names": [
+    "v2c (b)-(a) A clean, pooled, value",
+    "v2c (b)-(a) A clean, pooled, ci_low",
+    "v2c (b)-(a) A clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) B clean, pooled, value",
+    "v2c (b)-(a) B clean, pooled, ci_low",
+    "v2c (b)-(a) B clean, pooled, ci_high"
+   ]
+  }
+ ]
+}

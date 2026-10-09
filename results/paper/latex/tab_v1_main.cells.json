@@ -1,0 +1,760 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, dropout, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, bias, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, stuck, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 3,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, random, k=1, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 4,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, dropout, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 5,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, bias, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 6,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, stuck, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 7,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, random, k=2, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 8,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, dropout, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 9,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, bias, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 10,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, stuck, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 1,
+   "names": [
+    "Macro-F1 SVM, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 2,
+   "names": [
+    "Macro-F1 best augmented baseline, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 3,
+   "names": [
+    "Macro-F1 A, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 4,
+   "names": [
+    "Macro-F1 B, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 5,
+   "names": [
+    "Macro-F1 C, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 6,
+   "names": [
+    "Macro-F1 Oracle A, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 7,
+   "names": [
+    "Macro-F1 Oracle B, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 8,
+   "names": [
+    "A minus best augmented baseline, random, k=4, medium, Test pooled"
+   ]
+  },
+  {
+   "row": 11,
+   "col": 9,
+   "names": [
+    "B minus best augmented baseline, random, k=4, medium, Test pooled"
+   ]
+  }
+ ]
+}

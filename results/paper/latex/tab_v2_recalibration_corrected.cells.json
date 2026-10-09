@@ -1,0 +1,175 @@
+{
+ "cells": [
+  {
+   "row": 0,
+   "col": 1,
+   "names": [
+    "v2c svm model (a) clean, pooled, value"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 2,
+   "names": [
+    "v2c svm model (b) clean, pooled, value",
+    "v2c svm model (b) clean, pooled, ci_low",
+    "v2c svm model (b) clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) svm clean, pooled, value",
+    "v2c (b)-(a) svm clean, pooled, ci_low",
+    "v2c (b)-(a) svm clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 4,
+   "names": [
+    "v2c svm model (a) under faults, pooled, value",
+    "v2c svm model (a) under faults, pooled, ci_low",
+    "v2c svm model (a) under faults, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 5,
+   "names": [
+    "v2c svm model (b) under faults, pooled, value",
+    "v2c svm model (b) under faults, pooled, ci_low",
+    "v2c svm model (b) under faults, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 6,
+   "names": [
+    "v2 retained SVM, model (b), pooled"
+   ]
+  },
+  {
+   "row": 0,
+   "col": 7,
+   "names": [
+    "v2 worst SVM, model (b), pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 1,
+   "names": [
+    "v2c A model (a) clean, pooled, value"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 2,
+   "names": [
+    "v2c A model (b) clean, pooled, value",
+    "v2c A model (b) clean, pooled, ci_low",
+    "v2c A model (b) clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) A clean, pooled, value",
+    "v2c (b)-(a) A clean, pooled, ci_low",
+    "v2c (b)-(a) A clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 4,
+   "names": [
+    "v2c A model (a) under faults, pooled, value",
+    "v2c A model (a) under faults, pooled, ci_low",
+    "v2c A model (a) under faults, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 5,
+   "names": [
+    "v2c A model (b) under faults, pooled, value",
+    "v2c A model (b) under faults, pooled, ci_low",
+    "v2c A model (b) under faults, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 6,
+   "names": [
+    "v2 retained A, model (b), pooled"
+   ]
+  },
+  {
+   "row": 1,
+   "col": 7,
+   "names": [
+    "v2 worst A, model (b), pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 1,
+   "names": [
+    "v2c B model (a) clean, pooled, value"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 2,
+   "names": [
+    "v2c B model (b) clean, pooled, value",
+    "v2c B model (b) clean, pooled, ci_low",
+    "v2c B model (b) clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 3,
+   "names": [
+    "v2c (b)-(a) B clean, pooled, value",
+    "v2c (b)-(a) B clean, pooled, ci_low",
+    "v2c (b)-(a) B clean, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 4,
+   "names": [
+    "v2c B model (a) under faults, pooled, value",
+    "v2c B model (a) under faults, pooled, ci_low",
+    "v2c B model (a) under faults, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 5,
+   "names": [
+    "v2c B model (b) under faults, pooled, value",
+    "v2c B model (b) under faults, pooled, ci_low",
+    "v2c B model (b) under faults, pooled, ci_high"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 6,
+   "names": [
+    "v2 retained B, model (b), pooled"
+   ]
+  },
+  {
+   "row": 2,
+   "col": 7,
+   "names": [
+    "v2 worst B, model (b), pooled"
+   ]
+  }
+ ]
+}
