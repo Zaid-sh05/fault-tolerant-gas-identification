@@ -324,10 +324,49 @@ def tables():
     log(f"tables: Q3 {q3['value']:+.4f} [{q3['ci_low']:+.4f}, {q3['ci_high']:+.4f}] -> {q3['verdict']}")
 
 
+def paper_numbers():
+    """results/paper/PAPER_NUMBERS_v3.md: every v3 number with its file, filter and column (read from the CSVs, never typed)."""
+    rows = []
+
+    def add(name, path, filt, col):
+        tab = pd.read_csv(OUT / path)
+        sel = tab
+        for k, v in filt.items():
+            sel = sel[sel[k] == v]
+        assert len(sel) == 1, (path, filt)
+        rows.append(f"| {name} | {sel[col].iloc[0]:.4f} | results/v3_prevbatch/{path}, "
+                    + (", ".join(f"{k}={v}" for k, v in filt.items()) or "single row") + f", column {col} |")
+
+    for col in ("value", "ci_low", "ci_high"):
+        add(f"v3 primary (Q3): A under faults (c)-(a), pooled b9+b10, {col}", "q3_primary.csv", {}, col)
+    for path, key in (("q4_levels_faults.csv", ("subset", "method", "arm")), ("q4_diffs_faults.csv", ("subset", "comparison")),
+                      ("q4_clean.csv", ("subset", "comparison"))):
+        tab = pd.read_csv(OUT / path)
+        for _, r in tab.iterrows():
+            filt = {k: r[k] for k in key}
+            label = ("Macro-F1 under faults, " if path.startswith("q4_levels") else "") + ", ".join(str(r[k]) for k in key)
+            for col in ("value", "ci_low", "ci_high"):
+                add(f"v3 {label}, {col}", path, filt, col)
+    for _, r in pd.read_csv(OUT / "q4_share_kept.csv").iterrows():
+        for col in ("c_minus_a", "b_minus_a", "share_of_same_period_gain_kept"):
+            add(f"v3 under faults {r.method}, {r.subset}, {col}", "q4_share_kept.csv", {"subset": r.subset, "method": r.method}, col)
+    for _, r in pd.read_csv(OUT / "q4_retention_worst.csv").iterrows():
+        for col in ("retention", "retention_unweighted_v2_tables", "worst"):
+            add(f"v3 {col}, {r.method}, arm ({r.arm}), {r.subset}", "q4_retention_worst.csv",
+                {"subset": r.subset, "method": r.method, "arm": r.arm}, col)
+    md = ["# Numbers of the previous-period recalibration (v3; POST-HOC, EXPLORATORY; decisions_log Q)", "",
+          "Every value is read from a result file by `python scripts/v3_prevbatch.py paper`; nothing is typed by hand. Arms on identical rows: "
+          "(a) uncalibrated, (b) calibrated on batch t, (c) calibrated on batch t-1, scored on batch t in {9, 10}. Under faults = k1/k2 weighted "
+          "equally, mean over 5 calibration seeds. Intervals: 95% shared-index scenario bootstrap (faults; resamples scenarios only, O2) and 95% "
+          "t over the 5 seeds (clean).", "", "| number | value | source |", "|---|---|---|"] + rows
+    Path("results/paper/PAPER_NUMBERS_v3.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    log(f"paper: {len(rows)} numbers -> results/paper/PAPER_NUMBERS_v3.md")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["smoke", "gate", "run", "score", "tables"])
+    ap.add_argument("stage", choices=["smoke", "gate", "run", "score", "tables", "paper"])
     ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    {"smoke": stage_smoke, "gate": lambda: stage_gate(a.jobs), "run": lambda: stage_run(a.jobs), "score": stage_score, "tables": tables}[a.stage]()
+    {"smoke": stage_smoke, "gate": lambda: stage_gate(a.jobs), "run": lambda: stage_run(a.jobs), "score": stage_score, "tables": tables, "paper": paper_numbers}[a.stage]()
