@@ -370,3 +370,38 @@ Written before any v2 code was run or any v2 number was computed.
   free memory; load 88% -> 64%); stage 2 was left running (rule: it is not stopped or modified); a new tree guard (`scripts/tree_guard.py`,
   85%) watches its process tree from 07:30; `run_guarded.py` now kills the whole tree pid by pid and verifies (self-test: parent + child
   killed, none left). No result file was lost: chunks are written atomically (103 of 234 finished at 07:22).
+
+## N. PRE-TEST v2: single final Test run of the few-shot recalibration (POST-HOC design; user decision 2026-10-09 ~11:20)
+Written before the run and before batches 8-10 are opened for v2. Batches 8-10 are read only in step 5, once.
+* N0 (status). The design is POST-HOC and test-informed (G0, J0): the v1 Test results were seen before recalibration was proposed. The result is a
+  separate setting, "with n labeled calibration samples per gas", shown next to v1 and never mixed with it. Every outcome is reported as it is.
+* N1 (configuration). n* = 10 per gas (J4; chosen in stage 1 on Drift-Dev and Validation 7; not changed). Stage 2 has no further selection rule
+  (no arbiter was adopted, G8), so no other setting is chosen from it.
+* N2 (base model and recipe). The stage-2 recipe unchanged (J3): M0 = StandardScaler on the raw 128 features -> SVM (C=10, gamma=0.01), the "median"
+  reliability detector (95th-percentile thresholds of the leave-one-group-out scores; the calibration rows form one extra group), A = Ridge
+  reconstruction of the flagged blocks (twin allowed), B = reduced SVM without the flagged sensors (cap 4). Train = batches 1-7, cleaned by the
+  invalid-value rule fitted on batches 1-7 (as every protocol). The SVMs are fitted without Platt probabilities because neither the arbiter nor the
+  augmentation is part of this run; the smoke test (N6) checks that the labels equal the stage-2 labels (Platt-enabled models) exactly.
+* N3 (calibration). For each Test batch (8, 9, 10) separately and each seed: per gas min(10, count // 2) rows drawn at random by the stage-2 function
+  (`calib_rows`, generator keyed by seed, n and batch) from the clean batch, added to Train for that batch's calibrated model and REMOVED from scoring.
+  Seeds 0-4 (or 0-2, see N7).
+* N4 (paired comparison). On exactly the same remaining rows of each seed: (a) M0 trained on batches 1-7 without calibration, (b) M0 with the
+  calibration rows of that batch. The v1 Test numbers are not used for this comparison (other rows, other Train).
+* N5 (fault layer and metrics). Faults on the full raw batch matrix with the raw Train statistics (1-7), exactly as stage 2; then scoring on the
+  remaining rows. Scenarios: clean + k=1 and k=2, every fault type and every severity of v1 (dropout 0.5/1, bias 0.5/1/3, stuck 0.5/1, random 0.5/1),
+  fault seeds 0-4: 1 + 720 + 360 = 1081 per batch. Methods: SVM (no handling), A, B, for both (a) and (b). Routing A->B is NOT included (not confirmed).
+  Metrics per batch and pooled (pooled = the union of the remaining rows of the three batches, each batch with its own model): clean Macro-F1, mean
+  Macro-F1 under faults (k1 and k2 weighted equally), worst case (lowest per-scenario Macro-F1), retained ratio (fault / clean, same method, model,
+  batch, seed), detector isolation AUROC and TPR, clean FAR and share of clean rows with an alarm. Intervals: clean (b)-(a) by a paired row bootstrap
+  (1000, per seed, averaged over seeds); under faults by a scenario bootstrap stratified by k (1000). Mean +- std over calibration seeds.
+* N6 (checks before the run). (1) Smoke test of the same script on Drift-Dev (train 1-3, batch 6, seed 0, medium scenarios): labels-based Macro-F1
+  of SVM, A and B, calibrated and uncalibrated, must equal the stage-2 values of configuration drift_dev_b6_n10_s0 (difference < 1e-9), otherwise stop
+  and log. (2) Ollama closed; the fixed guard (`run_guarded.py`, tree kill), 3 workers, resumable atomic chunks.
+* N7 (time). The run time is estimated from timings on batches 1-7 Train rows only (no Test data). If the estimate for 5 seeds exceeds 10 hours,
+  seeds are reduced to 0-2 BEFORE the freeze, and the decision is logged here.
+* N8 (expectations, registered now). Success = (b) above (a) on clean Macro-F1 (pooled, interval above 0) AND, for the calibrated model, A >= SVM in
+  the mean Macro-F1 under faults (pooled). Whatever the outcome, it is reported as it is.
+* N9 (caveat, must appear in the report). The calibration rows are drawn from the whole batch, not from its beginning, because the time order inside a
+  batch file is unknown; the gain is therefore optimistic (calibration rows are interleaved in time with the scored rows).
+* N10 (freeze). `configs/final_test_v2.yaml`, tag `frozen-before-test-v2`, `FREEZE_MANIFEST_v2.md` with the hashes of code and config. No change
+  after the freeze; a bug found after the run is fixed, logged, the run repeated, and both results shown.
