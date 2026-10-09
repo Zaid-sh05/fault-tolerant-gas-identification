@@ -1,0 +1,46 @@
+{
+ "memory_after_imports_mb": 137.53515625,
+ "train_rows_for_calibration": 5991,
+ "train_data_kb_float64": 5991.0,
+ "calibration_svm_s": 1.4251201000006404,
+ "calibration_detector_s": 2.3878990999946836,
+ "calibration_B_136_models_s": 149.10850289999507,
+ "calibration_total_s": 152.9215220999904,
+ "size_kb": {
+  "svm_calibrated": 511.47265625,
+  "preprocessing": 3.5791015625,
+  "detector_for_A": 266.8876953125,
+  "B_136_reduced_models": 61972.90234375,
+  "A_bundle_svm_pre_detector": 781.939453125,
+  "B_bundle_pre_detector_136_models": 62243.369140625
+ },
+ "svm_only_fault_free": {
+  "runs": 1000,
+  "median_ms": 5.40855,
+  "p95_ms": 11.632649999999998
+ },
+ "A_fault_free": {
+  "runs": 1000,
+  "median_ms": 9.34315,
+  "p95_ms": 20.518665
+ },
+ "A_bias_one_sensor": {
+  "runs": 1000,
+  "median_ms": 7.772550000000001,
+  "p95_ms": 18.44707
+ },
+ "B_fault_free": {
+  "runs": 1000,
+  "median_ms": 7.447649999999999,
+  "p95_ms": 17.038024999999998
+ },
+ "B_bias_one_sensor": {
+  "runs": 1000,
+  "median_ms": 7.24645,
+  "p95_ms": 18.430384999999994
+ },
+ "memory_final_mb": 220.7421875,
+ "memory_peak_mb": 227.890625,
+ "calibration_rows": 60,
+ "note": "v2 deployment simulated on Validation batch 7 (calibration seed 0, 10 rows per gas); one core, one BLAS thread, laptop CPU; pickled float64 sizes. B covers every k=1 and k=2 exclusion set (136 models); its latency uses the two highest-ratio flagged sensors."
+}
