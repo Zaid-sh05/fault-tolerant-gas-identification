@@ -413,3 +413,31 @@ Written before the run and before batches 8-10 are opened for v2. Batches 8-10 a
   IDENTICAL to stage 2 (max difference 1.1e-16), which also confirms that the SVMs fitted without Platt probabilities give the same labels.
   Time estimate from fits on the Train rows of batches 1-7 only (no Test data): 1.9 h for 5 seeds (one reduced SVM 0.6 s without Platt), far
   below 10 h, so seeds stay 0-4 (N7). Ollama closed; memory load 53%; the fixed tree-killing guard is used.
+
+## O. POST-AUDIT correction (user decision 2026-10-09, option 2: no new reading of the Test data or labels)
+* O1 (problem). The independent audit (`results/audit/AUDIT_REPORT.md`, finding A1) showed that the v2 intervals averaged INDEPENDENT
+  bootstrap replicates of the 5 calibration seeds (`scripts/ft_v2_recal.py:229-238` clean rows; `scripts/ft_v2_tables.py:16-24` and
+  `scripts/v2_paper.py` scenarios). The seeds score almost the same rows and scenarios, so the row/scenario variance shrank by about 5x and
+  the variance of the calibration draw was left out: e.g. 4 of the 5 per-seed pooled clean gains fell outside the reported interval.
+  The point estimates were computed correctly. The v1 intervals share one weight matrix across methods and are not affected.
+* O2 (correction; frozen code, configs and v1/v2 result files are untouched; new files and sections only).
+  - Under faults: scenario bootstrap (k-stratified, 1000, seed 0) with ONE resample index per replicate shared by all seeds, from the
+    existing `results/final_test_v2/test/scores.csv`.
+  - Clean: 95% t-interval over the 5 per-seed values. LIMITATION, stated in the paper: it captures the calibration-draw variance only; the
+    row-sampling part would need the Test labels, which are not read again (user decision). Where the seeds agree closely (batch 9) this
+    interval is NARROWER than the old row bootstrap (SVM gain b9: old [0.237, 0.253], corrected [0.240, 0.249]); the paper should therefore
+    describe the clean intervals as "variation over calibration draws", not as full confidence intervals.
+  - `scripts/paper_corrections.py` writes `results/paper/v2_corrected_ci.csv` (reproduces all 32 intervals of `results/audit/ci_impact.md`)
+    and the PAPER_NUMBERS sections "v2 corrected CIs" and "Detector AUROC without Dropout" (audit finding B1: Dropout scores 1.0 by
+    construction). The 88 old interval rows are kept and marked "[superseded: v2 corrected CIs]"; no line was deleted; the v1 part of
+    PAPER_NUMBERS is byte-identical.
+  - `scripts/paper_material.py` writes new figures and tables with the corrected intervals and a cell map per table; the old v2 figures and
+    tables are kept and listed in `results/paper/SUPERSEDED.md` and `latex/SUPERSEDED.txt`; `scripts/v2_paper.py` must not be re-run.
+  - `scripts/check_paper_numbers.py` now compares every table cell with its own named number (audit finding B6); test-first:
+    `tests/test_check_paper_numbers.py` failed on the old code (swapped cells passed) and passes now. Final run: 936 rows and 287 table
+    numbers, 0 problems.
+* O3 (why no conclusion changes). Every point estimate is unchanged. Every interval that excluded 0 still excludes 0, and the only interval
+  that contains 0 is the same as before (gain of A on batch 8: old [-0.013, 0.042], corrected [-0.027, 0.054]). Key widths: pooled clean SVM
+  gain +0.136, [0.132, 0.141] -> [0.117, 0.156]; calibrated A - SVM under faults +0.127, [0.123, 0.132] -> [0.118, 0.138]. The N8 verdict
+  (clean gain > 0 with its interval above 0, and calibrated A >= SVM under faults) still holds. Without Dropout the mean detector AUROC is
+  lower by about 0.01 (k=1) and 0.03 (k=2), and G2 still passes (the remaining fault types are all >= 0.90 per Test batch at k=1, medium).

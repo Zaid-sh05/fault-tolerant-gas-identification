@@ -1,0 +1,7 @@
+NOTE      Number of evaluation rows, pooled: the locator has no subset filter; the subset 'pooled' was taken from the name
+NOTE      Number of evaluation rows, b8: the locator has no subset filter; the subset 'b8' was taken from the name
+NOTE      Number of evaluation rows, b9: the locator has no subset filter; the subset 'b9' was taken from the name
+NOTE      Number of evaluation rows, b10: the locator has no subset filter; the subset 'b10' was taken from the name
+NOTE      tab_v2_gain_per_batch.tex: superseded (latex/SUPERSEDED.txt), not checked
+NOTE      tab_v2_recalibration.tex: superseded (latex/SUPERSEDED.txt), not checked
+PAPER_NUMBERS rows checked: 936, problems: 0; LaTeX table numbers checked: 287, problems: 0
