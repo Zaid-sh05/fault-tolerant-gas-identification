@@ -515,3 +515,71 @@ User request 2026-10-10. Requested as section "P"; P is already the oracle-selec
   and B(c) - SVM(a) with the v2 shared-index scenario bootstrap; (c) J6 retention (k1/k2 equal) per arm; (d) shelf life: A-under-faults gain
   over (a) against calibration age (same period, 8->9, 9->10, 8->10), with the share of the same-period gain on the same target batch.
   Batch months (UCI documentation): 8 = 22-23, 9 = 24 and 30, 10 = 36. Outputs `results/v4_recal/part1_*.csv`, `PART1.md`. Descriptive only.
+
+## R. Carrying calibration forward (POST-HOC, EXPLORATORY; designed after the Q results; written before any R result was computed)
+User request 2026-10-10 (v4). Branch `exp/prev-recal-v4` in the worktree `../fti-v4` (from `exp/prev-batch-recal` 6a7239e); the main checkout is
+read-only (v2 models, v3 predictions through the absolute path in `configs/v4_recal.yaml`). Drafted while Q9 was running, before any Q9 number
+was read. Code: `scripts/v4_recal.py`; tests: `tests/test_v4_recal.py`; outputs: `results/v4_recal/`.
+* R0 (status). Post-hoc and test-informed (the v3 Test results motivated it). Every choice below is made on development batches (1-7);
+  Test (8-10) is opened once, and only if R3 says GO.
+* R1 (development protocol, no Test data in any decision).
+  - Base Train = the Drift-Dev Train of v2 (`configs/v2_drift_dev.yaml`: batches 1-3, cleaned by the invalid-value rule fitted on 1-3;
+    verified: 3272 rows, batches {1, 2, 3}). Dev targets t in {6, 7}; previous-period pairs 5 -> 6 and 6 -> 7. Batch 5 is read only for its
+    calibration rows (raw rows, like every evaluation batch). No development step reads batches 8-10 (test 4).
+  - Calibration rows of batch b, seed s: `calib_rows(y_b, 10, s, b)`. Verified: batch 5 has NO gas 6 (toluene), so 5 -> 6 carries no toluene
+    calibration (cf. batch 8: 18 toluene rows, 9 used); batches 6 and 7 give 10 rows for each of the six gases.
+  - Scored rows: `keep_mask(y_t, s, t)` (the target's own seed-s calibration rows removed, so the same-period arm is scored on the same rows);
+    for CAND-S the half H2 of those rows. The kept rows depend on batch-t labels only through this removal (identical rows across arms);
+    no label of batch t enters any fit (test 1).
+  - Scenarios: the v2 Drift-Dev set (`v2_arbiter.scenario_list()`: clean + k1/k2 at medium severity, fault seeds 0-4; 481), applied to the full
+    raw batch t with the raw Train 1-3 statistics, as stage 2. Methods: SVM (no handling) and A (median detector, flag = ratio > 1, cap 4,
+    twin allowed).
+  - Model recipe unless a candidate says otherwise = `ft_v2_recal.fit_model` (N2): StandardScaler, SVC (C=10, gamma=0.01, random_state 0),
+    median detector with each calibration batch as one extra group (CAL_GROUP + batch).
+  - Reference arms on the same rows: uncal (Train 1-3), same (Train + cal(t)), prev (Train + cal(t-1)) = the v3 analog.
+  - Dev gate (before any candidate number is used): uncal and same must reproduce v2 stage 2 (`results/v2/recal/scenarios.csv`, protocol
+    drift_dev, models uncalibrated / calibrated) for SVM and A in every (t, s, scenario), max |diff| <= 5.1e-6 (the CSV has 5 decimals).
+    Failure = stop and debug, no tournament.
+  - Dev score of a configuration = A, Macro-F1 under faults: per (t, s) the k1 and k2 means averaged equally, then the mean over the 5 seeds
+    and the 2 targets.
+* R2 (candidates: seven configurations, fixed now; also in `configs/v4_recal.yaml`). Memory M(t) = the calibration periods before t that are
+  not in Train, mirroring the Test chain: M(6) = {5}, M(7) = {5, 6}; on Test M(9) = {8}, M(10) = {8, 9}. Batch 4 is not used (the request
+  fixes M(7) = {5, 6}). Calibration rows of every memory batch use the same seed s.
+  - CAND-W, w in {1, 5, 20} (W1, W5, W20): Train + the calibration rows of every b in M(t); SVM sample_weight 1 for Train rows and w for
+    calibration rows (w = 1 is fitted without weights); scaler unweighted; detector refitted on the same rows as in v2, unweighted, each
+    calibration batch its own group. W1 at t = 6 equals prev exactly (a built-in check).
+  - CAND-S, q in {0.3, 0.6} (S30, S60): H1/H2 = fixed disjoint halves of the kept rows of batch t
+    (`perm = default_rng([s, t]).permutation(kept)`; H1 = the first floor(n/2), H2 = the rest). Start from prev. Predict the CLEAN, UNLABELED
+    rows of H1 with prev's SVM (label = fast_svm_predict; margin = top-1 minus top-2 of the one-vs-rest `decision_function`); per predicted
+    class c with n_c rows keep the ceil(q * n_c) largest margins. Refit the scaler and the SVM once on prev's rows (Train + cal(t-1)) plus
+    the kept H1 rows with their pseudo-labels (unweighted); the detector is prev's, unchanged. Scored ONLY on H2; no H2 row, clean or faulted,
+    enters any fit (test 2).
+  - CAND-C, r in {1, 2} (C1, C2): rows = Train + the calibration rows of M(t), unweighted. The scaler is refitted on these rows; Z = their
+    standardized values (NaN -> 0). For every gas g present in the calibration rows (and in Train): d_g = mean Z(calibration, g) - mean
+    Z(Train, g). V = the top-r right singular vectors of the stacked d_g (uncentered SVD). Every classifier input is projected
+    Z -> Z - Z V V^T (Train, calibration and evaluation rows; for A after reconstruction), and the SVM is refitted on the projected rows.
+    The detector is prev's, unchanged. V uses only Train and past-period calibration rows (test 5).
+  - prev on dev = the recipe on Train 1-3 + cal(t-1); on Test = the v2 model b{t-1}_s{s} (same recipe, checked to have Train 1-7 + cal(t-1)
+    rows), which CAND-S and CAND-C start from.
+* R3 (selection rule, dev only).
+  - For configuration k: rows_k = H2 for CAND-S, the kept rows otherwise. delta_k = dev score(k) - dev score(prev), both on rows_k (paired
+    by scenario); clean_k = clean SVM Macro-F1(k) - clean SVM Macro-F1(prev) on rows_k, mean over targets and seeds.
+  - Eligible = clean_k >= -0.005. Winner = the largest delta among the eligible; every eligible configuration within 0.002 of that delta is
+    tied, and the tie goes to the first in the order W1, W5, W20, C1, C2, S30, S60 (simpler first).
+  - GO iff a winner exists and delta_winner >= 0.010. Otherwise NO-GO: no Test run, an entry in `results/NEGATIVE_RESULTS.md`, and v4 ends
+    with Q9.
+  - The script writes `results/v4_recal/r3_decision.json`; it is committed alone before the Test run, and the Test stage refuses to start
+    unless that file is committed (tracked, no local change) and says GO.
+* R4 (Test, one run, only on GO). Arm (d) = the winner fitted on Train 1-7 (+ the M(t) calibration rows, seeds 0-4) for targets 9 and 10, all
+  1081 v2 scenarios, SVM and A. B is NOT added (decided now: it needs thousands of new reduced SVMs per model, outside the time box).
+  Scored rows: H2 if the winner is a CAND-S configuration, otherwise the kept rows; arms (a), (b), (c) are re-scored on exactly those rows
+  from the saved v3 predictions (provenance-checked). A RUN_STARTED marker refuses a second Test run (test 4b).
+  - Reproduction gate before any Test number is used: (1) the saved v3 labels of arms (a), (b), (c), re-scored on the kept rows, equal
+    `results/v3_prevbatch/scores.csv` (SVM, A, B; every (t, s, scenario); max |diff| <= 1e-9); (2) the v4 prediction code applied to the v2
+    model of arm (c) (seed 0, 12 scenarios per target) gives labels identical to v3. Failure = hard stop.
+* R5 (primary endpoint). A under faults (k1/k2 equal), (d) - (c), POOLED 9+10 (per seed and scenario, Macro-F1 on the union of the scored
+  rows), paired by scenario; 95% interval = the v2 shared-index scenario bootstrap (`paper_corrections.shared_boot`: k-stratified, 1000,
+  seed 0). SUPPORTED iff the lower bound > 0. Secondary: (d) - (a), (d) - (b), A - SVM within (d), per batch, J6 retention, worst scenarios,
+  clean SVM (t over seeds).
+* R6 (no changes after results). Nothing in R1-R5 changes once any R number is seen. Time box: the dev tournament must finish within 6 hours
+  of this commit; otherwise stop, and v3 stands.
