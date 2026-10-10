@@ -54,3 +54,24 @@ Reason: under drift almost every row carries an alarm (n_flag = 0 in only 3–13
 1. Under long-term drift, the unsupervised fixes tried here do not beat the plain model on held-out later batches.
 2. **Better fault isolation (AUROC/TPR) does not turn into better classification** when it costs extra false alarms under drift.
 3. The worst cases of A come from twin masking: a replicate pair biased together is not flagged, and healthy sensors are reconstructed from the biased pair. B is far more robust in its worst case.
+
+## v4 (POST-HOC): carrying a calibration forward in time (decisions_log R; selection rule R3)
+Development only (Drift-Dev Train 1-3; previous-period pairs 5 -> 6 and 6 -> 7; seeds 0-4; 481 scenarios). Score = A, Macro-F1 under faults
+(k1/k2 equal), mean of targets 6 and 7. GO needed delta vs prev-analog >= 0.010 with clean SVM not below prev-analog by more than 0.005.
+prev-analog = 0.7388 (kept rows) / 0.7363 (H2 rows); same-period = 0.9176; uncalibrated = 0.6297.
+
+| configuration | delta vs prev (t6 / t7) | clean SVM vs prev | why it failed | source |
+|---|---|---|---|---|
+| W1: calibration memory (all past periods), unweighted | +0.0013 (0.000 / +0.003) | +0.003 | winner by the rule (tie with C1), far below +0.010 | `results/v4_recal/tournament.csv` |
+| W5 / W20: memory with weight 5 / 20 | −0.0018 / −0.0036 | +0.004 / +0.001 | up-weighting barely moves the SVM (w=20 changes 5 of 2300 batch-6 labels; only 1 of 13 batch-5 support vectors is at the bound) | same |
+| C1: remove the top drift direction | +0.0027 (+0.006 / −0.000) | +0.007 | best delta, still far below +0.010 | same |
+| C2: remove the top 2 drift directions | −0.0018 (+0.052 / −0.055) | +0.001 | helps 5 -> 6, hurts 6 -> 7 by the same amount: unstable | same |
+| S30: self-training, top 30% margins | −0.0143 | −0.007 | ineligible (clean −0.007) and worse | same |
+| S60: self-training, top 60% margins | −0.0010 | +0.007 | no gain | same |
+
+**Decision: NO-GO.** No Test run (`results/v4_recal/r3_decision.json`; the Test stage refused, `test_stage_refusal.log`). v3 (section Q)
+stands as the previous-period result.
+
+Lesson 4. Previous-period calibration gives a small gain that barely depends on how old it is (Test, Q9: A under faults +0.024 with 8 -> 9 or
+9 -> 10 calibration, +0.021 with 13-14-month-old 8 -> 10 calibration). None of the seven ways of carrying it forward tested here (more memory,
+weighting, drift-direction removal, self-training) adds 0.010 on development batches.

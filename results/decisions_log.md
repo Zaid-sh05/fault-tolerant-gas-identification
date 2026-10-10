@@ -583,3 +583,8 @@ was read. Code: `scripts/v4_recal.py`; tests: `tests/test_v4_recal.py`; outputs:
   clean SVM (t over seeds).
 * R6 (no changes after results). Nothing in R1-R5 changes once any R number is seen. Time box: the dev tournament must finish within 6 hours
   of this commit; otherwise stop, and v3 stands.
+* R7 (outcome, 2026-10-10 04:39; nothing in R1-R6 changed). Dev gate passed (19,240 rows, max |diff| 5.0e-6). Tournament 03:40-04:38
+  (80 models, inside the 6 h box): best delta C1 +0.0027, tied within 0.002 with the simpler W1 +0.0013, which wins by the order rule; S30
+  ineligible (clean SVM -0.007). W1 = prev on target 6 (built-in check passed). delta_winner < 0.010, so R3 says NO-GO: no Test run, an entry
+  in NEGATIVE_RESULTS.md, v4 ends with Q9. Doubt check of the 0.0000 deltas of W5/W20 on target 6: the weights reach the SVM (support set and
+  dual coefficients change) but change 5 of 2,300 labels, because only 1 of 13 batch-5 support vectors is at the bound.
