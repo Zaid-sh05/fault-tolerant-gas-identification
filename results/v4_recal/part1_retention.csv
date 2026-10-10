@@ -1,0 +1,30 @@
+subset,arm,method,retention_j6,worst
+b9,(a) uncalibrated,svm,0.828193,0.116817
+b9,(a) uncalibrated,A,0.935783,0.037216
+b9,(a) uncalibrated,B,0.932786,0.342997
+b9,(b) same-period,svm,0.786629,0.062174
+b9,(b) same-period,A,0.943785,0.056366
+b9,(b) same-period,B,0.957601,0.246584
+b9,(c) previous-period,svm,0.852578,0.130378
+b9,(c) previous-period,A,0.961342,0.047611
+b9,(c) previous-period,B,0.969306,0.329319
+b10,(a) uncalibrated,svm,0.759459,0.029703
+b10,(a) uncalibrated,A,0.946118,0.05957
+b10,(a) uncalibrated,B,0.944456,0.145845
+b10,(b) same-period,svm,0.784027,0.044013
+b10,(b) same-period,A,0.954996,0.072074
+b10,(b) same-period,B,0.963249,0.174339
+b10,(c) previous-period,svm,0.773996,0.0289
+b10,(c) previous-period,A,0.957498,0.067791
+b10,(c) previous-period,B,0.960072,0.148338
+pooled,(a) uncalibrated,svm,0.771195,0.126847
+pooled,(a) uncalibrated,A,0.946319,0.117798
+pooled,(a) uncalibrated,B,0.943596,0.232239
+pooled,(b) same-period,svm,0.788475,0.160713
+pooled,(b) same-period,A,0.954788,0.137263
+pooled,(b) same-period,B,0.963402,0.302693
+pooled,(c) previous-period,svm,0.786674,0.126264
+pooled,(c) previous-period,A,0.958623,0.102113
+pooled,(c) previous-period,B,0.961567,0.236444
+b10,(e) two periods back (b8 on b10),svm,0.763946,0.043362
+b10,(e) two periods back (b8 on b10),A,0.952964,0.101461

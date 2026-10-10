@@ -508,3 +508,10 @@ User request 2026-10-10. Requested as section "P"; P is already the oracle-selec
   equal scores.csv for every arm (checked: arm (c) scored on other rows differs by ~1e-3); (3) prediction chunks are checked for arm,
   target, model and sids before use. Also, a re-run refuses an existing RUN_STARTED marker, sids are checked before pairing, and tests use
   a temporary model cache. After the fixes, scores.csv and q3_primary.csv were recomputed byte-identical.
+* Q9 (secondary, defined after the Q results, not pre-registered; user request 2026-10-10, v4 Part 1; branch exp/prev-recal-v4, worktree
+  ../fti-v4). From the saved v3 predictions and scores, plus ONE extra arm that needs no refit: (e) = the v2 model `b8_s{s}` applied unchanged
+  to batch 10 (calibration 13-14 months old), the v3 kept rows `keep_mask(y_10, s, 10)`, all 1081 scenarios, SVM and A.
+  (a) Macro-F1 under faults (k1/k2 equal) for SVM, A, B in arms (a), (b), (c), per batch and pooled; (b) full-pipeline effect A(c) - SVM(a)
+  and B(c) - SVM(a) with the v2 shared-index scenario bootstrap; (c) J6 retention (k1/k2 equal) per arm; (d) shelf life: A-under-faults gain
+  over (a) against calibration age (same period, 8->9, 9->10, 8->10), with the share of the same-period gain on the same target batch.
+  Batch months (UCI documentation): 8 = 22-23, 9 = 24 and 30, 10 = 36. Outputs `results/v4_recal/part1_*.csv`, `PART1.md`. Descriptive only.

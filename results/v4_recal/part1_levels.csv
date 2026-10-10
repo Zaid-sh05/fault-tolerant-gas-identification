@@ -1,0 +1,30 @@
+subset,arm,method,value,ci_low,ci_high
+b9,(a) uncalibrated,svm,0.609543,0.599253,0.619315
+b9,(a) uncalibrated,A,0.705924,0.699331,0.712297
+b9,(a) uncalibrated,B,0.704093,0.699161,0.708861
+b9,(b) same-period,svm,0.771391,0.758053,0.784833
+b9,(b) same-period,A,0.940442,0.931044,0.949255
+b9,(b) same-period,B,0.954687,0.947418,0.960868
+b9,(c) previous-period,svm,0.634115,0.624081,0.643583
+b9,(c) previous-period,A,0.729674,0.722649,0.736227
+b9,(c) previous-period,B,0.737141,0.732325,0.741734
+b10,(a) uncalibrated,svm,0.5121,0.503682,0.520451
+b10,(a) uncalibrated,A,0.621149,0.614768,0.627033
+b10,(a) uncalibrated,B,0.628748,0.623899,0.633161
+b10,(b) same-period,svm,0.641456,0.632931,0.650147
+b10,(b) same-period,A,0.765299,0.758653,0.771403
+b10,(b) same-period,B,0.784292,0.779212,0.788711
+b10,(c) previous-period,svm,0.535861,0.527123,0.544583
+b10,(c) previous-period,A,0.645506,0.639401,0.6511
+b10,(c) previous-period,B,0.65666,0.651648,0.661044
+pooled,(a) uncalibrated,svm,0.529319,0.521277,0.537193
+pooled,(a) uncalibrated,A,0.636399,0.630229,0.642128
+pooled,(a) uncalibrated,B,0.642346,0.637817,0.646585
+pooled,(b) same-period,svm,0.657727,0.64921,0.666509
+pooled,(b) same-period,A,0.783648,0.777195,0.789899
+pooled,(b) same-period,B,0.802007,0.797073,0.80634
+pooled,(c) previous-period,svm,0.553858,0.545472,0.562187
+pooled,(c) previous-period,A,0.661213,0.655031,0.666696
+pooled,(c) previous-period,B,0.671567,0.66682,0.675796
+b10,(e) two periods back (b8 on b10),svm,0.529182,0.520804,0.537733
+b10,(e) two periods back (b8 on b10),A,0.641636,0.635244,0.647794

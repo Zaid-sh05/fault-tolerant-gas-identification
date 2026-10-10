@@ -1,0 +1,7 @@
+[03:13:32] part1: arm (e) = b8_s* on batch 10, 140 chunks
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  12 tasks      | elapsed:  1.3min
+[Parallel(n_jobs=3)]: Done  66 tasks      | elapsed:  6.3min
+[Parallel(n_jobs=3)]: Done 140 out of 140 | elapsed: 13.0min finished
+[03:27:11] part1: written part1_levels, part1_full_pipeline, part1_retention, part1_shelf_life
+exit 0

@@ -1,0 +1,7 @@
+subset,comparison,value,ci_low,ci_high
+b9,"A in arm (c) - SVM in arm (a), under faults",0.120132,0.110323,0.129885
+b9,"B in arm (c) - SVM in arm (a), under faults",0.127599,0.119395,0.136504
+b10,"A in arm (c) - SVM in arm (a), under faults",0.133406,0.124676,0.142247
+b10,"B in arm (c) - SVM in arm (a), under faults",0.14456,0.136701,0.152993
+pooled,"A in arm (c) - SVM in arm (a), under faults",0.131893,0.123567,0.140631
+pooled,"B in arm (c) - SVM in arm (a), under faults",0.142248,0.134832,0.150154
