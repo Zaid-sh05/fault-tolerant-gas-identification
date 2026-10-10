@@ -1,0 +1,22 @@
+{
+ "rule": "decisions_log R3",
+ "eligible": [
+  "W1",
+  "W5",
+  "W20",
+  "C1",
+  "C2",
+  "S60"
+ ],
+ "winner": "W1",
+ "go": false,
+ "winner_delta_vs_prev": 0.0013270167424072055,
+ "winner_clean_svm_minus_prev": 0.0032782604798876624,
+ "thresholds": {
+  "go_delta": 0.01,
+  "clean_tol": 0.005,
+  "tie": 0.002
+ },
+ "check_W1_equals_prev_on_target_6": true,
+ "tournament_seconds": 3465
+}
