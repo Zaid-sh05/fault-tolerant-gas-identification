@@ -1,0 +1,6 @@
+[03:31:14] devgate: 12 reference models (uncal, same) on Drift-Dev
+[Parallel(n_jobs=3)]: Using backend LokyBackend with 3 concurrent workers.
+[Parallel(n_jobs=3)]: Done  10 out of  12 | elapsed:  7.1min remaining:  1.4min
+[Parallel(n_jobs=3)]: Done  12 out of  12 | elapsed:  8.4min finished
+[03:40:20] devgate: 19240/19240 rows vs v2 stage 2, max |diff| 5e-06 -> PASSED
+exit 0

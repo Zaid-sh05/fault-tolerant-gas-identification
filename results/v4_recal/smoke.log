@@ -1,0 +1,1 @@
+smoke: same-period b6 s0, 5 scenarios vs v2 stage 2: max |diff| 4.51e-06 -> PASSED

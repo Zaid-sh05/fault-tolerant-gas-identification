@@ -1,0 +1,7 @@
+{
+ "rows_compared": 19240,
+ "rows_ours": 19240,
+ "max_abs_diff": 4.999973612695996e-06,
+ "tolerance": 5.1e-06,
+ "passed": true
+}
