@@ -11,7 +11,9 @@ for _v in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
     os.environ.setdefault(_v, "1")
 
 import argparse  # noqa: E402
+import json  # noqa: E402
 import pickle  # noqa: E402
+import subprocess  # noqa: E402
 import sys  # noqa: E402
 import time  # noqa: E402
 from functools import lru_cache  # noqa: E402
@@ -22,18 +24,23 @@ import joblib  # noqa: E402
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
 from joblib import Parallel, delayed  # noqa: E402
+from sklearn.svm import SVC  # noqa: E402
 
 sys.path.insert(0, "scripts")
 from ft_v2_recal import keep_mask, scenario_list as test_scenarios  # noqa: E402
 from paper_corrections import seed_t, shared_boot  # noqa: E402
-from v2_arbiter import atomic, scenario_info  # noqa: E402
-from src.data import xy  # noqa: E402
+from v2_arbiter import atomic, scenario_info, scenario_list as dev_scenarios  # noqa: E402
+from v2_recal import CAL_GROUP, calib_rows  # noqa: E402
+from src.data import load_batches, xy  # noqa: E402
+from src.detector import ReliabilityDetector  # noqa: E402
 from src.evaluate import fill_nan_zero  # noqa: E402
 from src.fastsvm import fast_svm_predict  # noqa: E402
 from src.models import scores  # noqa: E402
+from src.preprocessing import fit_preprocessor  # noqa: E402
 from src.scenarios import FaultStats, apply_scenario  # noqa: E402
 from src.splits import get_protocol_data, load_config  # noqa: E402
 from src.strategies import StrategyKit, acted_sets, group_by_set  # noqa: E402
+from src.study import OVERNIGHT  # noqa: E402
 
 CFG = load_config("configs/v4_recal.yaml")
 MAIN = Path(CFG["main_checkout"])
@@ -43,6 +50,12 @@ V3_SCORES = Path("results/v3_prevbatch/scores.csv")
 OUT = Path(CFG["output_root"])
 SEEDS = tuple(CFG["seeds"])
 V3_CHUNK = 40
+N_CAL = CFG["n_per_gas"]
+MEMORY = {int(k): tuple(v) for k, v in CFG["memory"].items()}
+CANDS = CFG["candidates"]                          # insertion order = the R3 tie-break order
+DEV_TARGETS, TEST_TARGETS = tuple(CFG["dev_targets"]), tuple(CFG["test_targets"])
+PSEUDO_GROUP = 2000                                # group id of pseudo-labelled rows (scaler/SVM only; the detector is not refitted)
+GO_DELTA, CLEAN_TOL, TIE = 0.010, 0.005, 0.002     # R3
 ARM_NAMES = {"a": "(a) uncalibrated", "b": "(b) same-period", "c": "(c) previous-period", "e": "(e) two periods back (b8 on b10)"}
 
 
@@ -235,10 +248,357 @@ def stage_part1(jobs):
     log("part1: written " + ", ".join(out))
 
 
+# ---- Part 2 (decisions_log R): development data, candidates and models ---------------------------------------------
+@lru_cache(maxsize=1)
+def dev_data():
+    """Drift-Dev (R1): Train 1-3 cleaned as v2, evaluation batches 6 and 7, and batch 5 (raw) for its calibration rows. Never 8-10."""
+    cfg = load_config(CFG["dev_config"])
+    proto = get_protocol_data(cfg)                                    # temporal protocol: asserts that no Test batch is loaded
+    Xtr, ytr = xy(proto.train)
+    ev = {int(b): xy(proto.eval[proto.eval["batch"] == b]) for b in DEV_TARGETS}
+    for b in CFG["dev_extra_batches"]:
+        assert b not in (8, 9, 10), "development steps never read batches 8-10"
+        ev[b] = xy(load_batches(cfg["data"]["raw_dir"], [b]))
+    return Xtr, ytr, proto.train["batch"].to_numpy(), ev
+
+
+@lru_cache(maxsize=1)
+def dev_stats():
+    return FaultStats.fit(dev_data()[0])
+
+
+def dev_rows(t, s):
+    return np.flatnonzero(keep_mask(dev_data()[3][t][1], s, t))
+
+
+def data(domain):
+    return dev_data() if domain == "dev" else test_data()
+
+
+def kept(domain, t, s):
+    return dev_rows(t, s) if domain == "dev" else test_rows(t, s)
+
+
+def halves(domain, t, s):
+    """CAND-S: fixed disjoint halves H1/H2 of the kept rows of batch t (generator keyed by seed and batch)."""
+    k = kept(domain, t, s)
+    perm = np.random.default_rng([s, t]).permutation(k)
+    return np.sort(perm[: len(k) // 2]), np.sort(perm[len(k) // 2:])
+
+
+def comparison_rows(domain, key, t, s):
+    """Rows on which `key` and every arm it is compared with are scored: H2 for CAND-S, otherwise the kept rows."""
+    return halves(domain, t, s)[1] if key in CANDS and CANDS[key]["family"] == "S" else kept(domain, t, s)
+
+
+def train_set(domain, batches, s, w=1.0):
+    """Train rows + the seed-s calibration rows of each batch in `batches` (each its own detector group); weights 1 / w."""
+    Xtr, ytr, btr, ev = data(domain)
+    Xs, ys, gs, ws = [Xtr], [ytr], [btr], [np.ones(len(ytr))]
+    for b in batches:
+        c = calib_rows(ev[b][1], N_CAL, s, b)
+        Xs.append(ev[b][0][c])
+        ys.append(ev[b][1][c])
+        gs.append(np.full(len(c), CAL_GROUP + b))
+        ws.append(np.full(len(c), float(w)))
+    return np.vstack(Xs), np.concatenate(ys), np.concatenate(gs), np.concatenate(ws)
+
+
+def standardize(pre, X):
+    return fill_nan_zero(pre.transform(X))
+
+
+def svm_params():
+    return json.load(open(OVERNIGHT / "final_pipeline.json"))["svm_params"]
+
+
+def fit_recipe(X, y, groups, weight=None, detector=True):
+    """The N2 recipe of ft_v2_recal.fit_model (StandardScaler, SVC C=10 gamma=0.01, median detector), optional SVM sample weights."""
+    pre = fit_preprocessor(json.load(open(OVERNIGHT / "final_pipeline.json"))["spec"], X, y, groups, fill_nan=False)
+    svm = SVC(kernel="rbf", random_state=0, **svm_params()).fit(standardize(pre, X), y, sample_weight=weight)
+    det = ReliabilityDetector(normalization="median").fit(X, groups) if detector else None
+    return {"pre": pre, "svm": svm, "det": det, "V": None}
+
+
+def drift_directions(Z, y, is_cal, r):
+    """Top-r right singular vectors (uncentered) of the per-gas drift vectors mean(calibration, gas) - mean(Train, gas)."""
+    D = np.stack([Z[is_cal & (y == g)].mean(0) - Z[~is_cal & (y == g)].mean(0)
+                  for g in np.unique(y[is_cal]) if (~is_cal & (y == g)).any()])
+    return np.linalg.svd(D, full_matrices=False)[2][:r].T
+
+
+def prev_model(domain, t, s):
+    """prev = Train + calibration rows of batch t-1: fitted by the recipe on dev; the identical v2 model b{t-1}_s{s} on Test."""
+    X, y, g, _ = train_set(domain, (t - 1,), s)
+    if domain == "dev":
+        return fit_recipe(X, y, g), X, y, g
+    f = load_v2(f"b{t - 1}", s)
+    assert np.array_equal(f["Xtr"], X) and np.array_equal(f["ytr"], y)
+    return as_model(f), X, y, g
+
+
+def build(domain, key, t, s):
+    """(model, info) of a reference arm (dev only) or a candidate (R2). No label of batch t enters any fit."""
+    if key in ("uncal", "same", "prev"):
+        assert domain == "dev", "on Test the reference arms are the saved v3 predictions"
+        X, y, g, _ = train_set(domain, {"uncal": (), "same": (t,), "prev": (t - 1,)}[key], s)
+        return fit_recipe(X, y, g), {"n_fit": len(y)}
+    c = CANDS[key]
+    if c["family"] == "W":
+        X, y, g, w = train_set(domain, MEMORY[t], s, c["w"])
+        return fit_recipe(X, y, g, None if c["w"] == 1 else w), {"n_fit": len(y), "n_cal": int((g >= CAL_GROUP).sum())}
+    prev, Xp, yp, gp = prev_model(domain, t, s)
+    if c["family"] == "C":
+        X, y, g, _ = train_set(domain, MEMORY[t], s)
+        pre = fit_preprocessor(json.load(open(OVERNIGHT / "final_pipeline.json"))["spec"], X, y, g, fill_nan=False)
+        Z = standardize(pre, X)
+        V = drift_directions(Z, y, g >= CAL_GROUP, c["r"])
+        svm = SVC(kernel="rbf", random_state=0, **svm_params()).fit(Z - (Z @ V) @ V.T, y)
+        return {"pre": pre, "svm": svm, "det": prev["det"], "V": V}, {"n_fit": len(y), "V": V}
+    h1, _ = halves(domain, t, s)
+    Xh = data(domain)[3][t][0][h1]                                    # CLEAN, UNLABELED readings of H1
+    Z = standardize(prev["pre"], Xh)
+    lab = fast_svm_predict(prev["svm"], Z)
+    dec = np.sort(prev["svm"].decision_function(Z), axis=1)
+    margin = dec[:, -1] - dec[:, -2]
+    sel = np.sort(np.concatenate([idx[np.argsort(-margin[idx], kind="stable")[: int(np.ceil(c["q"] * len(idx)))]]
+                                  for idx in (np.flatnonzero(lab == g) for g in np.unique(lab))]))
+    m = fit_recipe(np.vstack([Xp, Xh[sel]]), np.r_[yp, lab[sel]], np.r_[gp, np.full(len(sel), PSEUDO_GROUP + t)], detector=False)
+    m["det"] = prev["det"]
+    return m, {"n_fit": len(yp) + len(sel), "pseudo_rows": h1[sel], "pseudo_labels": lab[sel]}
+
+
+# ---- Part 2: development runs, dev gate, tournament and the R3 decision -----------------------------------------------
+def dev_pred_path(key, t, s):
+    return OUT / "preds" / "dev" / f"{key}_b{t}_s{s}.pkl"
+
+
+def job_dev(key, t, s):
+    path = dev_pred_path(key, t, s)
+    if not path.exists():
+        m, info = build("dev", key, t, s)
+        n = len(dev_scenarios())
+        preds = predict(m, dev_data()[3][t][0], dev_stats(), dev_scenarios(), range(n))
+        save(path, {"domain": "dev", "key": key, "target": t, "seed": s, "sids": list(range(n)), "preds": preds, "info": info})
+    return str(path)
+
+
+def load_dev_preds(key, t, s):
+    s0 = 0 if key == "uncal" else s                                   # the uncalibrated model does not depend on the seed
+    p = pickle.load(open(dev_pred_path(key, t, s0), "rb"))
+    assert (p["domain"], p["key"], p["target"], p["seed"], p["sids"]) == ("dev", key, t, s0, list(range(len(dev_scenarios())))), key
+    return p["preds"]
+
+
+def dev_score_frame(keys_by_rows):
+    """Macro-F1 per (rows kind, key, target, seed, method, sid); rows kind 'keep' = kept rows, 'H2' = the CAND-S scoring half."""
+    rows = []
+    for t in DEV_TARGETS:
+        y = dev_data()[3][t][1]
+        for s in SEEDS:
+            idx = {"keep": dev_rows(t, s), "H2": halves("dev", t, s)[1]}
+            for kind, keys in keys_by_rows.items():
+                for key in keys:
+                    P = load_dev_preds(key, t, s)
+                    r = idx[kind]
+                    rows += [(kind, key, t, s, m, sid, scores(y[r], P[m][sid][r])["macro_f1"]) for m in ("svm", "A") for sid in range(len(P[m]))]
+    df = pd.DataFrame(rows, columns=["rows", "key", "target", "cal_seed", "method", "sid", "f1"])
+    info = pd.DataFrame([{"sid": i, **scenario_info(sc)} for i, sc in enumerate(dev_scenarios())])
+    return df.merge(info, on="sid")
+
+
+def stage_devgate(jobs):
+    tasks = [("uncal", t, 0) for t in DEV_TARGETS] + [("same", t, s) for t in DEV_TARGETS for s in SEEDS]
+    log(f"devgate: {len(tasks)} reference models (uncal, same) on Drift-Dev")
+    Parallel(n_jobs=jobs, verbose=5)(delayed(worker("job_dev"))(*task) for task in tasks)
+    df = dev_score_frame({"keep": ["uncal", "same"]})
+    v2 = pd.read_csv("results/v2/recal/scenarios.csv")
+    v2 = v2[v2.protocol == "drift_dev"].replace({"model": {"uncalibrated": "uncal", "calibrated": "same"}})
+    m = df.merge(v2.rename(columns={"model": "key", "batch": "target"})[["key", "target", "cal_seed", "sid", "svm", "A"]]
+                 .melt(id_vars=["key", "target", "cal_seed", "sid"], var_name="method", value_name="f1_v2"),
+                 on=["key", "target", "cal_seed", "sid", "method"])
+    diff = float((m.f1 - m.f1_v2).abs().max())
+    ok = len(m) == len(df) and diff <= 5.1e-6                          # results/v2/recal/scenarios.csv has 5 decimals
+    json.dump({"rows_compared": len(m), "rows_ours": len(df), "max_abs_diff": diff, "tolerance": 5.1e-6, "passed": ok},
+              open(OUT / "devgate.json", "w"), indent=1)
+    log(f"devgate: {len(m)}/{len(df)} rows vs v2 stage 2, max |diff| {diff:.3g} -> {'PASSED' if ok else 'FAILED'}")
+    if not ok:
+        raise SystemExit(1)
+
+
+def kbal(df, kind, key, method="A"):
+    """Dev score: per (target, seed) the k1 and k2 means averaged equally, then the mean over seeds and the two targets."""
+    g = df[(df.rows == kind) & (df.key == key) & (df.method == method) & (df.setting != "clean")]
+    per = g.groupby(["target", "cal_seed", "setting"]).f1.mean().unstack("setting")
+    return float(((per["k1"] + per["k2"]) / 2).mean()), ((per["k1"] + per["k2"]) / 2).groupby("target").mean().to_dict()
+
+
+def clean_svm(df, kind, key):
+    return float(df[(df.rows == kind) & (df.key == key) & (df.method == "svm") & (df.setting == "clean")].f1.mean())
+
+
+def stage_tournament(jobs):
+    assert json.load(open(OUT / "devgate.json"))["passed"], "the dev gate has not passed"
+    (OUT / "DEV_STARTED").write_text(time.strftime("%Y-%m-%dT%H:%M:%S"))
+    tasks = [(k, t, s) for k in ["prev", *CANDS] for t in DEV_TARGETS for s in SEEDS]
+    log(f"tournament: {len(tasks)} models (prev + 7 candidates) on Drift-Dev")
+    t0 = time.time()
+    Parallel(n_jobs=jobs, verbose=5)(delayed(worker("job_dev"))(*task) for task in tasks)
+    s_keys = [k for k in CANDS if CANDS[k]["family"] == "S"]
+    df = dev_score_frame({"keep": ["uncal", "same", "prev", *[k for k in CANDS if k not in s_keys]], "H2": ["uncal", "same", "prev", *s_keys]})
+    df.to_csv(OUT / "dev_scores.csv", index=False)
+    table = []
+    for kind, key in [("keep", "uncal"), ("keep", "same"), ("keep", "prev"), ("H2", "prev")] + [("H2" if k in s_keys else "keep", k) for k in CANDS]:
+        score, per_t = kbal(df, kind, key)
+        ref, ref_t = kbal(df, kind, "prev")
+        table.append({"config": key, "rows": kind, "dev_score_A_faults": score, "prev_same_rows": ref, "delta_vs_prev": score - ref,
+                      "delta_t6": per_t[6] - ref_t[6], "delta_t7": per_t[7] - ref_t[7], "clean_svm": clean_svm(df, kind, key),
+                      "clean_svm_minus_prev": clean_svm(df, kind, key) - clean_svm(df, kind, "prev"),
+                      "candidate": key in CANDS})
+    tab = pd.DataFrame(table)
+    cand = tab[tab.candidate].set_index("config")
+    elig = [k for k in CANDS if cand.loc[k, "clean_svm_minus_prev"] >= -CLEAN_TOL]
+    winner = None
+    if elig:
+        best = max(cand.loc[k, "delta_vs_prev"] for k in elig)
+        winner = next(k for k in CANDS if k in elig and cand.loc[k, "delta_vs_prev"] >= best - TIE)
+    go = winner is not None and bool(cand.loc[winner, "delta_vs_prev"] >= GO_DELTA)
+    w1_check = all(np.array_equal(load_dev_preds("W1", 6, s)[m], load_dev_preds("prev", 6, s)[m]) for s in SEEDS for m in ("svm", "A"))
+    decision = {"rule": "decisions_log R3", "eligible": elig, "winner": winner, "go": go,
+                "winner_delta_vs_prev": None if winner is None else float(cand.loc[winner, "delta_vs_prev"]),
+                "winner_clean_svm_minus_prev": None if winner is None else float(cand.loc[winner, "clean_svm_minus_prev"]),
+                "thresholds": {"go_delta": GO_DELTA, "clean_tol": CLEAN_TOL, "tie": TIE},
+                "check_W1_equals_prev_on_target_6": w1_check, "tournament_seconds": round(time.time() - t0)}
+    tab.round(6).to_csv(OUT / "tournament.csv", index=False)
+    json.dump(decision, open(OUT / "r3_decision.json", "w"), indent=1)
+    (OUT / "TOURNAMENT.md").write_text("\n".join([
+        "# Dev tournament (decisions_log R1-R3; Drift-Dev targets 6 and 7, seeds 0-4, A under faults, k1/k2 equal)", "",
+        tab.round(4).to_markdown(index=False), "", "```", json.dumps(decision, indent=1), "```", ""]), encoding="utf-8")
+    log(f"tournament: winner {winner}, delta {decision['winner_delta_vs_prev']}, GO={go}")
+
+
+# ---- R4: the single Test run (only on GO) -----------------------------------------------------------------------------
+def test_pred_path(key, t, s):
+    return OUT / "preds" / "test" / f"{key}_b{t}_s{s}.pkl"
+
+
+def job_test(key, t, s):
+    path = test_pred_path(key, t, s)
+    if not path.exists():
+        m, info = build("test", key, t, s)
+        n = len(test_scenarios())
+        preds = predict(m, test_data()[3][t][0], test_stats(), test_scenarios(), range(n))
+        save(path, {"domain": "test", "key": key, "target": t, "seed": s, "sids": list(range(n)), "preds": preds,
+                    "info": {k: v for k, v in info.items() if k != "V"}})
+    return str(path)
+
+
+def load_test_preds(key, t, s):
+    p = pickle.load(open(test_pred_path(key, t, s), "rb"))
+    assert (p["domain"], p["key"], p["target"], p["seed"], p["sids"]) == ("test", key, t, s, list(range(len(test_scenarios())))), key
+    return p["preds"]
+
+
+def test_gate():
+    """R4 gate: saved v3 labels (provenance-checked) re-scored on the kept rows equal v3 scores.csv; v4 prediction code reproduces arm (c)."""
+    v3 = pd.read_csv(V3_SCORES)
+    v3 = v3[v3.subset.isin(["b9", "b10"])].set_index(["subset", "cal_seed", "arm", "method", "sid"])["f1"]
+    worst, n = 0.0, 0
+    for t in TEST_TARGETS:
+        y = test_data()[3][t][1]
+        for s in SEEDS:
+            r = test_rows(t, s)
+            for arm in "abc":
+                P = load_v3_preds(arm, t, s)
+                for m in ("svm", "A", "B"):
+                    for sid in range(len(P[m])):
+                        worst = max(worst, abs(scores(y[r], P[m][sid][r])["macro_f1"] - v3[(f"b{t}", s, arm, m, sid)]))
+                        n += 1
+    sids = [0, 1, 2, 100, 250, 400, 550, 700, 850, 950, 1000, 1080]
+    label_mism = {}
+    for t in TEST_TARGETS:
+        got = predict(as_model(load_v2(f"b{t - 1}", 0)), test_data()[3][t][0], test_stats(), test_scenarios(), sids)
+        ref = load_v3_preds("c", t, 0)
+        label_mism[f"b{t}"] = {m: int((got[m] != ref[m][sids]).sum()) for m in ("svm", "A")}
+    ok = worst <= 1e-9 and all(v == 0 for d in label_mism.values() for v in d.values())
+    gate = {"v3_rescored_rows": n, "v3_max_abs_diff": worst, "arm_c_relabel_sids": sids, "arm_c_label_mismatches": label_mism, "passed": ok}
+    json.dump(gate, open(OUT / "test" / "gate.json", "w"), indent=1)
+    log(f"test gate: {n} v3 rows, max |diff| {worst:.3g}; arm (c) relabel mismatches {label_mism} -> {'PASSED' if ok else 'FAILED'}")
+    return ok
+
+
+def stage_test(jobs):
+    marker = OUT / "test" / "RUN_STARTED"
+    if marker.exists():
+        raise SystemExit("refusing to run the Test stage again: RUN_STARTED exists (decisions_log R4: one run)")
+    dpath = OUT / "r3_decision.json"
+    tracked = subprocess.run(["git", "ls-files", "--error-unmatch", str(dpath)], capture_output=True).returncode == 0
+    dirty = subprocess.run(["git", "status", "--porcelain", "--", str(dpath)], capture_output=True, text=True).stdout.strip()
+    assert tracked and not dirty, "the R3 decision must be committed before the Test run"
+    dec = json.load(open(dpath))
+    if not dec["go"]:
+        raise SystemExit("R3 decision is NO-GO: no Test run")
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    marker.write_text(time.strftime("%Y-%m-%dT%H:%M:%S"))
+    if not test_gate():
+        raise SystemExit("R4 reproduction gate FAILED: hard stop")
+    winner = dec["winner"]
+    tasks = [(winner, t, s) for t in TEST_TARGETS for s in SEEDS]
+    log(f"test: arm (d) = {winner}, {len(tasks)} models x {len(test_scenarios())} scenarios")
+    Parallel(n_jobs=jobs, verbose=5)(delayed(worker("job_test"))(*task) for task in tasks)
+    (OUT / "test" / "RUN_FINISHED").write_text(time.strftime("%Y-%m-%dT%H:%M:%S"))
+    test_tables(winner)
+
+
+def test_tables(winner):
+    rows = []
+    n = len(test_scenarios())
+    for s in SEEDS:
+        r = {t: comparison_rows("test", winner, t, s) for t in TEST_TARGETS}
+        y = {t: test_data()[3][t][1] for t in TEST_TARGETS}
+        for arm in "abcd":
+            P = {t: (load_test_preds(winner, t, s) if arm == "d" else load_v3_preds(arm, t, s)) for t in TEST_TARGETS}
+            for m in ("svm", "A"):
+                for sid in range(n):
+                    for t in TEST_TARGETS:
+                        rows.append((f"b{t}", s, arm, m, sid, scores(y[t][r[t]], P[t][m][sid][r[t]])["macro_f1"]))
+                    rows.append(("pooled", s, arm, m, sid, scores(np.concatenate([y[t][r[t]] for t in TEST_TARGETS]),
+                                                                  np.concatenate([P[t][m][sid][r[t]] for t in TEST_TARGETS]))["macro_f1"]))
+    df = score_frame(rows)
+    df.to_csv(OUT / "test" / "scores.csv", index=False)
+    subs = ("b9", "b10", "pooled")
+    primary = {"endpoint": "A under faults, (d) - (c), pooled b9+b10", **diff_boot(df, "pooled", ("d", "A"), ("c", "A")),
+               "interval": "95% shared-index scenario bootstrap (k-stratified, 1000, seed 0)", "winner": winner}
+    primary["verdict"] = "SUPPORTED" if primary["ci_low"] > 0 else "NOT SUPPORTED"
+    levels = [{"subset": sub, "arm": a, "method": m, **level_boot(df, sub, a, m)} for sub in subs for a in "abcd" for m in ("svm", "A")]
+    diffs = [{"subset": sub, "comparison": f"({x})-({y}) {m} under faults", **diff_boot(df, sub, (x, m), (y, m))}
+             for sub in subs for m in ("svm", "A") for x, y in (("d", "c"), ("d", "a"), ("d", "b"), ("c", "a"))]
+    diffs += [{"subset": sub, "comparison": f"A-SVM under faults, arm ({a})", **diff_boot(df, sub, (a, "A"), (a, "svm"))} for sub in subs for a in "cd"]
+    clean_rows = [{"subset": sub, "comparison": f"({x})-({y}) {m} clean", **dict(zip(("value", "ci_low", "ci_high"),
+                   seed_t(clean(df, sub, x, m) - clean(df, sub, y, m))))} for sub in subs for m in ("svm", "A") for x, y in (("d", "c"), ("d", "a"), ("d", "b"))]
+    ret = [{"subset": sub, "arm": a, "method": m, **dict(zip(("retention_j6", "worst"), retention(df, sub, a, m)))}
+           for sub in subs for a in "abcd" for m in ("svm", "A")]
+    w = (df[(df.setting != "clean") & df.arm.isin(["c", "d"]) & (df.method == "A")]
+         .groupby(["subset", "arm", "sid", "setting", "fault", "sensors", "level"], dropna=False).f1.mean().reset_index()
+         .pivot_table(index=["subset", "sid", "setting", "fault", "sensors", "level"], columns="arm", values="f1").reset_index())
+    w["d_minus_c"] = w["d"] - w["c"]
+    worst = pd.concat([g.nsmallest(5, "d") for _, g in w.groupby("subset")])
+    drops = pd.concat([g.nsmallest(5, "d_minus_c") for _, g in w.groupby("subset")])
+    out = {"r5_primary": pd.DataFrame([primary]), "r5_levels": pd.DataFrame(levels), "r5_diffs": pd.DataFrame(diffs),
+           "r5_clean": pd.DataFrame(clean_rows), "r5_retention": pd.DataFrame(ret), "r5_worst_d": worst, "r5_drops_d_vs_c": drops}
+    md = [f"# R4/R5 Test run: arm (d) = {winner} (selected on Drift-Dev, evaluated once)", ""]
+    for name, tab in out.items():
+        tab.round(6).to_csv(OUT / "test" / f"{name}.csv", index=False)
+        md += [f"## {name}", "", tab.round(4).to_markdown(index=False), ""]
+    (OUT / "test" / "TABLES.md").write_text("\n".join(md), encoding="utf-8")
+    log(f"test: R5 {primary['value']:+.4f} [{primary['ci_low']:+.4f}, {primary['ci_high']:+.4f}] -> {primary['verdict']}")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["part1"])
+    ap.add_argument("stage", choices=["part1", "devgate", "tournament", "test"])
     ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    {"part1": lambda: stage_part1(a.jobs)}[a.stage]()
+    {"part1": lambda: stage_part1(a.jobs), "devgate": lambda: stage_devgate(a.jobs), "tournament": lambda: stage_tournament(a.jobs),
+     "test": lambda: stage_test(a.jobs)}[a.stage]()
