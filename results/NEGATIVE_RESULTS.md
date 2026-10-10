@@ -75,3 +75,7 @@ stands as the previous-period result.
 Lesson 4. Previous-period calibration gives a small gain that barely depends on how old it is (Test, Q9: A under faults +0.024 with 8 -> 9 or
 9 -> 10 calibration, +0.021 with 13-14-month-old 8 -> 10 calibration). None of the seven ways of carrying it forward tested here (more memory,
 weighting, drift-direction removal, self-training) adds 0.010 on development batches.
+
+Correction (independent audit, `results/v4_recal/AUDIT_SUBAGENT.md`): the parenthetical in the W5 / W20 row describes seed 0 only. For seeds
+1, 3 and 4 the weighted SVM is identical to the unweighted one (identical predictions on target 6); seeds 0 and 2 change a handful of labels
+(seed 0: 5 of 2,300 clean batch-6 labels; 1 of 13 batch-5 support vectors at the bound C).

@@ -588,3 +588,11 @@ was read. Code: `scripts/v4_recal.py`; tests: `tests/test_v4_recal.py`; outputs:
   ineligible (clean SVM -0.007). W1 = prev on target 6 (built-in check passed). delta_winner < 0.010, so R3 says NO-GO: no Test run, an entry
   in NEGATIVE_RESULTS.md, v4 ends with Q9. Doubt check of the 0.0000 deltas of W5/W20 on target 6: the weights reach the SVM (support set and
   dual coefficients change) but change 5 of 2,300 labels, because only 1 of 13 batch-5 support vectors is at the bound.
+* R8 (independent audit, 2026-10-10 ~04:55; nothing in R1-R6 changed). A fresh subagent recomputed the tournament from the saved dev
+  predictions with its own code before reading the author's files: winner W1, delta +0.00133, NO-GO; all 125,060 per-scenario values of
+  `dev_scores.csv` match to 1e-16; refits of prev, W1, W5, C1, S60 from the R2 text reproduce the saved labels exactly; Part 1 (e) - (a) on
+  b10 = +0.0205 [0.0196, 0.0213], identical. Timeline and isolation hold (no Test run for R; main checkout untouched). Correction to R7: the
+  "1 of 13 support vectors / 5 labels" explanation holds for seed 0 only; for seeds 1, 3, 4 the weighted SVM equals the unweighted one. On
+  the audit's timing doubt (R committed 33 s after the Part 1 numbers were written): the R text was drafted in the session scratchpad
+  (file mtime 03:19:34, before Part 1 finished at 03:27:11) and committed byte-identical to that draft; this is local evidence, not git
+  evidence, and R0 already declares the design test-informed.
