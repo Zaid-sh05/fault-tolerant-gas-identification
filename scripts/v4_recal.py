@@ -594,11 +594,55 @@ def test_tables(winner):
     log(f"test: R5 {primary['value']:+.4f} [{primary['ci_low']:+.4f}, {primary['ci_high']:+.4f}] -> {primary['verdict']}")
 
 
+def paper_numbers():
+    """results/paper/PAPER_NUMBERS_v4.md: every v4 number with file, filter and column, read from the result files (never typed)."""
+    rows = []
+
+    def add(name, path, filt, col):
+        tab = pd.read_csv(OUT / path)
+        sel = tab
+        for k, v in filt.items():
+            sel = sel[sel[k] == v]
+        assert len(sel) == 1, (path, filt)
+        rows.append(f"| {name} | {sel[col].iloc[0]:.4f} | results/v4_recal/{path}, "
+                    + (", ".join(f"{k}={v}" for k, v in filt.items()) or "single row") + f", column {col} |")
+
+    for _, r in pd.read_csv(OUT / "part1_shelf_life.csv").iterrows():
+        cols = ["A_faults_gain_vs_a", "A_ci_low", "A_ci_high"] + ([] if pd.isna(r.share_of_same_period_gain) else
+                                                                 ["share_of_same_period_gain", "clean_svm_gain_vs_a", "clean_ci_low", "clean_ci_high"])
+        for col in cols:
+            add(f"v4 shelf life, {r.calibration}, {r.target}, {col}", "part1_shelf_life.csv", {"calibration": r.calibration, "target": r.target}, col)
+    for _, r in pd.read_csv(OUT / "part1_full_pipeline.csv").iterrows():
+        for col in ("value", "ci_low", "ci_high"):
+            add(f"v4 {r.comparison}, {r.subset}, {col}", "part1_full_pipeline.csv", {"subset": r.subset, "comparison": r.comparison}, col)
+    for _, r in pd.read_csv(OUT / "part1_levels.csv").iterrows():
+        for col in ("value", "ci_low", "ci_high"):
+            add(f"v4 Macro-F1 under faults, {r.arm}, {r.method}, {r.subset}, {col}", "part1_levels.csv",
+                {"subset": r.subset, "arm": r.arm, "method": r.method}, col)
+    for _, r in pd.read_csv(OUT / "part1_retention.csv").iterrows():
+        for col in ("retention_j6", "worst"):
+            add(f"v4 {col}, {r.arm}, {r.method}, {r.subset}", "part1_retention.csv", {"subset": r.subset, "arm": r.arm, "method": r.method}, col)
+    for _, r in pd.read_csv(OUT / "tournament.csv").iterrows():
+        for col in ("dev_score_A_faults", "delta_vs_prev", "delta_t6", "delta_t7", "clean_svm", "clean_svm_minus_prev"):
+            add(f"v4 dev tournament, {r.config} ({r.rows} rows), {col}", "tournament.csv", {"config": r.config, "rows": r.rows}, col)
+    dec = json.load(open(OUT / "r3_decision.json"))
+    gate = json.load(open(OUT / "devgate.json"))
+    md = ["# Numbers of v4: carrying a calibration forward (POST-HOC, EXPLORATORY; decisions_log Q9 and R)", "",
+          "Every value is read from a result file by `python scripts/v4_recal.py paper`; nothing is typed by hand. Under faults = k1/k2 weighted "
+          "equally, mean over 5 calibration seeds. Test intervals: 95% shared-index scenario bootstrap (faults; scenarios only, O2), 95% t over "
+          "seeds (clean). Dev tournament: Drift-Dev, targets 6 and 7, point values (selection rule R3).", "",
+          f"R3 decision (results/v4_recal/r3_decision.json): winner = {dec['winner']}, delta = {dec['winner_delta_vs_prev']:.4f}, "
+          f"GO = {dec['go']}. Dev gate (devgate.json): {gate['rows_compared']} rows, max |diff| {gate['max_abs_diff']:.1e}, passed = {gate['passed']}. "
+          "No Test run for R (NO-GO), so there is no R5 number.", "", "| number | value | source |", "|---|---|---|"] + rows
+    Path("results/paper/PAPER_NUMBERS_v4.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    log(f"paper: {len(rows)} numbers -> results/paper/PAPER_NUMBERS_v4.md")
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["part1", "devgate", "tournament", "test"])
+    ap.add_argument("stage", choices=["part1", "devgate", "tournament", "test", "paper"])
     ap.add_argument("--jobs", type=int, default=3)
     a = ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
     {"part1": lambda: stage_part1(a.jobs), "devgate": lambda: stage_devgate(a.jobs), "tournament": lambda: stage_tournament(a.jobs),
-     "test": lambda: stage_test(a.jobs)}[a.stage]()
+     "test": lambda: stage_test(a.jobs), "paper": paper_numbers}[a.stage]()
