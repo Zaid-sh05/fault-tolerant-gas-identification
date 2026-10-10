@@ -596,3 +596,30 @@ was read. Code: `scripts/v4_recal.py`; tests: `tests/test_v4_recal.py`; outputs:
   the audit's timing doubt (R committed 33 s after the Part 1 numbers were written): the R text was drafted in the session scratchpad
   (file mtime 03:19:34, before Part 1 finished at 03:27:11) and committed byte-identical to that draft; this is local evidence, not git
   evidence, and R0 already declares the design test-informed.
+
+## S. Repository housekeeping (no scientific change)
+* S1 (repository housekeeping, no scientific change; user request 2026-10-10). No result file, report, log, config, existing PAPER_NUMBERS
+  file, code behaviour or number was changed; the tags `frozen-before-test` (e3fac02) and `frozen-before-test-v2` (ac6b9a9) are untouched;
+  no history was rewritten.
+  - Branches: `exp/prev-batch-recal` (6a7239e) and `exp/prev-recal-v4` (1337f78) were verified to be ancestors of `origin/main`, then
+    deleted locally and on origin; only `main` remains.
+  - `tests/test_v4_recal.py` (commit 7a1c8f9): the skip condition of test_3b also requires the gitignored `results/v4_recal/preds/dev/`.
+    Without it, a clean clone on a machine holding the v2 models failed with FileNotFoundError. The test logic is unchanged.
+  - New `results/paper/PAPER_NUMBERS_extra.md`: oracle-selector gains over the better fixed strategy, from
+    `results/oracle_selector/summary.csv`, column `gain_vs_best` (Validation 7: 0.0101; Drift-Dev calibrated: 0.0030; Drift-Dev
+    uncalibrated: 0.0046). It is the source of the README's "at most 0.01 on development data" (0.0101 at two decimals). Checked with the
+    row logic of `scripts/check_paper_numbers.py` pointed at that file: 3 rows, 0 problems.
+  - `README.md` rewritten for first-time readers: paper title, authors, overview, main results with their PAPER_NUMBERS sources, the
+    post-hoc analyses (v3, v4, oracle selector), protocol rows for v3 and v4, layout, measured test counts, how to cite. The sentence saying
+    that batches 8-10 are opened only by the two final-test configs was corrected: the v3 and v4 configs also carry `approved_by_user: true`
+    (Q0, Q9).
+  - New `CITATION.cff`, valid for schema 1.2.0 (`cffconvert --validate`, cffconvert 2.0.0).
+  - `.gitignore`: added `results/_backup_latest.txt` and `results/audit/clone_dir.txt`. `results/_backup_latest.txt` was untracked
+    (`git rm --cached`, local copy kept). It is a pointer written by `scripts/run_preprocessing.py` and read by
+    `scripts/verify_reproducibility.py` after a local run, always naming an ignored `results/_backup_*/` folder. No document refers to the
+    pointer file itself.
+  - GitHub description and topics set (gas-sensor, sensor-drift, fault-tolerance, electronic-nose, machine-learning, iot,
+    reproducible-research).
+  - Verification: a clean clone gives 112 passed, 18 skipped (the v3 and v4 tests skip without the gitignored models and predictions); a
+    clean clone on the machine holding the models gives 123 passed, 7 skipped; the main checkout gives 130 passed.
+    `scripts/check_paper_numbers.py`: 952 rows and 287 LaTeX numbers, 0 problems.

@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite the paper (preferred citation) and this repository."
+type: software
+title: "fault-tolerant-gas-identification: companion code for \"Detect, Compensate, Recalibrate for Robust IoT Gas Identification under Sensor Faults and Drift\""
+authors:
+  - given-names: "Maria Nedal Natheir"
+    family-names: "Shishani"
+    affiliation: "Amman Arab University"
+  - given-names: "Zaid Mohammad Ahmad"
+    family-names: "Alshobaki"
+    affiliation: "Amman Arab University"
+  - given-names: "Hossam Sayel Oqlah"
+    family-names: "Almahasneh"
+    affiliation: "Amman Arab University"
+repository-code: "https://github.com/Zaid-sh05/fault-tolerant-gas-identification"
+url: "https://github.com/Zaid-sh05/fault-tolerant-gas-identification"
+license: MIT
+keywords:
+  - gas sensor
+  - sensor drift
+  - fault tolerance
+  - electronic nose
+preferred-citation:
+  type: conference-paper
+  title: "Detect, Compensate, Recalibrate for Robust IoT Gas Identification under Sensor Faults and Drift"
+  authors:
+    - given-names: "Maria Nedal Natheir"
+      family-names: "Shishani"
+      affiliation: "Amman Arab University"
+    - given-names: "Zaid Mohammad Ahmad"
+      family-names: "Alshobaki"
+      affiliation: "Amman Arab University"
+    - given-names: "Hossam Sayel Oqlah"
+      family-names: "Almahasneh"
+      affiliation: "Amman Arab University"
+  conference:
+    name: "ICSIC 2026"
+  status: submitted
+  year: 2026

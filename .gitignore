@@ -37,3 +37,7 @@ results/v2/ft_smoke/
 results/final_test_v2/**/b*_chunks/
 results/final_test_v2/**/reduced/
 results/final_test_v2/**/fitted.joblib
+
+# generated local files (not results)
+results/_backup_latest.txt
+results/audit/clone_dir.txt
