@@ -131,7 +131,7 @@ def test_3_compared_arms_are_scored_on_identical_rows(v4):
                 assert np.array_equal(v4.comparison_rows("dev", k, t, s), want), (k, t, s)
 
 
-@pytest.mark.skipif(not Path("results/v4_recal/dev_scores.csv").exists(), reason="dev tournament not run yet")
+@pytest.mark.skipif(not (Path("results/v4_recal/dev_scores.csv").exists() and Path("results/v4_recal/preds/dev").exists()), reason="dev tournament not run yet, or its gitignored predictions are absent")
 def test_3b_saved_dev_scores_rescore_on_the_comparison_rows(v4):
     import pandas as pd
     from src.models import scores
