@@ -160,10 +160,10 @@ Bulky intermediate files are ignored by git: chunk files, fitted models, and red
 
 Please cite the paper and, if you use the code, this repository (GitHub's "Cite this repository" button reads `CITATION.cff`).
 
-> M. N. N. Shishani, Z. M. A. Alshobaki and H. S. O. Almahasneh, "Detect, Compensate, Recalibrate for Robust IoT Gas Identification under
+> Z. M. A. Alshobaki "Detect, Compensate, Recalibrate for Robust IoT Gas Identification under
 > Sensor Faults and Drift," ICSIC 2026 (submitted).
 
-> M. N. N. Shishani, Z. M. A. Alshobaki and H. S. O. Almahasneh, *fault-tolerant-gas-identification* (companion code), 2026.
+> Z. M. A. Alshobaki *fault-tolerant-gas-identification* (companion code), 2026.
 > https://github.com/Zaid-sh05/fault-tolerant-gas-identification
 
 ## License
